@@ -1,8 +1,0 @@
-{
-  "/_not-found": "app/_not-found.js",
-  "/api/static/confidence-test/questions.v1.json/route": "app/api/static/confidence-test/questions.v1.json/route.js",
-  "/confidence-test/page": "app/confidence-test/page.js",
-  "/find-buddy/page": "app/find-buddy/page.js",
-  "/page": "app/page.js",
-  "/profile-setup/page": "app/profile-setup/page.js"
-}
