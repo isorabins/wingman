@@ -1,0 +1,1 @@
+self.__BUILD_MANIFEST={__rewrites:{afterFiles:[{has:void 0,source:"/confidence-test/questions.v1.json",destination:"/api/static/confidence-test/questions.v1.json"}],beforeFiles:[],fallback:[]},"/_error":["static/chunks/pages/_error-0ffac66cb3fae446.js"],sortedPages:["/_app","/_error"]},self.__BUILD_MANIFEST_CB&&self.__BUILD_MANIFEST_CB();

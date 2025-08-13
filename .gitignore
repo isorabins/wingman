@@ -29,10 +29,10 @@ node_modules/
 # tasks/ 
 reference_files/frontend_reference/FAF_website/
 
-# Sensitive files and reference materials with API keys
-reference_files/developer-env-template.txt
-reference_files/test-suite/.env.test  
-reference_files/new_tests/test-suite/.env.test
+# Reference files - exclude entire directory to avoid build/config confusion
+reference_files/
+
+# Other sensitive files  
 backup.sql
 schema_dump.sql
 schema_with_relationships.sql
