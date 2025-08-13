@@ -1,0 +1,45 @@
+# Task ID: 21
+# Title: Location privacy controls
+# Status: pending
+# Dependencies: 7, 8, 9
+# Priority: low
+# Description: Allow city-level matching and adjustable radius in preferences.
+# Details:
+- In profile, toggle "Use precise location" vs "Use city-only centroid" using Chakra form patterns.
+- Matching reads max_travel_miles and privacy setting from user_locations table.
+- Update user_locations.updated_at periodically if user consents to background updates.
+- Document privacy in settings page.
+- Implement Haversine function for distance calculation as per Task 8.
+- Follow UI patterns from reference_files/frontend_reference/FAF_website/app.
+
+# Test Strategy:
+- Matching respects radius and privacy flags in tests.
+- UI toggles persist and apply.
+- No coordinates stored when city-only selected (only centroid).
+- Verify Haversine function correctly calculates distances between locations.
+
+# Subtasks:
+## 1. Implement UI toggle on profile page [pending]
+### Dependencies: None
+### Description: Create location privacy toggle using Chakra form patterns from reference files
+### Details:
+
+
+## 2. Backend logic for privacy settings [pending]
+### Dependencies: None
+### Description: Implement backend logic to read max_travel_miles and privacy settings from user_locations table
+### Details:
+
+
+## 3. Integrate Haversine function [pending]
+### Dependencies: None
+### Description: Implement distance calculation using Haversine function as specified in Task 8
+### Details:
+
+
+## 4. Documentation in settings page [pending]
+### Dependencies: None
+### Description: Add privacy documentation to the settings page explaining location privacy options
+### Details:
+
+

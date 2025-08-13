@@ -1,0 +1,69 @@
+# Task ID: 23
+# Title: Basic user journey test for critical paths
+# Status: pending
+# Dependencies: 6, 7, 9, 10, 11, 13, 14, 15, 16
+# Priority: medium
+# Description: Implement basic tests covering the main user flow: SIGNUP→PROFILE→MATCH→CHAT
+# Details:
+- Use existing test framework with a single synthetic user
+- Leverage existing test fixtures for database setup
+- Focus on happy path testing only
+- Basic screenshots for failure documentation
+- Reuse existing F@4 patterns where possible
+- Base E2E scaffolding on reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py and run_all_tests.py (structure/conventions)
+- Create NEW tests under tests/e2e/wingmanmatch; do not touch reference_files tests
+<info added on 2025-08-11T03:43:16.275Z>
+- Configure tests with worker-scoped fixtures for test isolation and seeded users
+- Enable trace capturing with `trace: 'on-first-retry'` and set retries=2 for CI runs
+- Implement geolocation mocking for location-based match radius tests
+- Use Clock API for time-dependent test scenarios that require fast-forwarding
+- Set up network interception to stub external service dependencies
+- Utilize request fixture for API-based test setup when appropriate
+- Keep tests parallel where possible, only making them serial when state dependencies require it
+- Configure automatic trace and screenshot recording on test retry attempts
+- Follow Playwright best practices for stable E2E test execution
+</info added on 2025-08-11T03:43:16.275Z>
+
+# Test Strategy:
+- Basic test run on PR before merge
+- Focus on stability over comprehensive coverage
+- Test only critical user paths
+- Keep scope to happy path SIGNUP→PROFILE→MATCH→CHAT per PRD timeline
+
+# Subtasks:
+## 1. Implement basic signup flow test [pending]
+### Dependencies: None
+### Description: Create a simple test that verifies a new user can successfully complete the signup process with valid credentials.
+### Details:
+Use the existing test framework to create a single test case that validates the core signup functionality. Focus only on the happy path with valid input data. Capture a screenshot at the end of successful signup. Reuse existing test fixtures for database setup and teardown. Create this test under tests/e2e/wingmanmatch/ following the structure in reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py.
+
+## 2. Implement basic profile creation test [pending]
+### Dependencies: 23.1
+### Description: Create a test that verifies a user can successfully set up their basic profile with required fields only.
+### Details:
+Build on the signup test to verify profile creation. Use a synthetic user and focus only on required profile fields. Skip optional profile customization. Take a screenshot of the completed profile for verification. Use existing test fixtures for any necessary data setup. Implement in tests/e2e/wingmanmatch/ directory following reference test patterns.
+
+## 3. Implement basic match discovery test [pending]
+### Dependencies: 23.2
+### Description: Create a test that verifies a user with a completed profile can view potential matches in the match discovery interface.
+### Details:
+Use the synthetic user with completed profile to access the match discovery feature. Verify only that matches are displayed and the interface loads correctly. Do not test filtering, preferences, or other advanced matching features. Take a screenshot of the match discovery screen for verification. Follow the structure and conventions from reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py.
+
+## 4. Implement basic match selection test [pending]
+### Dependencies: 23.3
+### Description: Create a test that verifies a user can select a match from the discovery interface to initiate contact.
+### Details:
+Build on the match discovery test to verify a user can select a potential match. Use existing test fixtures to simulate available matches. Test only the basic selection functionality without testing advanced matching algorithms or preference-based matching. Take a screenshot of the successful match selection. Implement in the tests/e2e/wingmanmatch/ directory.
+
+## 5. Implement basic chat initiation test [pending]
+### Dependencies: 23.4
+### Description: Create a test that verifies users can initiate and send a basic message in the chat interface after matching.
+### Details:
+Complete the user journey by testing the chat functionality. Verify only that the chat interface opens correctly after match selection and that a simple text message can be sent. Do not test media sharing, notifications, or other advanced chat features. Take a screenshot of the successful message sending for verification. Follow the patterns from reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py.
+
+## 6. Create test runner for full journey [pending]
+### Dependencies: 23.1, 23.2, 23.3, 23.4, 23.5
+### Description: Implement a test runner that executes all tests in sequence to validate the complete user journey.
+### Details:
+Create a test runner in tests/e2e/wingmanmatch/ based on the structure of reference_files/new_tests/real_world_tests/run_all_tests.py. Ensure the runner executes all tests in the correct sequence to validate the full SIGNUP→PROFILE→MATCH→CHAT journey. Include proper setup and teardown to ensure tests can run independently or as a complete sequence.
+

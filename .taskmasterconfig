@@ -1,0 +1,6 @@
+{
+  "tasksPath": ".taskmaster/tasks/tasks.json",
+  "projectName": "WingmanMatch",
+  "projectType": "webapp",
+  "taskPrefix": "WING"
+}

@@ -1,0 +1,21 @@
+# Task ID: 5
+# Title: Implement AI-Powered Project Onboarding Backend
+# Status: done
+# Dependencies: 2, 3, 4
+# Priority: high
+# Description: Develop the backend logic for the AI-powered project onboarding process, including the 8-topic guided conversation.
+# Details:
+1. Define the 8 onboarding topics and their sequence
+2. Implement endpoint to start onboarding process
+3. Create logic for topic progression and tracking
+4. Integrate with Claude API for natural language interaction
+5. Implement logic to generate project overview from conversation
+6. Store onboarding data in the database
+7. Implement personality-driven onboarding flow based on test results
+
+# Test Strategy:
+1. Test onboarding process initiation
+2. Verify topic progression and tracking
+3. Test Claude API integration
+4. Verify project overview generation
+5. Test personality-driven flow variations

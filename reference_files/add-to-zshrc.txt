@@ -1,0 +1,7 @@
+# Auto-activate conda environment for Fridays at Four project
+if [[ "$PWD" == *"fridays-at-four"* ]] && [[ "$CONDA_DEFAULT_ENV" != "faf" ]]; then
+    if conda env list | grep -q "^faf "; then
+        echo "🚀 Auto-activating faf environment for Fridays at Four..."
+        conda activate faf
+    fi
+fi 

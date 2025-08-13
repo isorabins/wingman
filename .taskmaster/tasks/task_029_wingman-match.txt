@@ -1,0 +1,87 @@
+# Task ID: 29
+# Title: Create and Maintain Pattern Index Document
+# Status: pending
+# Dependencies: 1, 3
+# Priority: medium
+# Description: Create and maintain a Pattern Index document that maps reference paths to new file targets for reference-first development, including guidance on what not to copy.
+# Details:
+1. Create a new markdown document at `.taskmaster/docs/pattern-index.md` with the following structure:
+   ```markdown
+   # Pattern Index for Reference-First Development
+   
+   This document maps reference paths to new file targets for all active tasks, providing guidance on what to use and what to avoid.
+   
+   ## How to Use This Document
+   - Find the task you're working on
+   - Review the reference paths that should be consulted
+   - Note the target paths where new code should be created
+   - Pay attention to the "What Not To Copy" guidance
+   
+   ## Tasks
+   
+   ### Task X: [Task Title]
+   - **Reference Paths**:
+     - `reference_files/path/to/file.ext` - Purpose/component to reference
+   - **Target Paths**:
+     - `src/path/to/new/file.ext` - New file to create
+   - **What Not To Copy**:
+     - Avoid importing specific patterns/components that don't align with our architecture
+   ```
+
+2. For each active task in the project:
+   - Review the task details and implementation notes
+   - Identify specific reference files mentioned in the task
+   - Document the exact paths to reference files
+   - Document the exact paths where new files should be created
+   - Add specific guidance on what patterns or code should NOT be copied
+
+3. For example, for Task 11 (Basic buddy chat implementation), add:
+   ```markdown
+   ### Task 11: Basic buddy chat implementation
+   - **Reference Paths**:
+     - `reference_files/frontend_reference/FAF_website/app/chat/` - Chat UI components
+     - `reference_files/src/main.py` - API endpoint patterns
+   - **Target Paths**:
+     - `src/app/buddy-chat/[matchId]/page.tsx` - New chat page
+     - `src/api/chat_routes.py` - Chat API endpoints
+   - **What Not To Copy**:
+     - Don't copy specific business logic related to FAF coaching
+     - Avoid importing components directly; recreate with our styling
+   ```
+
+4. Update the Pattern Index whenever:
+   - New tasks are added to the project
+   - Task scope or implementation details change
+   - New reference paths are identified
+   - Target paths are modified
+
+5. Add a section at the top of the document with the last updated date and a changelog of recent updates.
+
+6. Create a PR template addition that includes a checkbox for confirming Pattern Index updates.
+
+7. Add a GitHub workflow that validates the existence of the Pattern Index document and checks that it contains entries for all active tasks.
+
+# Test Strategy:
+1. Verify document structure:
+   - Confirm the Pattern Index document exists at `.taskmaster/docs/pattern-index.md`
+   - Validate that the document follows the specified structure with clear sections
+
+2. Verify content completeness:
+   - Check that all active tasks have corresponding entries in the Pattern Index
+   - Ensure each entry includes reference paths, target paths, and "What Not To Copy" guidance
+   - Validate that paths are accurate and exist in the codebase
+
+3. Process validation:
+   - Create a test PR that adds a new feature
+   - Confirm the PR template includes a checkbox for Pattern Index updates
+   - Verify the review process includes checking for Pattern Index changes
+
+4. Integration testing:
+   - Have a developer use the Pattern Index to implement a small feature
+   - Collect feedback on clarity and usefulness of the document
+   - Make improvements based on developer feedback
+
+5. Maintenance testing:
+   - After a task scope change, verify the Pattern Index is updated accordingly
+   - Check that the changelog reflects recent updates
+   - Ensure the last updated date is current

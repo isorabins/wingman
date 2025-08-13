@@ -1,0 +1,74 @@
+# Task ID: 11
+# Title: Implement Three-Dimensional Personalization System
+# Status: pending
+# Dependencies: 2, 3, 4, 6, 10, 21
+# Priority: high
+# Description: Develop and fully integrate the backend logic for the three-dimensional personalization system, combining personality archetypes, global AI insights, and evolution stage into a seamless, high-performance personalization engine. This system is the core competitive advantage, enabling impossible-to-replicate AI-driven user experiences.
+# Details:
+1. Implement get_hai_personality function as described in PRD
+2. Integrate logic for retrieving and applying archetype-specific temperatures
+3. Integrate system for selecting and applying relevant global AI insights
+4. Implement evolution stage prompt modifications and context assembly
+5. Combine all three dimensions (archetype, insights, evolution stage) into a unified personalization pipeline
+6. Optimize context assembly for performance (target: <1 second)
+7. Implement caching mechanism for frequently used personalization data
+8. Ensure graceful degradation: system must handle failures in any dimension without breaking overall personalization
+
+# Test Strategy:
+1. Develop a comprehensive test suite covering the integration of all three personalization dimensions working together
+2. Test context assembly performance to ensure response times are consistently under 1 second
+3. Test correct application of archetype-specific temperatures
+4. Test retrieval and application of global AI insights
+5. Test evolution stage prompt modifications
+6. Test system behavior and fallback mechanisms when any dimension fails (graceful degradation)
+7. Benchmark personalization assembly performance and caching effectiveness
+
+# Subtasks:
+## 1. Define Personality Function Requirements and TDD Scenarios [pending]
+### Dependencies: None
+### Description: Specify the requirements for the personality function dimension, including input parameters, expected outputs, and edge cases. Develop comprehensive test cases following the TDD approach.
+### Details:
+Gather user profile data requirements, define personality traits mapping, and write unit tests for all expected behaviors.
+
+## 2. Implement and Test Personality Function Module [pending]
+### Dependencies: 11.1
+### Description: Develop the personality function logic to pass all defined tests. Refactor as needed to ensure modularity and maintainability.
+### Details:
+Code the personality function, run tests, and iterate until all tests pass. Ensure clear separation of concerns for future integration.
+
+## 3. Define Archetype Temperature Logic and TDD Scenarios [pending]
+### Dependencies: None
+### Description: Outline the requirements for archetype temperature logic, including how archetypes influence system behavior. Create detailed test cases for all logic branches.
+### Details:
+Document archetype categories, temperature parameters, and their effects. Write tests for each archetype-temperature combination.
+
+## 4. Implement and Test Archetype Temperature Logic Module [pending]
+### Dependencies: 11.3
+### Description: Develop the archetype temperature logic to satisfy all TDD scenarios. Ensure the module is robust and ready for integration.
+### Details:
+Code the logic, execute tests, and refactor as necessary. Validate correct behavior for all archetype and temperature inputs.
+
+## 5. Define Insight Selection Logic and TDD Scenarios [pending]
+### Dependencies: None
+### Description: Establish requirements for the insight selection dimension, including selection criteria and prioritization rules. Develop exhaustive test cases.
+### Details:
+List possible insights, define selection algorithms, and write tests for correct and edge-case selections.
+
+## 6. Implement and Test Insight Selection Module [pending]
+### Dependencies: 11.5
+### Description: Build the insight selection logic to pass all TDD scenarios. Ensure the module is efficient and integrates cleanly with other dimensions.
+### Details:
+Implement selection algorithms, run tests, and refactor for clarity and performance.
+
+## 7. Integrate Three Personalization Dimensions and Assemble Prompt Logic [pending]
+### Dependencies: 11.2, 11.4, 11.6
+### Description: Combine the personality function, archetype temperature, and insight selection modules. Develop prompt assembly logic that leverages all three dimensions. Write integration and end-to-end tests.
+### Details:
+Design integration interfaces, assemble prompts using outputs from all modules, and validate with comprehensive integration tests.
+
+## 8. Optimize Performance and Implement Caching with TDD [pending]
+### Dependencies: None
+### Description: Analyze performance bottlenecks in the integrated system. Design and implement caching strategies. Write performance and cache-coherency tests.
+### Details:
+Profile system, identify slow paths, implement caching layers, and ensure correctness and speedup with targeted tests.
+

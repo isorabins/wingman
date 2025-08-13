@@ -1,0 +1,126 @@
+# Task ID: 14
+# Title: Active session page UI
+# Status: pending
+# Dependencies: 13
+# Priority: high
+# Description: Build /session/[id] to display both challenges, confirm buttons, and notes.
+# Details:
+- Fetch session details; show each user's challenge and status.
+- Buttons: "I confirm my buddy completed" for each side; disabled until scheduled_time passes OR user marks present.
+- Notes field stored in wingman_sessions.notes.
+- Show reputation preview impact.
+- Mobile-first, offline-friendly state caching.
+<info added on 2025-08-11T03:43:06.175Z>
+- Next.js architecture: Use Server Components for initial session data loading, Client Components for interactive elements like chat controls, and avoid over-fetching data.
+- Disable automatic prefetching with `prefetch={false}` on session page links to prevent stale state issues.
+- Implement `router.refresh()` after actions to ensure fresh data.
+- Structure the page with Suspense boundaries to separate messages from metadata for better loading experience.
+- Configure Playwright to capture traces on first retry for debugging session page interactions.
+</info added on 2025-08-11T03:43:06.175Z>
+
+# Test Strategy:
+- E2E: both users confirm; UI updates to completed.
+- Permission tests ensure only matched users can view/act.
+- Snapshot tests for responsive layouts.
+
+# Subtasks:
+## 1. RSC page scaffold for /session/[id] with initial data load and Suspense layout [pending]
+### Dependencies: None
+### Description: Create the Server Component route for the active session page that fetches session details and renders both users' challenges and statuses, with Suspense boundaries separating messages from session metadata. Disable link prefetch to this page.
+### Details:
+Files to create/edit:
+- app/session/[id]/page.tsx (Server Component):
+  - Fetch session data (match participants, scheduled_time, both challenges, confirmation statuses, notes, reputation preview data) via server-side data function using fetch with cache tags.
+  - Render metadata section (time, venue, participants, challenge titles/status) and a <ClientActions /> slot inside a Suspense boundary for interactive controls.
+  - Add another Suspense boundary for messages/chat region to prevent blocking metadata rendering.
+  - Ensure links pointing to this route use prefetch={false}.
+- app/session/[id]/loading.tsx: Lightweight skeletons for metadata and actions.
+- app/session/[id]/error.tsx: Error boundary to display access or load errors with retry.
+- lib/sessions/getSession.ts (server util): Fetch by id using Supabase or internal API with fetch tags like ['session', `session:${id}`]; return typed object for RSC.
+- app/(components)/SessionMetadata.tsx (Server Component): Present scheduled time, venue, each user's challenge and current status. Accessibility: use ARIA regions and headings.
+Reference-first patterns:
+- Use Next.js Server vs Client composition per Next docs to keep data fetching on server and interactivity in clients[2][5]. Prefer Server Components for initial load and smaller bundles; use Client Components only where needed[1][3][4].
+Architecture:
+- Use Suspense boundaries to stream metadata separately from messages as specified.
+- Tag fetches to enable revalidateTag on mutations later.
+Acceptance criteria:
+- Navigating to /session/[id] shows both participants' challenges and statuses from server-rendered HTML before client JS loads.
+- Suspense keeps metadata visible even if messages area is still loading.
+- Links to this page have prefetch disabled.
+- Accessibility: metadata grouped with role='region' and aria-labelledby.
+Verification:
+- Snapshot tests for metadata skeleton and final render across mobile widths.
+- Check prefetch={false} present on links to this route.
+
+## 2. Client interactivity: confirmation buttons, notes form, and offline-friendly state cache [pending]
+### Dependencies: 14.1
+### Description: Implement Client Components for confirmation actions per side, notes editing bound to wingman_sessions.notes, reputation impact preview, and offline-first local cache to queue actions and hydrate UI on reconnect.
+### Details:
+Files to create/edit:
+- app/session/[id]/ClientActions.tsx ('use client'):
+  - Props: sessionId, currentUserId, scheduled_time, presence flags, current statuses, notes, reputation preview delta per action.
+  - Render two buttons: "I confirm my buddy completed" for each side, disabled until scheduled_time passes OR user marked present is true (as specified). Buttons show optimistic state and disabled spinner during mutate.
+  - Notes textarea bound to notes; debounce save.
+  - Show reputation preview impact (+/- points) next to each action.
+  - On submit actions, call route handlers (see Subtask 3), then router.refresh() to ensure fresh data per guidance.
+  - Offline caching: store pending actions and notes edits in IndexedDB/localStorage; apply optimistic UI. On regain connectivity, replay queued actions with exponential backoff; show toasts.
+- app/session/[id]/ReputationPreview.tsx ('use client'): small component to compute/display delta passed from server.
+- lib/offline/queue.ts ('use client'): simple queue with retry/backoff and rate limit (reuse exponential backoff approach from Context7 Redis guidance conceptually) and visibilitychange/online listeners.
+- Accessibility: buttons with aria-disabled and proper labels; form with RHF + Zod for notes validation; keyboard navigation.
+Reference-first patterns:
+- Use Client Components only for interactivity and hooks; keep heavy data fetch server-side[2][5][1][3][4].
+- Call router.refresh() after actions to invalidate RSC payload as instructed.
+Acceptance criteria:
+- Buttons remain disabled until either scheduled_time has passed or the user is marked present; they enable accordingly.
+- Notes persist to backend and reflect after refresh.
+- Reputation preview shows before committing.
+- Offline: toggling airplane mode allows entering notes and clicking confirm; actions are queued and replay successfully when back online; UI reconciles after router.refresh().
+Verification:
+- Visual checks on mobile breakpoints; keyboard-only navigation works; form validation errors announced.
+
+## 3. API route handlers, FastAPI endpoints, and Supabase policies for session actions [pending]
+### Dependencies: 14.1
+### Description: Implement endpoints to fetch session, confirm completion per side, and update notes. Ensure RLS allows only matched users to view/act. Wire invalidation with revalidateTag/path and capture Playwright traces on retry.
+### Details:
+Files to create/edit (Next.js):
+- app/api/session/[id]/route.ts (GET): Return session with challenges, statuses, notes; cache-safe GET with { next: { tags: ['session', `session:${id}`] }, cache: 'force-cache' } and export dynamic='force-static' for safe caching of GETs.
+- app/api/session/[id]/confirm/route.ts (POST): Body: { side: 'user1'|'user2' }. Validate ACL; update confirmation status and reputation preview calc in response. After success, call revalidateTag(`session:${id}`) and revalidatePath(`/session/${id}`).
+- app/api/session/[id]/notes/route.ts (PATCH): Body: { notes: string }. Validate and update notes; revalidate as above.
+Files to create/edit (FastAPI backend):
+- src/api/session.py: Endpoints GET /session/{id}, POST /session/{id}/confirm, PATCH /session/{id}/notes using Pydantic v2 models with Field constraints; use response_model and BackgroundTasks for side effects (emails/notifications if needed). Enforce auth and ACL via Supabase RLS.
+Database:
+- migrations/20250811_session_policies.sql:
+  - RLS: PERMISSIVE policies per operation (SELECT/UPDATE) on wingman_sessions ensuring only the two match users (wrap auth.uid() in SELECT) can access; separate UPDATE policies for notes and confirmation fields.
+  - Indexes (BTREE) on wingman_sessions(id), (match_id), (scheduled_time) for access paths.
+Integration glue:
+- lib/api/client.ts: helper to call app/api endpoints from ClientActions with idempotency headers.
+Other config:
+- playwright.config.ts: ensure trace='on-first-retry' as instructed.
+Reference-first patterns:
+- Route Handlers under app/api/... with cache only for GETs; use revalidateTag/revalidatePath for invalidation; adhere to patterns in reference files for FastAPI style and config.
+Acceptance criteria:
+- Only matched users can GET/POST/PATCH for a session; others receive 403.
+- Confirming updates the correct side's status and returns updated payload.
+- Notes update persists to wingman_sessions.notes.
+- GET is cacheable and invalidated on mutations.
+- Playwright captures traces on first retry for session page tests.
+
+## 4. Reputation preview computation and UI integration [pending]
+### Dependencies: 14.1, 14.3
+### Description: Compute and surface reputation impact deltas for each confirm action server-side, display a clear preview in the UI, and ensure consistency after actions.
+### Details:
+Files to create/edit:
+- lib/sessions/reputation.ts (server util): Function getReputationPreview(session): returns { user1Delta, user2Delta } based on current statuses and rules; exported for use in page.tsx and API responses.
+- Update app/session/[id]/page.tsx: include preview values in props passed to ClientActions.
+- Update app/api/session/[id]/route.ts (GET): include preview deltas from getReputationPreview in the JSON.
+- Update app/api/session/[id]/confirm/route.ts (POST): after update, recompute and return new preview deltas.
+- UI: app/session/[id]/ReputationPreview.tsx renders concise badges (e.g., +5) with tooltips; ensure mobile-friendly.
+Reference-first patterns:
+- Keep computation on the server and pass minimal props to clients consistent with Server/Client separation guidance[2][5][1][3][4].
+Acceptance criteria:
+- On initial load, preview matches server computation.
+- After confirming, preview updates via router.refresh() and API response consistency.
+- No extra client fetches for preview; values flow from server and mutations.
+Verification:
+- Edge cases: when both sides already confirmed, deltas are 0 and UI hides preview.
+

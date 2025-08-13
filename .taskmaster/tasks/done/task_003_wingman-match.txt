@@ -1,0 +1,72 @@
+# Task ID: 3
+# Title: Backend config: Supabase, Redis, Resend wiring
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Ensure serverside SDKs configured and injectable through app runtime, based on existing reference implementation.
+# Details:
+- Use reference_files/src/config.py and reference_files/src/main.py strictly as patterns; implement/configure in our code only. Do NOT edit reference files.
+- Ensure environment variables are properly configured for all services.
+- Centralize supabase server client factory with service role for server routes and anon for edge functions.
+- Redis connection pool with ioredis@5 and health ping.
+- Resend setup for transactional emails; templates for match invite/acceptance.
+- Rate limiter (upstash/redis-ratelimit or custom token bucket) on public endpoints to mitigate abuse.
+- Secrets loaded via runtime config only on server.
+- Add retry policies with exponential backoff for IO (p-retry).
+- Note: Reference files remain unchanged; they are only used as implementation patterns.
+
+# Test Strategy:
+- Verify existing infrastructure works as expected rather than building new services.
+- Unit test factory returns authenticated clients.
+- Simulate redis down; ensure graceful fallback and logs.
+- Send test email to sandbox domain, assert 202 accepted.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Review reference_files/src/config.py and reference_files/src/main.py to understand existing implementation patterns
+### Details:
+Study the reference files as implementation patterns only. Do not modify the reference files.
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Configure environment variables for Supabase, Redis, and Resend services
+### Details:
+Set up environment variables in our project based on the patterns observed in reference files.
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Adapt existing Supabase integration from reference files to current project
+### Details:
+Implement Supabase integration in our codebase following the patterns in reference files. Do not modify reference files.
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Adapt existing Redis session management from reference files to current project
+### Details:
+Implement Redis session management in our codebase following the patterns in reference files. Do not modify reference files.
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Implement Resend email service integration with templates for match notifications
+### Details:
+Create new implementation in our codebase, using reference files only as patterns if applicable.
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Add rate limiting on public endpoints
+### Details:
+Implement rate limiting in our codebase, using reference files only as patterns if applicable.
+
+## 7.  [pending]
+### Dependencies: None
+### Description: Implement retry policies with exponential backoff
+### Details:
+Add retry policies in our codebase, using reference files only as patterns if applicable.
+
+## 8.  [pending]
+### Dependencies: None
+### Description: Document implementation approach and reference patterns used
+### Details:
+Create documentation that explains how reference patterns were adapted for our implementation without modifying the original reference files.
+

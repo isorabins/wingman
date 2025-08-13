@@ -1,0 +1,70 @@
+# Task ID: 4
+# Title: Transform AI coach: Hai→Connell prompts
+# Status: pending
+# Dependencies: 1, 3
+# Priority: high
+# Description: Update main prompt and memory context to Connell Barrett coaching persona, preserving memory hooks.
+# Details:
+- Create/modify our src/prompts.py by deriving the Connell persona from reference_files/src/prompts.py; include memory keys: assessment results, attempts, triggers, session history.
+- Update our src/claude_agent.py if needed using patterns in reference_files/src/claude_agent.py. Do NOT edit any reference_files.
+- Keep simple_memory.py and llm_router.py usage as-is in our project.
+- Map model to Anthropic Claude 3.5 Sonnet or OpenAI GPT-4o-mini for cost-effective streaming.
+- Safety guardrails: refuse PII sharing, enforce respectful guidance.
+- Temperature 0.7, top_p 0.9, max_tokens tuned for streaming.
+- Add smalltalk and challenge-coaching tools list for function-calling to fetch challenges and sessions.
+- Persist conversation context via simple_memory.py keyed per user.
+
+# Test Strategy:
+- Prompt unit tests: given context entries, ensure the coach references prior sessions.
+- Manual eval set with 10 inputs; check style adherence.
+- A/B test flag to flip old/new prompt in staging.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Review reference_files/src/prompts.py and reference_files/src/claude_agent.py to understand existing patterns
+### Details:
+
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Create/modify src/prompts.py with Connell Barrett coaching persona based on reference implementation
+### Details:
+
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Update src/claude_agent.py if needed to support the new prompt structure
+### Details:
+
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Implement memory hooks for assessment results, attempts, triggers, and session history
+### Details:
+
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Configure model parameters (temperature 0.7, top_p 0.9, max_tokens) for streaming
+### Details:
+
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Add function-calling tools for smalltalk and challenge-coaching
+### Details:
+
+
+## 7.  [pending]
+### Dependencies: None
+### Description: Implement safety guardrails against PII sharing and ensure respectful guidance
+### Details:
+
+
+## 8.  [pending]
+### Dependencies: None
+### Description: Create prompt unit tests to verify memory context references
+### Details:
+
+

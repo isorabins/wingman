@@ -1,0 +1,82 @@
+# Task ID: 9
+# Title: Auto-matching service and wingman_matcher.py
+# Status: pending
+# Dependencies: 3, 8
+# Priority: high
+# Description: Build simple matching algorithm: within radius + similar experience; present one match.
+# Details:
+- Create NEW file src/services/wingman_matcher.py (class WingmanMatcher) following service patterns from reference_files/src/agents/agent_manager.py.
+- Use Supabase client acquisition as in reference_files/src/main.py.
+- Persist to wingman_matches table (from migrations_wm).
+- Service selects candidates not already paired recently (last 7 days); status pending.
+- Matcher rules (MVP): get user loc+level; find users within radius (default 20 mi) and experience level ∈ {same, ±1}; exclude if recent pair exists; order by (distance ASC, last_active DESC).
+- Create wingman_matches row with user1=user, user2=candidate, status=pending.
+- Throttle: one active pending per user.
+- Implement GET /api/buddy/find in src/api/match_routes.py OR extend src/main.py; returns single match object or null.
+- No edits to reference_files/*.
+<info added on 2025-08-11T03:42:46.119Z>
+## Context7 Best Practices for Matcher Service Implementation
+
+- Implement a deterministic pure selection function that runs within a database transaction: select candidate FOR UPDATE SKIP LOCKED; insert match row if not exists.
+- Enforce idempotency with a unique partial index (user_id_a,user_id_b,status='pending'); on conflict do nothing; return existing match.
+- Optimize performance by applying radius and level filters directly in SQL queries with ordering by distance ASC, last_active DESC.
+- Return minimal payload from the API endpoint; let client fetch additional details separately as needed.
+- Implement cache invalidation tags for match list after responding to ensure consistent data views.
+</info added on 2025-08-11T03:42:46.119Z>
+
+# Test Strategy:
+- Unit tests in tests/backend/test_matcher_service.py: given pool, returns expected candidate.
+- Integration tests in tests/backend/test_match_find_endpoint.py: creates wingman_matches; respects throttling.
+- Test with synthetic pools for rule coverage.
+- Verify deterministic selection given fixed pool.
+- Ensure enforces throttle and recency rules.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Create src/services/wingman_matcher.py with WingmanMatcher class following service patterns from agent_manager.py reference
+### Details:
+Implement pure selection method that takes input pool and returns candidate
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Implement Supabase client acquisition similar to main.py reference
+### Details:
+Follow the pattern in reference_files/src/main.py for acquiring Supabase client
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Implement matching algorithm (radius + experience level filtering)
+### Details:
+Apply rules: within radius (default 20mi), level in {same, ±1}, exclude recent pairs (7 days), order by distance ASC then last_active DESC
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Add persistence to wingman_matches table with proper status management
+### Details:
+Insert into wingman_matches with status='pending', implement throttling (one active pending per user)
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Create src/api/match_routes.py OR extend src/main.py with GET /api/buddy/find endpoint
+### Details:
+Endpoint should use the matcher service and return a single match object or null
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Create tests/backend/test_matcher_service.py for unit testing
+### Details:
+Write comprehensive unit tests for the matcher service with synthetic pools for rule coverage
+
+## 7.  [pending]
+### Dependencies: None
+### Description: Create tests/backend/test_match_find_endpoint.py for integration testing
+### Details:
+Test the API endpoint with various scenarios including throttling and recency rules
+
+## 8.  [pending]
+### Dependencies: None
+### Description: Implement throttling mechanism (one active pending match per user)
+### Details:
+Ensure users can only have one active pending match at a time
+

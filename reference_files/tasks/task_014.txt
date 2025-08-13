@@ -1,0 +1,21 @@
+# Task ID: 14
+# Title: Implement Viral Marketing Engine Backend
+# Status: pending
+# Dependencies: 2, 3, 4
+# Priority: medium
+# Description: Develop the backend logic for the viral marketing engine, including social sharing and conversion tracking.
+# Details:
+1. Implement endpoint for generating shareable personality test results
+2. Create tracking system for quiz completions and social shares
+3. Develop logic for attributing new signups to quiz traffic
+4. Implement viral coefficient calculation
+5. Create conversion tracking from quiz-taker to active platform user
+6. Implement A/B testing framework for quiz variations
+
+# Test Strategy:
+1. Test shareable result generation
+2. Verify tracking of quiz completions and shares
+3. Test new signup attribution
+4. Verify viral coefficient calculation accuracy
+5. Test conversion tracking from quiz to active user
+6. Verify A/B testing framework functionality

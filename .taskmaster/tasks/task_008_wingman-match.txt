@@ -1,0 +1,72 @@
+# Task ID: 8
+# Title: Distance calculation utilities
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Implement reliable 20-mile radius filtering using Haversine SQL or Postgres earthdistance.
+# Details:
+- Create SQL function: haversine_miles(lat1,lng1,lat2,lng2) in supabase/migrations_wm/003_fn_haversine.sql following naming conventions in reference_files/docs/dev-documentation/04-database-guide.md
+- Implement Python helper function find_candidates_within_radius() in src/db/distance.py patterned after query helpers in reference_files/src/main.py
+- Focus on implementing new code only; reference files remain unchanged
+- Backend helper to query users within radius with ORDER BY distance ASC
+- Exclude users with missing locations or stale data (updated_at > 30 days)
+<info added on 2025-08-11T03:42:38.505Z>
+- Server-side filtering: Implement SQL-based filtering with ORDER BY distance ASC LIMIT N to avoid pulling large datasets into the application
+- Add BTREE indexes on user_id and updated_at columns for performance optimization
+- GIST/BTREE indexing on (lat,lng) is optional for MVP but document as future enhancement
+- Ensure stale data filtering (>30 days) happens in SQL query, not application code
+- Keep distance calculation logic separate from Row Level Security (RLS) policies
+- Do not implement RLS policies that call the distance function per-row as this impacts performance
+- Document in SQL comments that the Haversine function should not be used directly in RLS policies
+</info added on 2025-08-11T03:42:38.505Z>
+
+# Test Strategy:
+- Unit tests against known coordinates in tests/backend/test_distance_fn.sql and tests/backend/test_distance_helper.py
+- Verify haversine_miles returns expected values within ±0.2mi accuracy
+- Explain analyze shows index usage and acceptable cost on 10k users
+- Test edge cases: missing location, stale updated_at > 30 days excluded
+- TDD approach: implement tests first, then code to pass tests
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Create SQL function haversine_miles() in supabase/migrations_wm/003_fn_haversine.sql with documented formula
+### Details:
+- Follow naming conventions from database guide
+- Document the Haversine formula in comments
+- Function should take lat1, lng1, lat2, lng2 as parameters and return distance in miles
+- Ensure accuracy within ±0.2 miles
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Implement find_candidates_within_radius() helper in src/db/distance.py
+### Details:
+- Follow patterns in reference_files/src/main.py
+- Function should SELECT users within specified miles radius
+- ORDER BY distance ASC
+- Include parameters for user coordinates and radius in miles
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Write unit tests with known coordinates to verify distance calculations
+### Details:
+- Create tests/backend/test_distance_fn.sql for SQL function tests
+- Include multiple test cases with known distances
+- Verify results are within ±0.2 miles of expected values
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Test query performance with EXPLAIN ANALYZE on dataset of 10k+ users
+### Details:
+- Add performance tests to tests/backend/test_distance_helper.py
+- Verify index usage is optimal
+- Ensure query cost is acceptable for production use
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Implement handling for edge cases in find_candidates_within_radius()
+### Details:
+- Exclude users with missing location data
+- Exclude users with stale data (updated_at > 30 days)
+- Add appropriate WHERE clauses to the query
+

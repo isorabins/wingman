@@ -1,0 +1,97 @@
+# Task ID: 4
+# Title: Implement Creativity Personality Test Backend
+# Status: pending
+# Dependencies: 2, 3, 21
+# Priority: high
+# Description: Develop the backend logic for the Creativity Personality Test using TDD approach, including scoring, archetype assignment, and social sharing capabilities to support viral user acquisition.
+# Details:
+1. Design and implement test suite for personality test backend (TDD approach)
+   a. Write tests for database schema and operations
+   b. Write tests for scoring algorithm
+   c. Write tests for REST endpoints
+   d. Write tests for archetype assignment
+   e. Write tests for social sharing data preparation
+2. Design database schema for personality_test_results table
+   a. Store user responses
+   b. Store calculated scores
+   c. Store assigned archetype
+   d. Include metadata for social sharing
+3. Implement scoring algorithm for the six creativity archetypes
+   a. Define scoring weights for each question
+   b. Implement calculation logic using Expected A Posteriori (EAP) method
+   c. Normalize scores to appropriate scale
+4. Create REST endpoints for quiz interaction
+   a. Endpoint to fetch test questions
+   b. Endpoint to submit test answers
+   c. Endpoint to retrieve results
+   d. Endpoint for social sharing data
+5. Implement archetype assignment logic
+   a. Map scores to creativity archetypes
+   b. Handle both creative professionals and entrepreneur variants
+   c. Update creator_profiles with the assigned creativity_type
+6. Implement social sharing data preparation
+   a. Generate shareable result cards
+   b. Create personalized sharing messages
+   c. Include tracking parameters for viral acquisition
+
+# Test Strategy:
+1. Follow strict TDD protocol - write tests before implementation
+2. Unit test database schema and operations
+3. Unit test scoring algorithm with various input scenarios
+4. Integration tests for REST endpoints
+5. Test archetype assignment logic
+6. Test social sharing data preparation
+7. Verify correct updating of creator_profiles
+8. Performance testing for concurrent quiz submissions
+9. Test edge cases in answer submissions
+10. Security testing for data validation and sanitization
+
+# Subtasks:
+## 1. Define Personality Test Question Model (TDD) [pending]
+### Dependencies: None
+### Description: Write tests to define the structure and validation rules for personality test questions, including question text, answer options, and variant support.
+### Details:
+Start by writing unit tests that assert the correct creation, retrieval, and validation of question objects in the database schema. Ensure tests cover edge cases such as missing fields and invalid data types.
+
+## 2. Design Scoring Algorithm (TDD) [pending]
+### Dependencies: 4.1
+### Description: Write tests for the scoring logic that maps user answers to personality outcomes, including support for different test variants.
+### Details:
+Create tests that input various answer combinations and assert the correct personality type is calculated. Include tests for variant-specific scoring rules and edge cases like incomplete answers.
+
+## 3. Implement Database Schema for Results and Profiles (TDD) [pending]
+### Dependencies: 4.1, 4.2
+### Description: Write tests to verify the storage and retrieval of test results and user profile updates in the database.
+### Details:
+Write integration tests that check saving, updating, and querying test results and user profiles. Ensure referential integrity and support for multiple test attempts per user.
+
+## 4. Develop Endpoint for Fetching Test Questions (TDD) [pending]
+### Dependencies: 4.1
+### Description: Write tests for the REST API endpoint that retrieves test questions, supporting different variants and pagination.
+### Details:
+Write API tests that request questions for a given variant and assert correct structure, ordering, and error handling for invalid requests.
+
+## 5. Develop Endpoint for Submitting Answers and Calculating Results (TDD) [pending]
+### Dependencies: 4.2, 4.3, 4.4
+### Description: Write tests for the REST API endpoint that accepts user answers, invokes the scoring algorithm, and returns the result.
+### Details:
+Write API tests that submit valid and invalid answer payloads, check for correct result calculation, and ensure proper error responses for malformed input.
+
+## 6. Develop Endpoint for Storing and Retrieving Results (TDD) [pending]
+### Dependencies: 4.3, 4.5
+### Description: Write tests for endpoints that persist test results and allow users to fetch their past results.
+### Details:
+Write API tests to ensure results are correctly saved, can be retrieved by user, and handle edge cases like unauthorized access or missing records.
+
+## 7. Implement Profile Update Logic After Test Completion (TDD) [pending]
+### Dependencies: 4.3, 4.5, 4.6
+### Description: Write tests to verify that user profiles are updated with new personality results and relevant metadata after test completion.
+### Details:
+Write unit and integration tests to check that profile updates occur only after successful test completion, and that updates are atomic and consistent.
+
+## 8. Develop Social Sharing Feature (TDD) [pending]
+### Dependencies: 4.5, 4.6, 4.7
+### Description: Write tests for the functionality that allows users to share their test results via social media or shareable links.
+### Details:
+Write tests to ensure shareable links are generated securely, contain correct result data, and that privacy settings are respected.
+

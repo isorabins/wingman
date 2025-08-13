@@ -1,0 +1,86 @@
+# Task ID: 1
+# Title: Create WingmanMatch repo and environment baselines
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Verify and document runtime baselines, environment variables, local dev commands, and CI for the existing Wingman repository using reference_files as patterns. No repo creation or forking.
+# Details:
+- References (read-only): reference_files/frontend_reference/FAF_website/CLAUDE.md (dev/test commands), reference_files/frontend_reference/FAF_website/memory-bank/techContext.md (stack), reference_files/src/main.py (backend style), reference_files/src/config.py (env structure)
+- Verify Node 20 LTS, PNPM 9 or npm, Python 3.11; ensure package.json scripts (dev, type-check, lint, build) exist and run
+- Ensure .env.local (Next), .env (FastAPI), Supabase keys, Redis URL, and Resend key are configured and load correctly
+- Confirm Next.js app (App Router) runs locally; confirm FastAPI service runs locally with Supabase connectivity; confirm Redis and Resend connectivity via a smoke call (non-sending)
+- CI: ensure jobs for frontend (lint, typecheck, build) and backend (ruff, pytest) exist; only add missing minimal steps if required (no overengineering)
+- Document any deltas vs reference patterns in a short README note for the team
+
+# Test Strategy:
+- Verify the codebase runs locally using commands from reference documentation.
+- Ensure environment variables are properly configured.
+- Confirm basic functionality works in the codebase.
+- Local dev runs for FE/BE with env loaded; CI green on lint/build/tests; short README note with the verified baselines.
+
+# Subtasks:
+## 1. Review reference files for environment baselines [pending]
+### Dependencies: None
+### Description: Review the reference files to understand the environment baselines and development commands.
+### Details:
+• Review reference_files/frontend_reference/FAF_website/CLAUDE.md for dev/test commands.
+• Review reference_files/frontend_reference/FAF_website/memory-bank/techContext.md for stack details.
+• Review reference_files/src/main.py for backend style.
+• Review reference_files/src/config.py for environment structure.
+• Document key environment requirements and commands for the WingmanMatch project.
+• Do NOT modify any files under reference_files.
+
+## 2. Verify runtime versions in current codebase [pending]
+### Dependencies: 1.1
+### Description: Verify that the current codebase is using the correct runtime versions as specified in the reference files.
+### Details:
+• Check package.json for Node version requirements (Node 20 LTS).
+• Verify Python version requirements in any backend code (Python 3.11).
+• Confirm pnpm version 9 or npm usage in package.json or lockfile.
+• Verify package.json scripts (dev, type-check, lint, build) exist and run.
+• Document any discrepancies between current codebase and reference requirements.
+
+## 3. Verify environment variables configuration [pending]
+### Dependencies: 1.1
+### Description: Ensure environment variables are properly configured in the current codebase.
+### Details:
+• Review .env.example and ensure it contains all necessary variables.
+• Create a local .env.local file for Next.js frontend development.
+• Create a local .env file for FastAPI backend development.
+• Verify Supabase keys, Redis URL, and Resend API key are configured correctly.
+• Test that environment variables load correctly in both frontend and backend.
+• Compare with environment structure in reference files.
+
+## 4. Test local development setup [pending]
+### Dependencies: 1.1, 1.2, 1.3
+### Description: Verify that the WingmanMatch codebase can be run locally with the development commands from reference files.
+### Details:
+• Use the commands documented in reference_files/frontend_reference/FAF_website/CLAUDE.md.
+• Run pnpm install or npm install to install dependencies.
+• Start the Next.js frontend development server with the appropriate command.
+• Start the FastAPI backend server with the appropriate command.
+• Verify that the Next.js app (App Router) loads correctly in the browser.
+• Confirm FastAPI service runs locally with Supabase connectivity.
+• Test basic functionality to ensure everything works as expected.
+
+## 5. Verify CI/CD pipeline configuration [pending]
+### Dependencies: 1.1
+### Description: Verify the existing CI/CD pipeline configuration for the WingmanMatch repository.
+### Details:
+• Review existing CI configuration files.
+• Ensure CI jobs for frontend (lint, typecheck, build) exist.
+• Ensure CI jobs for backend (ruff, pytest) exist.
+• Add missing minimal steps if required (no overengineering).
+• Compare with reference CI configuration if available.
+• Document any needed updates to CI configuration.
+
+## 6. Document verified baselines in README [pending]
+### Dependencies: 1.2, 1.3, 1.4, 1.5
+### Description: Create a short README note documenting the verified baselines and any deltas from reference patterns.
+### Details:
+• Create or update a README.md file with verified runtime versions.
+• Document environment variable requirements.
+• List local development commands for frontend and backend.
+• Note any differences between the current codebase and reference patterns.
+• Include any special instructions for the team.
+

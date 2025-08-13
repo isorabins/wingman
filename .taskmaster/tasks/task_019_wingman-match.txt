@@ -1,0 +1,75 @@
+# Task ID: 19
+# Title: Email notifications for coordination
+# Status: pending
+# Dependencies: 3, 10, 13
+# Priority: medium
+# Description: Leverage Resend to notify match creation, acceptance, session scheduled, reminders.
+# Details:
+- Create NEW email templates local to WingmanMatch for match_accepted and session_scheduled events.
+- Reuse existing Resend configuration already present in reference_files/src/main.py.
+- Include unsubscribe/manage preferences per user.
+- Use background job queue (Redis) for scheduled sends with cron worker.
+- Localize time zones in subject/body.
+- Future templates to consider: match_found, session_reminder (T-24h and T-2h), session_feedback.
+<info added on 2025-08-11T03:43:10.690Z>
+## Resend Email Implementation Best Practices
+
+- Use official resend-python SDK; set API key via environment variables for security.
+- Version control all email templates within the codebase.
+- Pass tags with each email for tracking and analytics purposes.
+- Implement application-level retry logic with exponential backoff for transient failures.
+- Log message IDs returned from Resend API for troubleshooting and auditing.
+- Include idempotency keys in metadata to prevent duplicate emails during retries.
+- Leverage FastAPI's BackgroundTasks for asynchronous email sending to avoid blocking request handlers.
+- Consider implementing a dead letter queue for failed email attempts that exceed retry limits.
+</info added on 2025-08-11T03:43:10.690Z>
+
+# Test Strategy:
+- Send test emails to seed users.
+- Verify scheduling triggers via time travel in tests.
+- Unsubscribe link updates prefs.
+- Ensure templates render correctly with various user data.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Create email template for match_accepted notification
+### Details:
+
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Create email template for session_scheduled notification
+### Details:
+
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Implement email sending function using existing Resend configuration
+### Details:
+
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Add unsubscribe/preference management links to email templates
+### Details:
+
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Implement timezone localization for dates/times in email content
+### Details:
+
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Set up Redis job queue for scheduled email notifications
+### Details:
+
+
+## 7.  [pending]
+### Dependencies: None
+### Description: Create test cases for email rendering and delivery
+### Details:
+
+

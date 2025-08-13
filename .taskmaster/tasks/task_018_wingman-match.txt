@@ -1,0 +1,57 @@
+# Task ID: 18
+# Title: Transform project_overview API→/api/dating-goals
+# Status: pending
+# Dependencies: 2, 4, 5
+# Priority: medium
+# Description: Repurpose project overview to dating goals with minimal changes, creating new endpoints without modifying reference files.
+# Details:
+- Copy reference_files/src/agents/project_overview_agent.py → src/agents/wingman_profile_agent.py and simplify to goals for dating
+- Create new route /api/dating-goals in FastAPI per reference_files/src/main.py; do not modify existing project-overview route
+- Adapt schema fields to goals for confidence building (targets, triggers, past attempts)
+- Store in dating_goals table with same shape
+- Integrate into Connell memory so coach references goals
+- Link from assessment results page to optionally fill goals
+
+# Test Strategy:
+- API tests for CRUD operations on new endpoint
+- Coach conversation references stored goals in responses in sandbox tests
+- Verify original project-overview endpoint still works correctly
+- Ensure new implementation doesn't interfere with existing code paths
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Copy and adapt project_overview_agent.py to wingman_profile_agent.py
+### Details:
+
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Create new FastAPI route for /api/dating-goals without modifying existing routes
+### Details:
+
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Adapt schema fields for dating goals context (targets, triggers, past attempts)
+### Details:
+
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Create dating_goals table with appropriate schema
+### Details:
+
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Integrate goals data into Connell memory context
+### Details:
+
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Add link from assessment results page to dating goals form
+### Details:
+
+

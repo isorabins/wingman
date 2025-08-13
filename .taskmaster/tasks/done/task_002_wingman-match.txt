@@ -1,0 +1,121 @@
+# Task ID: 2
+# Title: Basic Database Migrations for WingmanMatch
+# Status: pending
+# Dependencies: 1
+# Priority: medium
+# Description: Add essential tables and rename existing contexts as per PRD, maintaining existing data.
+# Details:
+- Create SQL migration files in supabase/migrations_wm/: 001_add_wingman_tables.sql and 002_rename_creator_contexts.sql.
+- Reference existing schema in reference_files/docs/dev-documentation/04-database-guide.md and reference_files/frontend_reference/FAF_website/memory-bank/techContext.md.
+- Inspect reference_files/supabase/migrations/20250129120912_remote_schema.sql for naming/constraints patterns.
+- SQL: create core tables with exact schema - user_locations, wingman_matches, approach_challenges, wingman_sessions as specified in PRD.
+- Renames: creator_profiles→user_profiles, project_overview→dating_goals, creativity_test_results→confidence_test_results (use ALTER TABLE RENAME).
+- Add specified indexes: idx_user_locations_user_id, idx_wingman_matches_user1, idx_wingman_matches_user2.
+- Implement haversine_miles() function for simple distance calculation without PostGIS.
+- Create seed_challenges.sql script for populating approach_challenges table.
+- Include BEGIN/COMMIT blocks in all migration files.
+- Keep migrations forward-only with no DROP statements.
+<info added on 2025-08-11T03:42:05.654Z>
+- Follow Supabase/Postgres RLS best practices:
+  - Optimize RLS performance by wrapping auth.uid() calls with SELECT in USING/WITH CHECK expressions to enable initPlan caching
+  - Create separate policies per operation (SELECT with USING, INSERT/UPDATE with WITH CHECK, DELETE with USING)
+  - Avoid deprecated auth.role(); use `to authenticated, anon` or JWT claims via (auth.jwt() ->> 'email')
+  - Prefer SECURITY DEFINER helper functions for complex role checks
+  - Use PERMISSIVE policies; avoid RESTRICTIVE; ensure `to authenticated` scopes
+  - Document any SECURITY DEFINER functions and owners
+
+- Enhance indexing strategy:
+  - Create btree indexes on foreign keys and common access patterns
+  - Consider expression indexes for distance queries if needed
+  - Add indexes for created_at, city columns where appropriate
+
+- Migration workflow:
+  - Use `supabase migration new`, `up`, and `db push` for development and deployment
+  - Keep schema-only squashes for cleanup (no DML)
+  - Place Haversine function in its own migration file for better organization
+
+- If adding storage for photos:
+  - Implement storage policies using storage.extension(name) in WITH CHECK
+  - Apply bucket-level RLS for security
+</info added on 2025-08-11T03:42:05.654Z>
+
+# Test Strategy:
+- Create a verification script under scripts/db/verify_wm_schema.sql to validate:
+  - Tables exist with correct columns/types
+  - Indexes are present
+  - Haversine function exists and returns expected values
+- Run migrations on local environment; verify tables exist.
+- Insert sample data using seed_challenges.sql; test simple queries.
+- Verify renamed tables maintain existing data integrity.
+- Test haversine_miles() function with known coordinate pairs.
+- Use EXPLAIN to verify indexes are being used for radius queries.
+
+# Subtasks:
+## 1. Create SQL migration file for new tables [pending]
+### Dependencies: None
+### Description: Create the supabase/migrations_wm/001_add_wingman_tables.sql file with SQL statements to add the core tables needed for the WingmanMatch functionality.
+### Details:
+Create a new SQL migration file that will add four essential tables with exact schema:
+- user_locations(user_id UUID PK refs user_profiles(id), lat DECIMAL(10,8), lng DECIMAL(11,8), city VARCHAR(100), max_travel_miles INT DEFAULT 20, updated_at TIMESTAMP DEFAULT NOW())
+- wingman_matches(id UUID PK DEFAULT uuid_generate_v4(), user1_id UUID refs user_profiles(id), user2_id UUID refs user_profiles(id), status VARCHAR(50) DEFAULT 'pending', created_at TIMESTAMP DEFAULT NOW())
+- approach_challenges(id UUID PK DEFAULT uuid_generate_v4(), difficulty VARCHAR(50) NOT NULL, title VARCHAR(200), description TEXT, points INT DEFAULT 10)
+- wingman_sessions(id UUID PK DEFAULT uuid_generate_v4(), match_id UUID refs wingman_matches(id), user1_challenge_id UUID refs approach_challenges(id), user2_challenge_id UUID refs approach_challenges(id), venue_name VARCHAR(200), scheduled_time TIMESTAMP, status VARCHAR(50) DEFAULT 'scheduled', completed_at TIMESTAMP, user1_completed_confirmed_by_user2 BOOLEAN DEFAULT FALSE, user2_completed_confirmed_by_user1 BOOLEAN DEFAULT FALSE, notes TEXT)
+
+Also include the required indexes and haversine_miles() function. Wrap everything in BEGIN/COMMIT blocks.
+
+## 2. Create SQL migration file for table renaming [pending]
+### Dependencies: None
+### Description: Create the supabase/migrations_wm/002_rename_creator_contexts.sql file with ALTER TABLE statements to rename existing tables while preserving data.
+### Details:
+Create a migration file that renames the following tables:
+- creator_profiles to user_profiles
+- project_overview to dating_goals
+- creativity_test_results to confidence_test_results
+
+Use ALTER TABLE RENAME statements to ensure all existing data is preserved during the renaming process. Include BEGIN/COMMIT blocks. Keep the migration forward-only with no DROP statements or data mutations.
+
+## 3. Add basic indexes to new tables [pending]
+### Dependencies: 2.1
+### Description: Add essential indexes to the newly created tables to support basic query performance for the most common operations.
+### Details:
+Add the following specific indexes to improve query performance:
+- CREATE INDEX idx_user_locations_user_id ON user_locations(user_id)
+- CREATE INDEX idx_wingman_matches_user1 ON wingman_matches(user1_id)
+- CREATE INDEX idx_wingman_matches_user2 ON wingman_matches(user2_id)
+
+These indexes should be included in the 001_add_wingman_tables.sql migration file. Follow indexing patterns from reference_files/supabase/migrations/20250129120912_remote_schema.sql.
+
+## 4. Implement haversine_miles function [pending]
+### Dependencies: 2.1
+### Description: Create a SQL function to calculate distance between user locations using the Haversine formula without using complex spatial extensions.
+### Details:
+Implement the haversine_miles(lat1,lng1,lat2,lng2) function that calculates the distance between two geographic points using the Haversine formula. The function should:
+- Take latitude and longitude coordinates as inputs
+- Return distance in miles as NUMERIC type
+- Be accurate within ±0.2 miles on known coordinate pairs
+- Support 20-mile radius queries
+
+Add this function to the 001_add_wingman_tables.sql migration file. Avoid using PostGIS or other complex extensions.
+
+## 5. Create seed data script for approach challenges [pending]
+### Dependencies: 2.1
+### Description: Develop a script to insert seed data for approach challenges with different difficulty levels.
+### Details:
+Create scripts/db/seed_challenges.sql that inserts at least 9 approach challenges (3 per difficulty level: beginner, intermediate, advanced). The script should:
+- Be idempotent using ON CONFLICT DO NOTHING
+- Include realistic challenge titles, descriptions, and point values
+- Set appropriate difficulty levels for each challenge
+- Follow the exact schema defined for the approach_challenges table
+
+## 6. Create SQL verification script [pending]
+### Dependencies: 2.1, 2.2, 2.3, 2.4
+### Description: Create a verification script to validate the schema changes after migrations are applied.
+### Details:
+Create a SQL verification script at scripts/db/verify_wm_schema.sql that checks:
+- All required tables exist with correct columns and types
+- All specified indexes are present
+- The haversine_miles function exists and returns expected values for known coordinates
+- Renamed tables have the correct structure and data integrity is maintained
+
+The script should output clear success/failure messages for each verification step.
+

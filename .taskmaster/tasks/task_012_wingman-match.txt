@@ -1,0 +1,62 @@
+# Task ID: 12
+# Title: Challenges catalog and API
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Seed and expose GET /api/challenges with difficulty filter and metadata.
+# Details:
+- Populate approach_challenges per PRD with titles, descriptions, points.
+- Implement GET /api/challenges?difficulty=... in FastAPI following route style in reference_files/src/main.py.
+- Cache results in Redis for 10m following existing Redis usage patterns in reference_files/src/main.py.
+- Add feature flag to add more later without deploy (config table).
+- Include per-challenge tips surfaced by Connell via tool call.
+- New endpoints should live alongside existing ones without changing references.
+<info added on 2025-08-11T03:43:02.276Z>
+- Implement cache tagging system with 'challenges' tag for GET /api/challenges Redis cache
+- Add support for manual cache invalidation via revalidateTag('challenges') for admin updates
+- Include ETag header support in response for client-side caching if needed
+- Keep cache invalidation implementation simple for MVP phase
+</info added on 2025-08-11T03:43:02.276Z>
+
+# Test Strategy:
+- API returns correct sets per difficulty.
+- Cache hit/miss verified.
+- Schema validation on response with zod.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Populate approach_challenges table with initial challenge data per PRD
+### Details:
+
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Implement GET /api/challenges endpoint in FastAPI following existing route patterns
+### Details:
+
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Add difficulty filter parameter to challenges endpoint
+### Details:
+
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Implement Redis caching for challenge results with 10m expiration
+### Details:
+
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Create feature flag in config table for enabling additional challenges
+### Details:
+
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Add integration with Connell tool calls to surface per-challenge tips
+### Details:
+
+

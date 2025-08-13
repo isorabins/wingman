@@ -1,0 +1,599 @@
+# WingmanMatch Master PRD
+## Strategic Transformation of Fridays at Four → Dating Confidence Platform
+
+---
+
+## Executive Summary
+
+**Vision**: Build WingmanMatch, a simple social confidence app that helps men practice approaching through buddy accountability and AI coaching. Users get auto-matched with nearby practice partners, choose individual challenges, and confirm each other's completion.
+
+**Core Insight**: The infrastructure built for creative accountability in Fridays at Four (AI memory, human partnerships, progress tracking) maps perfectly to social confidence building. We're reusing proven code, not pivoting the company.
+
+**Timeline**: 2-3 week MVP using 90% existing F@4 code  
+**Risk Level**: Low (building on proven infrastructure)
+
+---
+
+## 1. TRANSFORMATION RATIONALE
+
+### Why This Works Perfectly
+
+**Same Core Problem**: Isolation preventing action
+- Creative projects: "I want to write but keep procrastinating alone"  
+- Dating confidence: "I want to approach but freeze up alone"
+
+**Same Solution Framework**: AI Support + Human Accountability
+- Creative: Hai (AI) + Email buddy → project completion
+- Dating: Connell (AI) + Local wingman → approach confidence
+
+**Same Technical Architecture**: 
+- Memory systems ✅ (conversation continuity)
+- Assessment systems ✅ (personality-based matching)
+- Progress tracking ✅ (challenges vs creative milestones)
+- Human matching ✅ (email buddies vs wingmen)
+
+**Same User Psychology**:
+- Need assessment and personalization
+- Want ongoing support, not just tools
+- Respond to graduated challenges
+- Benefit from accountability partnerships
+
+---
+
+## 2. PRODUCT TRANSFORMATION PLAN
+
+### 2.1 Complete User Journey
+
+```
+SIGNUP → ASSESS → PROFILE → AUTO-MATCH → CONNECT → CHALLENGE → CONFIRM
+```
+
+**1. SIGNUP (Homepage)**
+- Simple homepage with clear value prop: "Practice social confidence with a buddy"
+- One-click signup with basic info
+
+**2. ASSESS (Dating Experience Test)**
+- 12 questions about approach style and experience level
+- Results in dating archetype + experience level (beginner/intermediate/advanced)
+- Same assessment flow as F@4 creativity test
+
+**3. PROFILE (Photo + Bio)**
+- Upload one photo (basic verification)
+- Write short bio (2-3 sentences about goals)
+- Set location preferences (20 mile radius)
+
+**4. AUTO-MATCH (Find Buddy)**  
+- System automatically finds best nearby match based on:
+  - Location (within 20 miles)
+  - Similar experience level
+  - Simple algorithm - no complex compatibility scores
+- Present ONE match (no endless swiping)
+
+**5. CONNECT (Chat & Coordinate)**
+- Simple chat to introduce and plan meetup
+- Suggest good venue types (coffee shops, bookstores, malls)
+- Coordinate time and location
+
+**6. CHALLENGE (Individual Selection)**
+- Each buddy chooses their OWN challenge from difficulty-ranked list
+- Challenges range from beginner ("make eye contact with 5 people") to advanced ("get a phone number")
+- Both can be at different difficulty levels - that's fine
+
+**7. CONFIRM (Mutual Accountability)**
+- Both buddies confirm the OTHER person completed their challenge
+- If someone no-shows, they get negative mark on account
+- After completion, they can plan next session or get new match
+
+### 2.2 Core Feature Adaptations
+
+#### Feature 1: Confidence Assessment (From Creativity Test)
+**12 Questions About Approach Style**:
+
+1. "You see someone attractive at a coffee shop. What actually happens?"
+   - A) I imagine 47 scenarios but never move (Analyzer)
+   - B) I immediately go say hi before I lose nerve (Sprinter)  
+   - C) I wait for the 'perfect moment' that never comes (Ghost)
+   - D) I try to make eye contact first (Naturalist)
+
+**6 Dating Archetypes** (adapted from creative archetypes):
+- **The Analyzer** - Plans every scenario, paralyzed by possibilities
+- **The Sprinter** - High energy start, burns out in 30 seconds  
+- **The Ghost** - Disappears when it's time to actually approach
+- **The Scholar** - Knows all the theory, can't apply it
+- **The Naturalist** - Has confident moments but inconsistent
+- **The Protector** - Makes excuses to "protect" women from being bothered
+
+#### Feature 2: AI Coach Transformation (Hai → Connell Barrett)
+**Personality Update**:
+```python
+# FROM: Hai helping with creative projects
+main_prompt = """You are Hai, helping creators finish projects..."""
+
+# TO: Connell Barrett coaching dating confidence  
+main_prompt = """You are Connell Barrett, a dating coach who gets it.
+
+You've helped thousands of men overcome approach anxiety by understanding 
+that confidence isn't about being someone else - it's about being the best 
+version of yourself.
+
+Core principles:
+- Authenticity beats any 'technique'
+- Confidence is a skill that improves with practice  
+- Every approach is a win, regardless of outcome
+- The goal is connection, not conquest
+
+You remember everything about their journey:
+- Their confidence assessment results
+- Every approach they've attempted  
+- What specifically triggers their anxiety
+- What's worked and what hasn't
+- Their wingman session history
+"""
+```
+
+#### Feature 3: Auto-Matching System (From Email Buddy System)
+**Simple Location + Experience Matching**:
+- User completes profile → system finds best nearby match automatically
+- Matching criteria: Location (20 miles) + Experience level (beginner/intermediate/advanced)
+- NO complex algorithms or personality compatibility - keep it simple
+- Present ONE match at a time (no endless swiping like dating apps)
+- If they don't connect, can request new match
+
+#### Feature 4: Individual Challenge System (From Project Milestones)  
+**User-Chosen Difficulty Progression**:
+```
+BEGINNER:
+- Make eye contact with 5 people
+- Say "good morning" to 3 strangers
+- Ask someone for the time
+
+INTERMEDIATE:  
+- Ask 3 people for directions
+- Give 3 genuine compliments
+- Have a 2-minute conversation
+
+ADVANCED:
+- Start conversation with someone attractive
+- Get a phone number
+- Plan an instant coffee meetup
+```
+
+**Key Design Decisions**:
+- Each buddy chooses THEIR OWN challenge (can be different levels)
+- Both buddies must confirm the OTHER completed their challenge
+- Challenges ranked by difficulty, users progress naturally
+- Reputation system: No-shows get negative marks
+- Can stay with same buddy or request new match after each session
+
+---
+
+## 3. TECHNICAL MIGRATION PLAN
+
+### 3.1 Backend Architecture (90% Reuse)
+
+**KEEP AS-IS (Zero Changes)**:
+- ✅ `claude_agent.py` → Powers Connell instead of Hai
+- ✅ `simple_memory.py` → Stores approach sessions instead of creative work
+- ✅ `content_summarizer.py` → Summarizes approach sessions  
+- ✅ `llm_router.py` → Handles all AI calls
+- ✅ Supabase integration → All database operations
+- ✅ Redis session management → Real-time features
+- ✅ Email system (Resend) → Wingman coordination  
+- ✅ Streaming responses → Live coaching
+
+**ADAPT WITH MINIMAL CHANGES**:
+
+```python
+# Agent System Transformation:
+# FROM: creativity_agent.py 
+# TO: confidence_agent.py
+
+# Old: CreativityTestAgent with 6 creative archetypes
+# New: ConfidenceTestAgent with 6 dating archetypes
+# - Questions about creative process → Questions about approach style
+# - Same 12-question flow, same scoring logic
+
+# FROM: project_overview_agent.py
+# TO: wingman_profile_agent.py (SIMPLIFIED - rolled into confidence test)
+
+# Old: 8 topics about creative project  
+# New: Integrated into confidence assessment
+```
+
+**Database Schema Additions**:
+```sql
+-- KEEP existing tables, ADD new ones:
+
+-- Rename contexts:
+-- creator_profiles → user_profiles (keep structure)
+-- project_overview → dating_goals (same structure, different content)  
+-- creativity_test_results → confidence_test_results
+
+-- ADD new tables:
+CREATE TABLE user_locations (
+    user_id UUID PRIMARY KEY REFERENCES user_profiles(id),
+    lat DECIMAL(10, 8),
+    lng DECIMAL(11, 8), 
+    city VARCHAR(100),
+    max_travel_miles INT DEFAULT 20,
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE wingman_matches (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user1_id UUID REFERENCES user_profiles(id),
+    user2_id UUID REFERENCES user_profiles(id),
+    status VARCHAR(50) DEFAULT 'pending',
+    user1_reputation INT DEFAULT 0,
+    user2_reputation INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE approach_challenges (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    difficulty VARCHAR(50) NOT NULL, -- 'beginner', 'intermediate', 'advanced'
+    title VARCHAR(200),
+    description TEXT,
+    points INT DEFAULT 10
+);
+
+CREATE TABLE wingman_sessions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    match_id UUID REFERENCES wingman_matches(id),
+    user1_challenge_id UUID REFERENCES approach_challenges(id),
+    user2_challenge_id UUID REFERENCES approach_challenges(id),
+    venue_name VARCHAR(200),
+    scheduled_time TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'scheduled',
+    completed_at TIMESTAMP,
+    user1_completed_confirmed_by_user2 BOOLEAN DEFAULT FALSE,
+    user2_completed_confirmed_by_user1 BOOLEAN DEFAULT FALSE,
+    notes TEXT
+);
+```
+
+### 3.2 Frontend Migration (Minimal Changes)
+
+**KEEP AS-IS**:
+- ✅ All UI components (buttons, cards, inputs)
+- ✅ Color scheme and design system  
+- ✅ Layout structure and responsive design
+- ✅ Chat components and streaming
+- ✅ Authentication flow
+
+**TRANSFORM EXISTING PAGES**:
+
+**Homepage (/) - Copy Changes Only**:
+```
+OLD: "Solo creative no more"
+NEW: "Solo approaching no more" 
+
+OLD: "AI project manager who remembers + human accountability = finish your dream project"
+NEW: "AI dating coach + real wingman = actually approach"
+
+OLD CARDS:                    NEW CARDS:
+- Human Connection            - Find Your Wingman  
+- AI Project Manager (Hai)    - AI Dating Coach (Connell)
+- Finally Make Progress       - Complete Real Approaches
+```
+
+**Assessment Page**: Update questions array and archetypes (same component structure)
+
+**NEW PAGES TO BUILD**:
+1. **Profile Setup Page** (`/profile-setup`)
+   - Photo upload component
+   - Short bio text area (2-3 sentences)
+   - Location preferences (20 mile radius default)
+
+2. **Auto-Match Page** (`/find-buddy`) 
+   - Show ONE matched buddy profile
+   - Accept/decline match buttons
+   - If declined, show next match
+   
+3. **Buddy Chat Page** (`/buddy-chat/[matchId]`)
+   - Simple chat interface for coordination
+   - Venue suggestions (coffee shops, bookstores, malls)
+   - Challenge selection for each user
+
+4. **Active Session Page** (`/session/[id]`)
+   - Display both users' chosen challenges
+   - Completion confirmation buttons for each buddy
+   - Session notes and next steps
+
+### 3.3 API Endpoints
+
+**KEEP AS-IS**:
+- `/api/chat` → Now Connell conversations
+- `/api/guest-chat` → Try-before-signup Connell
+- `/api/auth/*` → All authentication  
+- `/api/project-overview` → Becomes `/api/dating-goals`
+
+**NEW ENDPOINTS**:
+```python
+# Profile & Matching
+POST /api/profile/complete
+  body: { user_id, photo_url, bio, location: {lat, lng} }
+  returns: { success, ready_for_matching: true }
+
+GET /api/buddy/find
+  query: { user_id }
+  returns: { match: {id, name, bio, distance, experience_level} }
+
+POST /api/buddy/respond
+  body: { match_id, user_id, response: 'accept'|'decline' }
+  returns: { chat_enabled: boolean, next_match?: {...} }
+
+# Chat & Coordination
+GET /api/chat/messages/[matchId]
+POST /api/chat/send
+  body: { match_id, user_id, message }
+
+# Challenge System
+GET /api/challenges
+  query: { difficulty: 'beginner'|'intermediate'|'advanced' }
+  returns: { challenges: [...] }
+
+POST /api/session/create
+  body: { match_id, venue, time, user1_challenge_id, user2_challenge_id }
+  returns: { session_id, details }
+
+POST /api/session/confirm-completion
+  body: { session_id, confirming_user_id, completed_user_id }
+  returns: { both_confirmed: boolean, reputation_updated: boolean }
+
+# Reputation System
+GET /api/user/reputation/[userId]
+  returns: { reputation_score, completed_sessions, no_shows }
+```
+
+---
+
+## 4. IMPLEMENTATION TIMELINE
+
+### Week 1: Core Transformation (Days 1-7)
+
+**Day 1-2: Database & Backend Setup**
+- ✅ Create new database tables
+- ✅ Fork agent files (creativity → confidence, project → wingman)  
+- ✅ Update prompt templates with Connell personality
+- ✅ Test existing chat with new prompts
+
+**Day 3-4: Assessment Transformation**
+- ✅ Update test questions for dating confidence
+- ✅ Create 6 dating archetypes  
+- ✅ Modify scoring logic if needed
+- ✅ Test full assessment flow
+
+**Day 5-6: Frontend Copy Updates**
+- ✅ Update homepage copy and cards
+- ✅ Change "Hai" to "Connell" throughout
+- ✅ Update navigation and routes
+
+**Day 7: Testing & Refinement**
+- ✅ Full user flow testing
+- ✅ Fix any broken references
+- ✅ Ensure chat memory works with new context
+
+### Week 2: New Features (Days 8-14)
+
+**Day 8-9: Location System**
+- ✅ Add geolocation to signup flow
+- ✅ Create location privacy settings  
+- ✅ Build location update endpoint
+- ✅ Test distance calculations for nearby users
+
+**Day 10-11: Wingman Matching**  
+- ✅ Build auto-matching algorithm (no swiping)
+- ✅ Create find-wingman page
+- ✅ Implement match acceptance flow
+- ✅ Add simple chat for coordination
+
+**Day 12-13: Challenge System**
+- ✅ Create challenge progression logic
+- ✅ Build challenge selection UI  
+- ✅ Implement point/level system
+- ✅ Create challenge completion flow
+
+**Day 14: Session Management**
+- ✅ Build active session page
+- ✅ Add venue selection
+- ✅ Create session rating system
+
+### Week 3: Polish & Launch (Days 15-21)
+
+**Day 15-16: Integration & Testing**
+- ✅ End-to-end user journey testing
+- ✅ Fix critical bugs
+- ✅ Performance optimization
+
+**Day 17-18: Beta Testing**
+- ✅ Internal team testing
+- ✅ Friend/family beta group
+- ✅ Collect feedback and iterate
+
+**Day 19-21: Launch Preparation**
+- ✅ Deploy to production
+- ✅ Set up monitoring  
+- ✅ Create launch announcement
+- ✅ Prepare onboarding materials
+
+---
+
+## 5. KEY DESIGN DECISIONS
+
+### Core Simplifications
+
+**Auto-Matching (No Swiping)**:
+- Problem: Users don't want endless swiping like dating apps
+- Solution: System presents ONE good match based on location + experience
+- If they don't connect, can request another match
+- Keeps focus on meeting up, not browsing profiles
+
+**Individual Challenge Selection**:
+- Each buddy chooses their OWN challenge at their comfort level
+- Beginner can do "make eye contact" while advanced buddy does "get phone number"
+- Both provide accountability by confirming OTHER person completed their challenge
+- Natural progression without forced matching of difficulty levels
+
+**Simple Reputation System**:
+- No-shows get negative marks, completed sessions get positive marks
+- Basic accountability without complex scoring algorithms
+- Visible to potential matches for basic trust indicators
+
+**Suggested Venue Types (User Choice)**:
+- App suggests good venue categories: coffee shops, bookstores, malls, parks
+- Users choose specific location and coordinate via chat
+- Public venues for safety, but not mandated
+- Focus on places where casual conversation is natural
+
+### Technical Simplifications
+
+**20-Mile Radius Matching**:
+- Good metro area coverage without being too wide
+- Simple distance calculation, no complex geographic algorithms
+- Users can adjust radius in preferences if needed
+
+**Photo-Only Verification**:
+- Basic catfishing prevention without complex ID verification
+- Trust public venues and reputation system for safety
+- Can add more verification later if needed
+
+**Keep/Replace Buddy Flexibility**:
+- After each session, can plan next meetup OR request new match
+- Supports both ongoing partnerships and trying different buddies
+- Natural relationship building without forced long-term commitments
+
+
+---
+
+## 6. SUCCESS METRICS & VALIDATION
+
+### Week 1 Success Criteria
+- ✅ 100% of existing tests passing with new prompts
+- ✅ Assessment completion rate >80%
+- ✅ Chat engagement similar to F@4 baseline
+
+### Week 2 Success Criteria  
+- ✅ Location permission grant rate >60%
+- ✅ Match acceptance rate >40%
+- ✅ Challenge completion rate >30%
+
+### Week 3 Success Criteria
+- ✅ 50+ beta users signed up
+- ✅ 20+ successful wingman sessions
+- ✅ Session completion rate >70%
+- ✅ User retention D7 >40%
+
+### Long-term Success Metrics (Month 1)
+- **Activation**: User completes first challenge
+- **Retention**: Weekly active usage
+- **Engagement**: Session completion rate >70%
+- **Growth**: Wingman invites sent (virality)
+- **Impact**: Self-reported confidence improvement
+
+---
+
+## 7. RISK MITIGATION
+
+### Technical Risks
+| Risk | Mitigation |
+|------|------------|
+| Location services complexity | Start with city-level matching, add precision later |
+| Real-time coordination | Use existing email system, add WebSockets if needed |
+| Prompt personality shift | A/B test Connell responses with beta users |
+| Database migration errors | Keep full backups, test on staging first |
+
+### Product Risks  
+| Risk | Mitigation |
+|------|------------|
+| Users not showing up | Reputation scores, public venue requirements |
+| Safety concerns | Verify users, public venues only, reporting system |
+| Geographic distribution | Start in specific cities (Austin, NYC, SF) |
+| Gender imbalance | Male-only initially, expand thoughtfully |
+
+### Business Risks
+| Risk | Mitigation |  
+|------|------------|
+| Alienating F@4 users | Keep F@4 running, position as expansion |
+| Dating app competition | Position as confidence building, not dating |
+| Seasonal usage | Add virtual challenges for off-peak times |
+
+---
+
+## 8. COMPETITIVE ADVANTAGES
+
+### Why WingmanMatch Wins
+
+**Real Accountability**: Not just an app - real humans meeting IRL
+**AI Memory**: Connell remembers everything, unlike generic chatbots  
+**Graduated Challenges**: Start where you're comfortable, progress naturally
+**Built on Proven Tech**: F@4's infrastructure already works
+**No Dating App Fatigue**: Auto-matching, not endless swiping
+
+### Moat Building
+
+**Network Effects**: More users = better local matching
+**Data Advantage**: Every approach teaches our AI more
+**Brand**: Connell Barrett's established methodology  
+**Community**: Success stories create powerful social proof
+**Technical**: Proven AI + human coordination is hard to replicate
+
+---
+
+## 9. MIGRATION STRATEGY
+
+### Code Reuse Strategy (Not Company Pivot)
+
+**Technical Infrastructure Reuse**:
+- Fork F@4 codebase for WingmanMatch development
+- Reuse proven systems: AI chat, memory, assessment, user management
+- Keep F@4 running as separate product - this is not a pivot
+- WingmanMatch becomes new product using same technical foundation
+
+**Development Approach**:
+- Clone F@4 repository to new WingmanMatch repo
+- Modify agents, prompts, and database schema for social confidence use case
+- Build new frontend pages for matching and session coordination
+- Deploy as completely separate application
+
+---
+
+## 10. FILES CHANGED SUMMARY
+
+### Files to Copy & Modify
+- `creativity_agent.py` → `confidence_agent.py`
+- `project_overview_agent.py` → `wingman_profile_agent.py`
+- `creativity-test/page.tsx` → `confidence-test/page.tsx`
+
+### Files to Update In-Place
+- `prompts.py` (Hai → Connell personality)
+- `main.py` (add new endpoints)
+- `home/page.tsx` (copy changes)
+
+### New Files to Create
+- `wingman_matcher.py` (matching algorithm)
+- `challenge_manager.py` (progression system)
+- `find-wingman/page.tsx` (matching UI)
+- `session/[id]/page.tsx` (active session)
+
+### Database Migrations
+- `migrations/add_wingman_tables.sql`
+- `migrations/rename_creator_contexts.sql`
+
+---
+
+## CONCLUSION
+
+WingmanMatch is not a pivot - it's an evolution. We're taking proven infrastructure for human connection and accountability and applying it to an even more universal problem. 
+
+**The Technical Advantage**: 2-3 weeks vs 6+ months for greenfield development
+**The Market Advantage**: Every single guy struggles with approach anxiety  
+**The Competitive Advantage**: AI + human accountability combination no one else has
+
+**The Beautiful Vision**: If this works, we've cracked the code on AI-assisted human connection. This same framework could expand to public speaking, networking events, job interviews - any situation where people need confidence + accountability.
+
+**Let's build the world's first AI-powered wingman service.** 🚀
+
+---
+
+*This PRD combines strategic thinking with tactical execution. It preserves the proven F@4 infrastructure while creating a focused, implementable path to a new market.*

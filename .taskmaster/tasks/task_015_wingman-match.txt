@@ -1,0 +1,63 @@
+# Task ID: 15
+# Title: Completion confirmation API and reputation update
+# Status: pending
+# Dependencies: 13, 14
+# Priority: high
+# Description: Implement POST /api/session/confirm-completion and reputation counters.
+# Details:
+- Implement POST /api/session/confirm-completion following FastAPI patterns in reference_files/src/main.py.
+- Validates session/match membership; toggles userX_completed_confirmed_by_userY.
+- When both true → set session status=completed and completed_at.
+- Update reputation with simple SQL statements: increment completed_sessions counter.
+- Return both_confirmed and reputation_updated.
+- Document placeholder for future cron job that will handle no-shows detection (not implementing now for MVP).
+
+# Test Strategy:
+- Unit tests toggling confirm flags in different orders.
+- Test idempotency for double-submit scenarios.
+- Verify SQL statements correctly update reputation counters.
+- Ensure proper validation of session membership and state transitions.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Implement POST /api/session/confirm-completion endpoint following FastAPI patterns
+### Details:
+
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Add session membership validation logic
+### Details:
+
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Implement confirmation flag toggle functionality
+### Details:
+
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Add session completion logic when both users confirm
+### Details:
+
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Implement simple SQL for reputation counter updates
+### Details:
+
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Document placeholder for future no-show detection cron job
+### Details:
+
+
+## 7.  [pending]
+### Dependencies: None
+### Description: Write unit tests for confirmation scenarios
+### Details:
+
+

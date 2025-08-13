@@ -1,0 +1,139 @@
+# Task ID: 27
+# Title: Provision Vercel Projects for WingmanMatch
+# Status: pending
+# Dependencies: 1, 26
+# Priority: high
+# Description: Create and configure Vercel projects for staging and production environments, including environment variables, build settings, and deployment configurations.
+# Details:
+- Create two Vercel projects: staging and production
+- Configure environment variables for both environments:
+  * NEXT_PUBLIC_SUPABASE_URL
+  * NEXT_PUBLIC_SUPABASE_ANON_KEY
+  * REDIS_URL
+  * RESEND_API_KEY
+  * Any required NEXT_RUNTIME flags
+- Connect the GitHub repository to both Vercel projects
+- Configure build settings:
+  * Set appropriate Node.js version (Node 20 LTS)
+  * Configure build command and output directory based on project structure
+  * Set up preview deployments for staging
+  * Configure production deployment settings
+- Set up project-specific settings:
+  * Enable automatic preview deployments for PRs
+  * Configure serverless function regions
+  * Set appropriate timeout values
+- Document deployment workflow:
+  * Add deployment instructions to README.md Ops section
+  * Document project IDs and references
+  * Include environment variable names and descriptions
+  * Document rotation cadence for sensitive credentials
+  * Create runbook links for common operations
+- Ensure no secrets are committed to the repository:
+  * Verify .gitignore includes .env and .env.local
+  * Configure CI to mask sensitive values
+- Prepare for domain configuration (to be set up in a later task)
+- Coordinate with Supabase project setup to ensure proper integration:
+  * Verify CORS settings allow Vercel domains
+  * Test connectivity between Vercel and Supabase environments
+
+# Test Strategy:
+- Verify successful connection to Supabase:
+  * Deploy a simple test page that connects to Supabase
+  * Confirm authentication flow works in the staging environment
+  * Test database read/write operations from Vercel deployment
+- Test environment variable configuration:
+  * Verify all required environment variables are properly set
+  * Confirm environment variables are accessible in the application
+  * Check that sensitive values are properly masked in logs
+- Validate build and deployment process:
+  * Trigger a test deployment to staging
+  * Verify build completes successfully
+  * Confirm application loads and functions correctly
+- Test preview deployments:
+  * Create a test PR to verify preview deployment functionality
+  * Ensure preview deployment uses staging environment variables
+- Security verification:
+  * Confirm no secrets are exposed in client-side code
+  * Verify proper CORS configuration between Vercel and Supabase
+  * Check that environment variables are properly scoped
+- Document verification:
+  * Review documentation for completeness
+  * Ensure all project IDs and references are documented
+  * Verify runbook links are accessible and accurate
+
+# Subtasks:
+## 1. Create Vercel Projects and Connect GitHub Repository [pending]
+### Dependencies: None
+### Description: Create staging and production Vercel projects and connect them to the GitHub repository. Document project IDs and URLs in the operations documentation.
+### Details:
+1. Log into Vercel dashboard and create two new projects: 'wingmanmatch-staging' and 'wingmanmatch-production'
+2. Import the GitHub repository for both projects
+3. Create ops/vercel/README.md file with the following sections:
+   - Project IDs and URLs for both environments
+   - GitHub repository connection details
+   - Team access information
+4. Enable automatic preview deployments for PRs in the staging project
+5. Configure branch deployments: main branch for staging, production branch for production
+
+## 2. Configure Build Settings and Node.js Version [pending]
+### Dependencies: 27.1
+### Description: Set up appropriate build configurations including Node.js version, build commands, and output directory settings for both Vercel projects.
+### Details:
+1. In Vercel dashboard for both projects, set Node.js version to 20.x LTS
+2. Configure build command based on package.json (typically 'pnpm build' or 'npm run build')
+3. Let Vercel auto-detect the output directory (Next.js default is .next)
+4. Create vercel.json file if custom settings are needed beyond dashboard configuration
+5. Configure serverless function regions based on target audience (e.g., us-east-1 for US-based users)
+6. Set appropriate function timeout values (recommended: 60s for API routes)
+
+## 3. Set Up Environment Variables [pending]
+### Dependencies: 27.1
+### Description: Configure all required environment variables for both staging and production environments, ensuring proper scoping and security.
+### Details:
+1. Add the following environment variables to both projects:
+   - NEXT_PUBLIC_SUPABASE_URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+   - REDIS_URL
+   - RESEND_API_KEY
+   - Any required NEXT_RUNTIME flags
+2. Configure variable scoping:
+   - Production variables for production environment
+   - Staging variables for preview/staging environment
+   - Development variables for local development
+3. Ensure sensitive variables are marked as encrypted in Vercel
+4. Verify .gitignore includes .env and .env.local to prevent accidental commit of secrets
+5. Document all environment variables with descriptions in ops/vercel/README.md
+
+## 4. Implement Health Check and Test Supabase Integration [pending]
+### Dependencies: 27.2, 27.3
+### Description: Create a health check endpoint that verifies connectivity with Supabase and ensures proper CORS configuration between services.
+### Details:
+1. Create a /api/health route handler that:
+   - Pings Supabase using the anon key
+   - Returns 200 OK if successful, appropriate error code otherwise
+   - Includes basic connectivity status information
+2. Ensure Supabase CORS settings allow Vercel domains:
+   - Add all Vercel preview domains (*.vercel.app)
+   - Add custom domains (when configured later)
+3. Document CORS configuration requirements in ops/vercel/README.md
+4. Test connectivity between Vercel and Supabase in both environments
+
+## 5. Document Deployment Workflow and Security Practices [pending]
+### Dependencies: 27.1, 27.2, 27.3, 27.4
+### Description: Create comprehensive documentation for deployment workflows, credential rotation, and security practices for the Vercel projects.
+### Details:
+1. Update ops/vercel/README.md with the following sections:
+   - Deployment workflow instructions
+   - PR preview deployment etiquette
+   - Rollback procedures
+   - Environment variable rotation cadence (recommended: 90 days for sensitive credentials)
+   - Security best practices
+   - Domain configuration placeholder (for future task)
+2. Create runbook links for common operations:
+   - How to rotate credentials
+   - How to deploy hotfixes
+   - How to monitor deployments
+3. Document integration points with Supabase
+4. Verify no secrets are exposed in client bundles by inspecting build output
+5. Configure CI to mask sensitive values in logs
+

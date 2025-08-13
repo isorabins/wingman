@@ -1,0 +1,83 @@
+# Task ID: 13
+# Title: Session creation flow and API
+# Status: pending
+# Dependencies: 11, 12
+# Priority: high
+# Description: Implement POST /api/session/create to schedule wingman sessions with per-user challenges.
+# Details:
+- Input: match_id, venue_name, time (ISO8601), user1_challenge_id, user2_challenge_id.
+- Verify match status accepted; ensure challenges exist.
+- Create wingman_sessions row status=scheduled.
+- Notify both users via email and in-app message; add to chat as system card.
+- Enforce one active session per match at a time.
+- Follow FastAPI style in reference_files/src/main.py for implementation.
+- Reuse email (resend) import style already present in main.py.
+- Write to wingman_sessions table; ensure one active session per match.
+- Create new code only; do not modify reference files.
+
+# Test Strategy:
+- API tests for validation, authorization, and creation.
+- E2E: schedule from chat and see confirmation card.
+- Timezone handling tests using TZ-mock.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Create FastAPI endpoint for POST /api/session/create following style in reference_files/src/main.py
+### Details:
+
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Implement input validation for match_id, venue_name, time, and challenge IDs
+### Details:
+
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Add logic to verify match status is accepted and challenges exist
+### Details:
+
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Implement wingman_sessions table write with status=scheduled
+### Details:
+
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Add check to enforce one active session per match at a time
+### Details:
+
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Implement email notifications using existing resend import style
+### Details:
+
+
+## 7.  [pending]
+### Dependencies: None
+### Description: Add in-app notification and chat system card creation
+### Details:
+
+
+## 8.  [pending]
+### Dependencies: None
+### Description: Write API tests for validation, authorization, and creation flows
+### Details:
+
+
+## 9.  [pending]
+### Dependencies: None
+### Description: Create E2E test for scheduling from chat and confirming system card appears
+### Details:
+
+
+## 10.  [pending]
+### Dependencies: None
+### Description: Implement timezone handling tests using TZ-mock
+### Details:
+
+

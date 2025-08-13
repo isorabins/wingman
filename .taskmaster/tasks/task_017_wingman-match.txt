@@ -1,0 +1,44 @@
+# Task ID: 17
+# Title: Homepage and copy updates
+# Status: pending
+# Dependencies: 6, 4
+# Priority: medium
+# Description: Update homepage copy from 'Hai' to 'Connell' and replace creative project references with dating confidence references.
+# Details:
+- Update home/page.tsx content per PRD: replace 'Hai' with 'Connell' throughout.
+- Change creative project references to dating confidence references as specified in PRD.
+- Use existing Chakra UI + Tailwind components for content updates.
+- Update meta title/description for SEO.
+- Ensure all copy changes match the PRD specifications.
+
+# Test Strategy:
+- Visual QA to verify copy matches PRD specifications.
+- Verify all 'Hai' references have been replaced with 'Connell'.
+- Confirm creative project references have been updated to dating confidence references.
+- Check that SEO meta tags are properly updated.
+
+# Subtasks:
+## 1. Replace 'Hai' with 'Connell' throughout homepage [pending]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 2. Update creative project references to dating confidence references [pending]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 3. Update SEO meta title and description [pending]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 4. Verify all copy changes against PRD specifications [pending]
+### Dependencies: None
+### Description: 
+### Details:
+
+

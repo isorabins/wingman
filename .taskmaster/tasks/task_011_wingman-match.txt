@@ -1,0 +1,88 @@
+# Task ID: 11
+# Title: Basic buddy chat implementation
+# Status: pending
+# Dependencies: 10
+# Priority: medium
+# Description: Create a simple buddy chat page at /buddy-chat/[matchId] by reusing existing chat components and implementing basic message endpoints.
+# Details:
+- Create new chat UI components in our app by following patterns from reference_files/frontend_reference/FAF_website/app/chat/ (DO NOT edit reference files)
+- Implement basic message endpoints in our backend (src/api/chat_routes.py or extend src/main.py) following the style in reference_files/src/main.py for GET /api/chat/messages/[matchId] and POST /api/chat/send
+- Keep existing Redis session management and streaming responses as-is
+- Text-only messages (sanitized, 2-2000 chars) with rate limiting (1 msg/0.5s)
+- Poll every 5s to append new messages while maintaining scroll position
+- Track last_read timestamp
+- Create necessary database structure in src/chat/message_model.sql or reuse existing messages structure
+- Implement proper authentication to ensure only match participants can access their chats
+<info added on 2025-08-11T03:42:57.903Z>
+## Context7 Best Practices for Chat Implementation
+
+### Backend (FastAPI)
+- Validate message length and sanitize content server-side
+- Enforce participant ACL through Row-Level Security (RLS) and path parameter validation
+- Implement rate limiting with Redis (redis.asyncio):
+  - 1 message per 0.5s per user
+  - Use connection pool for efficiency
+  - Set appropriate timeouts
+  - Implement Retry with ExponentialBackoff for transient errors
+- Use cursor-based pagination for message history
+- Keep GET endpoints dynamic (no caching) to ensure fresh data
+- Avoid over-fetching data by implementing proper query limits
+
+### Frontend
+- Implement cache tags per matchId for efficient invalidation
+- Use optimistic UI updates: append sent messages immediately but refetch to confirm
+- Handle scroll restoration properly when new messages arrive or history loads
+- Poll every 5 seconds for new messages
+- Consider Server-Sent Events (SSE) or streaming for future improvements
+</info added on 2025-08-11T03:42:57.903Z>
+
+# Test Strategy:
+- Create tests in tests/backend/test_chat_endpoints.py and tests/e2e/chat.spec.ts
+- Test send/receive flow, access control, pagination, and polling
+- Verify two users can exchange messages in <5s via polling
+- Confirm ACL blocks non-participants
+- Ensure no edits to reference_files/*
+
+# Subtasks:
+## 1. Set up basic chat page route and layout [pending]
+### Dependencies: None
+### Description: Create the /buddy-chat/[matchId] route and implement a basic page layout using patterns from reference_files/frontend_reference/FAF_website/app/chat/.
+### Details:
+Create a new page at app/buddy-chat/[matchId]/page.tsx in our application that follows the patterns from reference_files/frontend_reference/FAF_website/app/chat/. DO NOT modify any files in the reference_files directory. Instead, create new components in our app that implement similar functionality. Keep the layout simple with just a message list and input field. Ensure the matchId is properly extracted from the URL and used for data fetching. No need to implement advanced UI features like typing indicators or read receipts.
+
+## 2. Implement GET message endpoint [pending]
+### Dependencies: None
+### Description: Create a GET /api/chat/messages/[matchId] endpoint in our backend that retrieves message history for a specific buddy match.
+### Details:
+Implement a GET endpoint in src/api/chat_routes.py or extend src/main.py that follows the style in reference_files/src/main.py. The endpoint should be GET /api/chat/messages/[matchId]?cursor=...&limit=50 and query the database for messages associated with the given matchId. Include pagination with cursor and limit parameters. Ensure proper authentication to verify the requesting user is part of the match. Return messages in chronological order with sender information, message text, and timestamp. DO NOT modify any files in the reference_files directory.
+
+## 3. Implement POST message endpoint [pending]
+### Dependencies: None
+### Description: Create a POST /api/chat/send endpoint in our backend that allows users to send text messages to their buddy match.
+### Details:
+Implement a POST endpoint in src/api/chat_routes.py or extend src/main.py that follows the style in reference_files/src/main.py. The endpoint should accept a match_id and message. Validate the user is part of the match before storing the message. Implement text sanitization, character limits (2-2000 chars), and rate limiting (1 msg/0.5s). Store the message with sender ID, recipient ID, timestamp, and message text. For MVP, only support plain text messages without attachments or formatting. Update the last_read timestamp for the sender. DO NOT modify any files in the reference_files directory.
+
+## 4. Implement database structure for messages [pending]
+### Dependencies: None
+### Description: Create or reuse database structure for storing chat messages and tracking last_read timestamps.
+### Details:
+Create src/chat/message_model.sql with the necessary table structure for storing chat messages and tracking last_read timestamps. If an existing messages structure is already present, evaluate if it can be reused instead. The structure should include fields for message ID, match ID, sender ID, recipient ID, message text, timestamp, and read status. Ensure proper indexing for efficient querying by match ID and timestamp.
+
+## 5. Implement polling mechanism [pending]
+### Dependencies: 11.1, 11.2
+### Description: Add a polling mechanism to the chat page that fetches new messages every 5 seconds while maintaining scroll position.
+### Details:
+Set up a polling mechanism that calls the GET messages endpoint every 5 seconds to check for new messages. Implement state management to append new messages to the UI without duplicates. Maintain scroll position when new messages arrive. Ensure this works alongside the existing Redis session management without conflicts. Update the last_read timestamp when appropriate. Implement this in our application code, not in the reference files.
+
+## 6. Implement end-to-end testing [pending]
+### Dependencies: 11.1, 11.2, 11.3, 11.5
+### Description: Create comprehensive end-to-end tests for the chat functionality.
+### Details:
+Create tests/e2e/chat.spec.ts to test the complete chat flow. Test scenarios should include: two users exchanging messages, verifying messages appear within 5 seconds via polling, confirming non-participants cannot access chats, testing pagination works correctly, and verifying message sanitization and rate limiting function as expected.
+
+## 7. Static venue suggestions panel in chat [pending]
+### Dependencies: None
+### Description: Add a suggestions panel to /buddy-chat/[matchId] with static venue categories (coffee shops, bookstores, malls, parks) and example tips. No external API. Toggleable UI section. Reference PRD §2.2 Feature 5 "Suggested Venue Types".
+### Details:
+
+

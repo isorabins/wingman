@@ -1,0 +1,193 @@
+# Task ID: 26
+# Title: Provision Supabase Projects for WingmanMatch
+# Status: pending
+# Dependencies: 1, 3
+# Priority: high
+# Description: Create and configure Supabase projects for staging and production environments, including proper security settings, storage buckets, migrations, and access controls.
+# Details:
+- Create two Supabase projects: staging and production; document project reference IDs in README.md Ops section
+- Securely capture and store the following secrets for both environments:
+  * SUPABASE_URL
+  * SUPABASE_ANON_KEY
+  * SUPABASE_SERVICE_ROLE_KEY
+  * Database connection string
+  * JWT secret
+- Configure authentication and security:
+  * Set custom JWT secret for both environments
+  * Enable Row Level Security (RLS) globally
+  * Configure proper CORS settings for frontend domains
+- Storage configuration:
+  * Create bucket `profile-photos` in both environments
+  * Add RLS policy allowing only owner writes to their photos
+  * Implement file type restrictions using storage.extension(name) = 'png'|'jpg'|'jpeg'
+- CLI setup:
+  * Link local project(s) via Supabase CLI
+  * Set environment variables in .env/.env.local for frontend/backend
+  * Ensure secrets are never committed to the repository
+  * Configure .gitignore to prevent accidental commits
+- Database migrations:
+  * Run migrations_wm (001/002/003...) against staging environment
+  * Verify schema with scripts/db/verify_wm_schema.sql
+  * After verification, promote migrations to production
+- Seed data:
+  * Run scripts/db/seed_challenges.sql on staging environment only
+  * Document seed data purpose and contents
+- Backup configuration:
+  * Enable Point-in-Time Recovery (PITR)
+  * Configure automated backups with appropriate retention policy
+  * Document backup/restore procedures
+- Access management:
+  * Add team members with least privilege principle
+  * Rotate service role credentials after initial setup/handoff
+  * Document access control policies
+- Documentation:
+  * Create comprehensive documentation in README.md Ops section
+  * Include all project IDs, configuration details, and operational procedures
+  * Document local development setup with Supabase
+
+# Test Strategy:
+- Verify successful migration execution:
+  * Run `supabase migration up` on staging environment
+  * Execute verification script (scripts/db/verify_wm_schema.sql)
+  * Confirm all expected tables, views, and functions exist
+- Test database operations:
+  * Perform read/write smoke tests on key tables (user_locations, wingman_matches)
+  * Verify operations succeed using application environment
+  * Test RLS policies by attempting cross-user access (should fail)
+- Validate storage functionality:
+  * Test storage upload using signed URLs
+  * Verify RLS prevents cross-user writes to storage
+  * Confirm file type restrictions work as expected
+- Security verification:
+  * Ensure no sensitive values are committed to the repository
+  * Verify CI variables are properly masked
+  * Test JWT authentication flow works correctly
+- Environment isolation:
+  * Verify staging and production environments are properly isolated
+  * Confirm changes to staging don't affect production
+- Document verification:
+  * Review documentation for completeness and accuracy
+  * Ensure all team members can access and understand setup procedures
+
+# Subtasks:
+## 1. Create Supabase Projects and Configure Security Settings [pending]
+### Dependencies: None
+### Description: Create staging and production Supabase projects, enable Row Level Security globally, set custom JWT secrets, and document project reference IDs.
+### Details:
+1. Log into Supabase dashboard and create two new projects: 'wingmanmatch-staging' and 'wingmanmatch-production'
+2. For each project, enable Row Level Security (RLS) globally in the Auth settings
+3. Set custom JWT secrets for both environments (generate secure random strings)
+4. Create ops/supabase/README.md file and document the following:
+   - Project reference IDs for both environments
+   - Project URLs
+   - JWT configuration details (without exposing actual secrets)
+   - RLS configuration status
+5. Securely store the following secrets for both environments (do not commit to repository):
+   - SUPABASE_URL
+   - SUPABASE_ANON_KEY
+   - SUPABASE_SERVICE_ROLE_KEY
+   - Database connection string
+   - JWT secret
+
+## 2. Configure Local Environment and Link Projects via Supabase CLI [pending]
+### Dependencies: 26.1
+### Description: Set up local environment with Supabase CLI, link to staging project, and configure environment variables securely.
+### Details:
+1. Install Supabase CLI if not already installed: `npm install -g supabase`
+2. Login to Supabase CLI: `supabase login`
+3. Link local project to staging environment: `supabase link --project-ref <staging-project-ref>`
+4. Create/update the following environment files (ensure they are in .gitignore):
+   - Backend .env file with:
+     * SUPABASE_URL
+     * SUPABASE_SERVICE_ROLE_KEY
+     * JWT secret
+   - Frontend .env.local file with:
+     * NEXT_PUBLIC_SUPABASE_URL
+     * NEXT_PUBLIC_SUPABASE_ANON_KEY
+5. Verify .gitignore includes patterns for .env and .env.local
+6. Document CLI setup commands and environment variable structure in ops/supabase/README.md
+7. Add a warning note about not committing secrets to the repository
+
+## 3. Run Database Migrations and Create Storage Configuration [pending]
+### Dependencies: 26.2
+### Description: Apply existing migrations to staging environment and create a new migration for storage bucket and policies.
+### Details:
+1. Run existing migrations on staging environment: `supabase migration up`
+2. Create new migration file supabase/migrations_wm/004_storage_policies.sql with:
+   ```sql
+   -- Create profile-photos bucket
+   INSERT INTO storage.buckets (id, name)
+   VALUES ('profile-photos', 'profile-photos')
+   ON CONFLICT (id) DO NOTHING;
+   
+   -- RLS policy allowing only owner writes to their photos
+   CREATE POLICY "Users can upload their own profile photos"
+   ON storage.objects
+   FOR INSERT
+   TO authenticated
+   WITH CHECK (
+     bucket_id = 'profile-photos' AND
+     auth.uid()::text = (storage.foldername(name))[1] AND
+     storage.extension(name) IN ('png', 'jpg', 'jpeg')
+   );
+   
+   -- Policy for viewing profile photos
+   CREATE POLICY "Profile photos are publicly viewable"
+   ON storage.objects
+   FOR SELECT
+   TO authenticated
+   USING (bucket_id = 'profile-photos');
+   ```
+3. Apply the new migration: `supabase migration up`
+4. Run seed data script on staging only: `supabase db execute --file scripts/db/seed_challenges.sql`
+5. Verify schema with verification script: `supabase db execute --file scripts/db/verify_wm_schema.sql`
+6. Document migration results in ops/supabase/README.md
+
+## 4. Configure Backups, CORS, and Access Controls [pending]
+### Dependencies: 26.3
+### Description: Enable Point-in-Time Recovery, configure CORS settings for frontend domains, and set up team access with proper permissions.
+### Details:
+1. Enable Point-in-Time Recovery (PITR) for both staging and production environments
+2. Configure automated backups with 7-day retention policy
+3. Configure CORS settings in both environments:
+   - Allow Vercel staging domain
+   - Allow Vercel production domain
+   - Allow localhost:3000 for development
+4. Add team members to both projects following least privilege principle:
+   - Developers: Developer role
+   - DevOps: Admin role
+   - Others: Read-only as needed
+5. Document in ops/supabase/README.md:
+   - Backup configuration and retention policy
+   - CORS allowed origins
+   - Access control policies and roles
+   - Backup/restore procedures
+6. Plan for service role credential rotation after initial setup
+
+## 5. Promote Configuration to Production and Final Documentation [pending]
+### Dependencies: 26.4
+### Description: Apply all configurations to production environment, verify schema, and complete comprehensive documentation.
+### Details:
+1. Link local project to production environment: `supabase link --project-ref <production-project-ref>`
+2. Run all migrations on production: `supabase migration up`
+3. DO NOT run seed data scripts on production
+4. Verify production schema: `supabase db execute --file scripts/db/verify_wm_schema.sql`
+5. Complete comprehensive documentation in ops/supabase/README.md:
+   - Project IDs and URLs for both environments
+   - Environment variable requirements
+   - Migration procedures
+   - Schema verification results
+   - Storage bucket configuration
+   - Backup and restore procedures
+   - Local development setup instructions
+   - Production deployment checklist
+6. Create a final checklist section confirming:
+   - No secrets in repository
+   - Environment variables configured in CI/Vercel
+   - Schema verified in both environments
+   - RLS enforced globally
+   - Storage policies implemented
+   - PITR enabled
+7. Rotate service role credentials after initial setup/handoff
+8. Document the credential rotation procedure
+

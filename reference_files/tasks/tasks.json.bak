@@ -1,0 +1,682 @@
+{
+  "tasks": [
+    {
+      "id": 0,
+      "title": "Establish Isolated, Secure Development Environment for Safe AI Testing",
+      "description": "IMMEDIATE PRIORITY: Set up a fully isolated development environment to unblock all AI development work. This includes provisioning a separate Supabase project for development (no shared data or credentials with production), robust environment variable management to ensure strict separation between dev and prod, automated CI/CD deployment for the dev branch, a safe workflow for live AI interaction testing, and reliable database seeding/migration for development. The current dev Heroku app and dev.fridaysatfour.co are incorrectly connected to the PROD Supabase—this must be fixed to enable safe, three-dimensional personalization testing.",
+      "status": "done",
+      "dependencies": [],
+      "priority": "immediate",
+      "details": "1. Provision a new, dedicated Supabase project for development, ensuring no shared data or credentials with production. Update all dev infrastructure (Heroku app, Vercel deployment, FastAPI backend) to point to the isolated dev Supabase instance using environment variables.\n2. Implement strict environment variable management: use .env files for local, Vercel/Heroku secrets for cloud, and document all required variables. Ensure no secrets are committed to version control. Dev and prod must have fully separate credentials and endpoints.\n3. Automate environment setup using Docker Compose or similar tooling to guarantee consistency and reproducibility across developer machines and CI/CD. Use separate docker-compose configurations for dev and test environments as needed[2][5].\n4. Integrate CI/CD pipelines (e.g., GitHub Actions) for the dev branch: automate linting, testing, and deployment to dev environments, and ensure all secrets are injected securely at build time. Dev branch must auto-deploy to dev infrastructure only.\n5. Implement a safe AI testing workflow in the dev environment, ensuring no data or side effects reach production systems. Enable live testing of three-dimensional personalization features.\n6. Set up database seeding and migration for the dev Supabase project. Use Supabase CLI and migrations to keep dev schema up to date and seed with safe, non-production data[1][3][4].\n7. Configure monitoring and logging for the dev environment to track AI interactions and catch issues early, without leaking production data.\n8. Document the full setup process and provide onboarding instructions for new developers, emphasizing the separation between dev and prod.\n9. Enforce policy-based governance for third-party packages and dependencies to prevent vulnerabilities from entering the dev environment.\n10. Regularly review and update the environment to reflect best practices for AI safety and compliance.",
+      "testStrategy": "- Verify that the dev environment uses a completely separate Supabase database and credentials from production by inspecting connection strings and running test queries.\n- Confirm that environment variables are managed securely and not present in version control. Check that dev and prod use different secrets and endpoints.\n- Run the full CI/CD pipeline for the dev branch: ensure automated tests, linting, and deployments execute successfully and only affect the dev environment.\n- Perform live AI interaction tests in the dev environment and confirm no data or side effects reach production systems. Validate three-dimensional personalization features safely.\n- Review monitoring/logging outputs to ensure all activity is isolated to dev and no sensitive production data is exposed.\n- Onboard a new developer using the documentation and confirm they can set up and use the dev environment without accessing production resources.\n- Run database migrations and seeding scripts on the dev Supabase project and confirm schema and data are correct and isolated from production.",
+      "subtasks": [
+        {
+          "id": 211,
+          "title": "Provision new Supabase project for development",
+          "description": "Create a new Supabase project dedicated to development. Ensure no shared credentials or data with production. Update all dev infrastructure to use this new project.",
+          "status": "done",
+          "parentTaskId": 0
+        },
+        {
+          "id": 212,
+          "title": "Update environment variable management for strict dev/prod separation",
+          "description": "Audit and refactor environment variable usage. Ensure .env files (local) and cloud secrets (Heroku/Vercel) are set up for dev and prod separately. Document all required variables. Remove any production credentials from dev.",
+          "status": "done",
+          "parentTaskId": 0
+        },
+        {
+          "id": 213,
+          "title": "Implement dev branch auto-deployment pipeline",
+          "description": "Set up or update CI/CD (e.g., GitHub Actions) so that the dev branch auto-deploys to the dev Heroku app and dev.fridaysatfour.co, using only the dev Supabase project and secrets.",
+          "status": "done",
+          "parentTaskId": 0
+        },
+        {
+          "id": 214,
+          "title": "Establish safe AI testing workflow in dev",
+          "description": "Document and enforce a workflow for live AI interaction testing in the dev environment, ensuring no data or side effects reach production. Enable safe testing of three-dimensional personalization.",
+          "status": "done",
+          "parentTaskId": 0
+        },
+        {
+          "id": 215,
+          "title": "Set up database seeding and migration for dev Supabase",
+          "description": "Configure Supabase CLI migrations and seeding for the dev project. Ensure schema and seed data are reproducible and isolated from production. Document the process for future updates.",
+          "status": "done",
+          "parentTaskId": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Set up FastAPI Backend with Python 3.10+",
+      "description": "Initialize the backend project using FastAPI framework with Python 3.10+ and set up the basic project structure.",
+      "details": "1. Install Python 3.10+ if not already installed\n2. Create a new virtual environment\n3. Install FastAPI and its dependencies (pip install fastapi[all])\n4. Set up project structure (app/, tests/, etc.)\n5. Create main.py with basic FastAPI app\n6. Set up CORS middleware for development and production domains\n7. Implement basic health check endpoint\n8. Set up logging configuration\n9. Create requirements.txt file",
+      "testStrategy": "1. Write unit tests for basic app setup\n2. Test CORS configuration\n3. Verify health check endpoint\n4. Ensure logging is working correctly",
+      "priority": "high",
+      "dependencies": [],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 2,
+      "title": "Implement Supabase PostgreSQL Integration",
+      "description": "Set up Supabase PostgreSQL database integration and implement the required schema for the project.",
+      "details": "1. Sign up for Supabase account if not already done\n2. Create a new Supabase project\n3. Install supabase-py library (pip install supabase)\n4. Set up database connection in the FastAPI app\n5. Implement the provided SQL schema for creator_profiles, personality_test_results, and ai_insights tables\n6. Create database models using SQLAlchemy ORM\n7. Implement CRUD operations for each table\n8. Set up database migrations using Alembic",
+      "testStrategy": "1. Write unit tests for database connection\n2. Test CRUD operations for each table\n3. Verify schema integrity\n4. Test migration scripts",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 3,
+      "title": "Implement Supabase Authentication",
+      "description": "Integrate Supabase Authentication with JWT tokens for user authentication and authorization.",
+      "details": "1. Configure Supabase Auth in the project settings\n2. Implement sign-up, login, and logout endpoints using Supabase Auth\n3. Create JWT token generation and validation functions\n4. Implement middleware for protected routes\n5. Set up password reset and email verification flows\n6. Implement social auth providers if required",
+      "testStrategy": "1. Test user registration process\n2. Verify login and token generation\n3. Test protected route access with valid and invalid tokens\n4. Verify logout functionality\n5. Test password reset and email verification flows",
+      "priority": "high",
+      "dependencies": [
+        2
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 4,
+      "title": "Implement Creativity Personality Test Backend",
+      "description": "Develop the backend logic for the Creativity Personality Test using TDD approach, including scoring, archetype assignment, and social sharing capabilities to support viral user acquisition.",
+      "status": "pending",
+      "dependencies": [
+        2,
+        3,
+        "21"
+      ],
+      "priority": "high",
+      "details": "1. Design and implement test suite for personality test backend (TDD approach)\n   a. Write tests for database schema and operations\n   b. Write tests for scoring algorithm\n   c. Write tests for REST endpoints\n   d. Write tests for archetype assignment\n   e. Write tests for social sharing data preparation\n2. Design database schema for personality_test_results table\n   a. Store user responses\n   b. Store calculated scores\n   c. Store assigned archetype\n   d. Include metadata for social sharing\n3. Implement scoring algorithm for the six creativity archetypes\n   a. Define scoring weights for each question\n   b. Implement calculation logic using Expected A Posteriori (EAP) method\n   c. Normalize scores to appropriate scale\n4. Create REST endpoints for quiz interaction\n   a. Endpoint to fetch test questions\n   b. Endpoint to submit test answers\n   c. Endpoint to retrieve results\n   d. Endpoint for social sharing data\n5. Implement archetype assignment logic\n   a. Map scores to creativity archetypes\n   b. Handle both creative professionals and entrepreneur variants\n   c. Update creator_profiles with the assigned creativity_type\n6. Implement social sharing data preparation\n   a. Generate shareable result cards\n   b. Create personalized sharing messages\n   c. Include tracking parameters for viral acquisition",
+      "testStrategy": "1. Follow strict TDD protocol - write tests before implementation\n2. Unit test database schema and operations\n3. Unit test scoring algorithm with various input scenarios\n4. Integration tests for REST endpoints\n5. Test archetype assignment logic\n6. Test social sharing data preparation\n7. Verify correct updating of creator_profiles\n8. Performance testing for concurrent quiz submissions\n9. Test edge cases in answer submissions\n10. Security testing for data validation and sanitization",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Define Personality Test Question Model (TDD)",
+          "description": "Write tests to define the structure and validation rules for personality test questions, including question text, answer options, and variant support.",
+          "dependencies": [],
+          "details": "Start by writing unit tests that assert the correct creation, retrieval, and validation of question objects in the database schema. Ensure tests cover edge cases such as missing fields and invalid data types.",
+          "status": "pending"
+        },
+        {
+          "id": 2,
+          "title": "Design Scoring Algorithm (TDD)",
+          "description": "Write tests for the scoring logic that maps user answers to personality outcomes, including support for different test variants.",
+          "dependencies": [
+            1
+          ],
+          "details": "Create tests that input various answer combinations and assert the correct personality type is calculated. Include tests for variant-specific scoring rules and edge cases like incomplete answers.",
+          "status": "pending"
+        },
+        {
+          "id": 3,
+          "title": "Implement Database Schema for Results and Profiles (TDD)",
+          "description": "Write tests to verify the storage and retrieval of test results and user profile updates in the database.",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Write integration tests that check saving, updating, and querying test results and user profiles. Ensure referential integrity and support for multiple test attempts per user.",
+          "status": "pending"
+        },
+        {
+          "id": 4,
+          "title": "Develop Endpoint for Fetching Test Questions (TDD)",
+          "description": "Write tests for the REST API endpoint that retrieves test questions, supporting different variants and pagination.",
+          "dependencies": [
+            1
+          ],
+          "details": "Write API tests that request questions for a given variant and assert correct structure, ordering, and error handling for invalid requests.",
+          "status": "pending"
+        },
+        {
+          "id": 5,
+          "title": "Develop Endpoint for Submitting Answers and Calculating Results (TDD)",
+          "description": "Write tests for the REST API endpoint that accepts user answers, invokes the scoring algorithm, and returns the result.",
+          "dependencies": [
+            2,
+            3,
+            4
+          ],
+          "details": "Write API tests that submit valid and invalid answer payloads, check for correct result calculation, and ensure proper error responses for malformed input.",
+          "status": "pending"
+        },
+        {
+          "id": 6,
+          "title": "Develop Endpoint for Storing and Retrieving Results (TDD)",
+          "description": "Write tests for endpoints that persist test results and allow users to fetch their past results.",
+          "dependencies": [
+            3,
+            5
+          ],
+          "details": "Write API tests to ensure results are correctly saved, can be retrieved by user, and handle edge cases like unauthorized access or missing records.",
+          "status": "pending"
+        },
+        {
+          "id": 7,
+          "title": "Implement Profile Update Logic After Test Completion (TDD)",
+          "description": "Write tests to verify that user profiles are updated with new personality results and relevant metadata after test completion.",
+          "dependencies": [
+            3,
+            5,
+            6
+          ],
+          "details": "Write unit and integration tests to check that profile updates occur only after successful test completion, and that updates are atomic and consistent.",
+          "status": "pending"
+        },
+        {
+          "id": 8,
+          "title": "Develop Social Sharing Feature (TDD)",
+          "description": "Write tests for the functionality that allows users to share their test results via social media or shareable links.",
+          "dependencies": [
+            5,
+            6,
+            7
+          ],
+          "details": "Write tests to ensure shareable links are generated securely, contain correct result data, and that privacy settings are respected.",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Implement AI-Powered Project Onboarding Backend",
+      "description": "Develop the backend logic for the AI-powered project onboarding process, including the 8-topic guided conversation.",
+      "details": "1. Define the 8 onboarding topics and their sequence\n2. Implement endpoint to start onboarding process\n3. Create logic for topic progression and tracking\n4. Integrate with Claude API for natural language interaction\n5. Implement logic to generate project overview from conversation\n6. Store onboarding data in the database\n7. Implement personality-driven onboarding flow based on test results",
+      "testStrategy": "1. Test onboarding process initiation\n2. Verify topic progression and tracking\n3. Test Claude API integration\n4. Verify project overview generation\n5. Test personality-driven flow variations",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3,
+        4
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Implement Persistent AI Memory System",
+      "description": "Develop the backend logic for the persistent AI memory system, including conversation history and context-aware responses.",
+      "details": "1. Design and implement conversation history storage in the database\n2. Implement logic to retrieve relevant context based on project details\n3. Create buffer management system with smart summarization\n4. Integrate memory system with project updates and progress tracking\n5. Implement archetype-aware memory context and response personalization\n6. Optimize memory retrieval for performance",
+      "testStrategy": "1. Test conversation history storage and retrieval\n2. Verify context-aware response generation\n3. Test buffer management and summarization\n4. Verify integration with project updates\n5. Test archetype-specific personalization",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3,
+        5
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 7,
+      "title": "Implement Human Partner Matching System",
+      "description": "Develop the backend logic for matching users with accountability partners based on project types, personalities, and creativity archetypes.",
+      "details": "1. Design and implement partner matching algorithm\n2. Create database schema for storing partner matches and preferences\n3. Implement endpoint for requesting a partner match\n4. Develop logic for scheduling 30-minute accountability calls\n5. Implement notification system for upcoming calls\n6. Create feedback mechanism for partner satisfaction",
+      "testStrategy": "1. Test matching algorithm with various user profiles\n2. Verify partner request and assignment process\n3. Test scheduling functionality\n4. Verify notification system\n5. Test feedback collection and processing",
+      "priority": "medium",
+      "dependencies": [
+        2,
+        3,
+        4
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 8,
+      "title": "Implement Project Coaching & Support System",
+      "description": "Develop the backend logic for AI-powered project coaching, including daily interactions, personalized guidance, and accountability features.",
+      "details": "1. Implement daily AI interaction scheduling\n2. Develop logic for generating personality-adapted communication styles\n3. Create system for generating practical action items based on project context\n4. Implement progress celebration and milestone recognition logic\n5. Develop pattern recognition algorithm for personalized insights\n6. Implement gentle accountability system",
+      "testStrategy": "1. Test daily interaction scheduling\n2. Verify personality-adapted communication generation\n3. Test action item generation based on project context\n4. Verify progress celebration triggers\n5. Test pattern recognition and insight generation\n6. Verify accountability system functionality",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3,
+        5,
+        6
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 9,
+      "title": "Implement Progress Tracking & Analytics Backend",
+      "description": "Develop the backend logic for tracking user progress, generating analytics, and visualizing long-term progress.",
+      "details": "1. Design and implement progress tracking data model\n2. Create endpoints for updating and retrieving progress data\n3. Implement milestone tracking logic\n4. Develop algorithms for generating personal pattern insights\n5. Create system for calculating success metrics aligned with user goals\n6. Implement long-term progress data aggregation\n7. Develop archetype-specific progress visualization logic",
+      "testStrategy": "1. Test progress data storage and retrieval\n2. Verify milestone tracking accuracy\n3. Test pattern insight generation\n4. Verify success metric calculations\n5. Test long-term progress aggregation\n6. Verify archetype-specific visualizations",
+      "priority": "medium",
+      "dependencies": [
+        2,
+        3,
+        5,
+        8
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 10,
+      "title": "Implement Hai Evolution System",
+      "description": "Develop the backend logic for the Hai Evolution System, including the four natural stages and relationship progression engine.",
+      "details": "1. Implement logic for determining user's evolution stage\n2. Create system for transitioning between stages based on tenure and engagement\n3. Develop stage-appropriate support logic\n4. Implement relationship depth tracking\n5. Create endpoints for retrieving stage-specific prompts and guidance\n6. Develop logic for adapting AI sophistication based on user stage",
+      "testStrategy": "1. Test evolution stage calculation\n2. Verify stage transition triggers\n3. Test stage-appropriate support generation\n4. Verify relationship depth tracking\n5. Test retrieval of stage-specific content\n6. Verify AI adaptation based on user stage",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 11,
+      "title": "Implement Three-Dimensional Personalization System",
+      "description": "Develop and fully integrate the backend logic for the three-dimensional personalization system, combining personality archetypes, global AI insights, and evolution stage into a seamless, high-performance personalization engine. This system is the core competitive advantage, enabling impossible-to-replicate AI-driven user experiences.",
+      "status": "pending",
+      "dependencies": [
+        2,
+        3,
+        4,
+        6,
+        10,
+        "21"
+      ],
+      "priority": "high",
+      "details": "1. Implement get_hai_personality function as described in PRD\n2. Integrate logic for retrieving and applying archetype-specific temperatures\n3. Integrate system for selecting and applying relevant global AI insights\n4. Implement evolution stage prompt modifications and context assembly\n5. Combine all three dimensions (archetype, insights, evolution stage) into a unified personalization pipeline\n6. Optimize context assembly for performance (target: <1 second)\n7. Implement caching mechanism for frequently used personalization data\n8. Ensure graceful degradation: system must handle failures in any dimension without breaking overall personalization",
+      "testStrategy": "1. Develop a comprehensive test suite covering the integration of all three personalization dimensions working together\n2. Test context assembly performance to ensure response times are consistently under 1 second\n3. Test correct application of archetype-specific temperatures\n4. Test retrieval and application of global AI insights\n5. Test evolution stage prompt modifications\n6. Test system behavior and fallback mechanisms when any dimension fails (graceful degradation)\n7. Benchmark personalization assembly performance and caching effectiveness",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Define Personality Function Requirements and TDD Scenarios",
+          "description": "Specify the requirements for the personality function dimension, including input parameters, expected outputs, and edge cases. Develop comprehensive test cases following the TDD approach.",
+          "dependencies": [],
+          "details": "Gather user profile data requirements, define personality traits mapping, and write unit tests for all expected behaviors.",
+          "status": "pending"
+        },
+        {
+          "id": 2,
+          "title": "Implement and Test Personality Function Module",
+          "description": "Develop the personality function logic to pass all defined tests. Refactor as needed to ensure modularity and maintainability.",
+          "dependencies": [
+            1
+          ],
+          "details": "Code the personality function, run tests, and iterate until all tests pass. Ensure clear separation of concerns for future integration.",
+          "status": "pending"
+        },
+        {
+          "id": 3,
+          "title": "Define Archetype Temperature Logic and TDD Scenarios",
+          "description": "Outline the requirements for archetype temperature logic, including how archetypes influence system behavior. Create detailed test cases for all logic branches.",
+          "dependencies": [],
+          "details": "Document archetype categories, temperature parameters, and their effects. Write tests for each archetype-temperature combination.",
+          "status": "pending"
+        },
+        {
+          "id": 4,
+          "title": "Implement and Test Archetype Temperature Logic Module",
+          "description": "Develop the archetype temperature logic to satisfy all TDD scenarios. Ensure the module is robust and ready for integration.",
+          "dependencies": [
+            3
+          ],
+          "details": "Code the logic, execute tests, and refactor as necessary. Validate correct behavior for all archetype and temperature inputs.",
+          "status": "pending"
+        },
+        {
+          "id": 5,
+          "title": "Define Insight Selection Logic and TDD Scenarios",
+          "description": "Establish requirements for the insight selection dimension, including selection criteria and prioritization rules. Develop exhaustive test cases.",
+          "dependencies": [],
+          "details": "List possible insights, define selection algorithms, and write tests for correct and edge-case selections.",
+          "status": "pending"
+        },
+        {
+          "id": 6,
+          "title": "Implement and Test Insight Selection Module",
+          "description": "Build the insight selection logic to pass all TDD scenarios. Ensure the module is efficient and integrates cleanly with other dimensions.",
+          "dependencies": [
+            5
+          ],
+          "details": "Implement selection algorithms, run tests, and refactor for clarity and performance.",
+          "status": "pending"
+        },
+        {
+          "id": 7,
+          "title": "Integrate Three Personalization Dimensions and Assemble Prompt Logic",
+          "description": "Combine the personality function, archetype temperature, and insight selection modules. Develop prompt assembly logic that leverages all three dimensions. Write integration and end-to-end tests.",
+          "dependencies": [
+            2,
+            4,
+            6
+          ],
+          "details": "Design integration interfaces, assemble prompts using outputs from all modules, and validate with comprehensive integration tests.",
+          "status": "pending"
+        },
+        {
+          "id": 8,
+          "title": "Optimize Performance and Implement Caching with TDD",
+          "description": "Analyze performance bottlenecks in the integrated system. Design and implement caching strategies. Write performance and cache-coherency tests.",
+          "dependencies": [],
+          "details": "Profile system, identify slow paths, implement caching layers, and ensure correctness and speedup with targeted tests.",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Implement Global Insights System",
+      "description": "Develop the backend logic for generating, storing, and applying global AI insights across users.",
+      "details": "1. Implement logic for generating insights from user interactions\n2. Create system for storing insights in the ai_insights table\n3. Develop algorithms for calculating confidence scores and effectiveness ratings\n4. Implement insight retrieval based on context tags and user attributes\n5. Create mechanism for updating usage count and last applied timestamp\n6. Implement privacy filtering to ensure no personal data is shared across users",
+      "testStrategy": "1. Test insight generation from sample interactions\n2. Verify correct storage in ai_insights table\n3. Test confidence score and effectiveness rating calculations\n4. Verify context-based insight retrieval\n5. Test usage tracking updates\n6. Verify privacy filtering effectiveness",
+      "priority": "medium",
+      "dependencies": [
+        2,
+        3,
+        11
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 13,
+      "title": "Implement Direct Claude API Integration",
+      "description": "Migrate from LangChain/LangGraph to direct Anthropic Claude API integration with tool calling support, targeting a 40-60% performance improvement. This migration is critical for enabling the three-dimensional personalization system and must follow a strict Test-Driven Development (TDD) approach. All tests must be written before implementation to ensure robust, fast, and backward-compatible personalized responses.",
+      "status": "done",
+      "dependencies": [
+        1,
+        5,
+        6,
+        8,
+        11,
+        "21"
+      ],
+      "priority": "highest",
+      "details": "1. Set up Anthropic API credentials and environment variables\n2. Write comprehensive test suite for Claude API integration patterns (TDD-first)\n3. Write tests for direct tool calling functionality\n4. Write tests for response time improvements and performance benchmarks\n5. Write tests for three-dimensional context assembly with Claude\n6. Write tests for archetype temperature mapping logic\n7. Write tests to ensure backward compatibility during migration\n8. Implement Claude API client with error handling and retries\n9. Create wrapper functions for common Claude API calls\n10. Implement tool calling functionality\n11. Migrate existing LangChain/LangGraph logic to direct API calls\n12. Optimize API usage for cost-effectiveness\n13. Implement response streaming for improved user experience",
+      "testStrategy": "1. Test API connection and authentication\n2. Verify error handling and retry logic\n3. Test wrapper functions for all required API calls\n4. Verify tool calling functionality\n5. Benchmark and test response time improvements over LangChain (targeting 40-60% faster responses)\n6. Test three-dimensional context assembly and ensure Claude correctly handles multi-dimensional personalization\n7. Test archetype temperature mapping for correct model behavior\n8. Ensure backward compatibility by running regression tests against existing LangChain/LangGraph workflows\n9. Test response streaming implementation",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "API Credential Setup and Environment Configuration",
+          "description": "Secure and configure Claude API credentials, set up environment variables, and validate connectivity to the Anthropic API endpoint.",
+          "dependencies": [],
+          "details": "Follow Anthropic's Quickstart and documentation to obtain API keys, store them securely, and verify access with a test API call. Write TDD tests to ensure credentials are loaded and invalid credentials are handled gracefully.\n<info added on 2025-05-30T15:53:00.036Z>\nSuccessfully implemented Claude API credential setup with TDD approach.\n\nImplementation Details:\n- Created comprehensive test suite with 10 test cases covering all credential scenarios\n- Implemented ClaudeCredentials class with secure API key loading and validation\n- Added proper Anthropic API key format validation (sk-ant-* pattern)\n- Implemented async credential validation with real API test calls\n- Added robust error handling for network issues, timeouts, and invalid credentials\n- Secured credential handling with masked string representations\n- All tests passing (10/10) ✅\n\nKey Features:\n- Environment variable loading with error handling\n- API key format validation \n- Async credential validation against Anthropic API\n- Comprehensive error handling and custom exceptions\n- Security: API keys masked in logs and string representations\n- Network error handling (timeouts, connection issues)\n\nFiles Created:\n- src/claude_client.py (85 lines) - Main credential management class\n- test-suite/api/test_claude_credentials.py (89 lines) - Comprehensive TDD test suite\n</info added on 2025-05-30T15:53:00.036Z>",
+          "status": "done"
+        },
+        {
+          "id": 2,
+          "title": "API Client Implementation with TDD",
+          "description": "Develop a robust Claude API client module with unit tests for all request/response flows, error handling, and retries.",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement the client using the Messages API, supporting configurable parameters (model, temperature, max tokens, etc.). Use TDD to cover all endpoints and edge cases, referencing Anthropic's API reference.\n<info added on 2025-05-30T15:55:21.413Z>\nImplementation completed with comprehensive TDD approach. Created a ClaudeAPIClient class with full message sending functionality, supporting system prompts and custom parameters (model, max_tokens, temperature). Implemented robust error handling for all HTTP status codes (401, 429, 500+) and retry logic with exponential backoff for network failures.\n\nKey features include async message sending, comprehensive error handling, configurable retry logic, request validation, proper API versioning, and token usage tracking. Technical implementation uses httpx for async HTTP requests with proper timeout handling, JSON payload validation, response parsing, and exception handling.\n\nCreated 16 test cases covering all API client scenarios with 100% pass rate. Enhanced src/claude_client.py (+105 lines) with the ClaudeAPIClient class and test-suite/api/test_claude_api_client.py (194 lines) with comprehensive test coverage.\n</info added on 2025-05-30T15:55:21.413Z>",
+          "status": "done"
+        },
+        {
+          "id": 3,
+          "title": "Wrapper Functions and Context Assembly",
+          "description": "Design and test wrapper functions for prompt formatting, context window management, and system prompt injection.",
+          "dependencies": [
+            2
+          ],
+          "details": "Implement context assembly logic to fit within Claude's token limits, including system prompt handling and message batching. Write tests for context truncation, prompt formatting, and system prompt correctness.\n<info added on 2025-05-30T15:58:44.474Z>\n✅ COMPLETED: Successfully implemented Claude Context Management with comprehensive TDD approach.\n\nImplementation Details:\n- Created robust test suite with 13 test cases covering all context management scenarios\n- Implemented ClaudeContextManager class replacing LangChain functionality entirely\n- Added sophisticated prompt formatting and system prompt injection\n- Implemented smart context window management with token estimation and truncation\n- Added message batching for large contexts with automatic splitting\n- Implemented memory injection from database for personalized conversations\n- Added specialized onboarding prompt formatting\n- Built context compression for very long conversations\n- All tests passing (13/13) ✅\n\nKey Features:\n- Direct context management without LangChain dependencies  \n- System prompt templates with dynamic user context injection\n- Smart token estimation and context window management\n- Preservation of system-important messages during truncation\n- Message batching with automatic splitting for oversized content\n- Database memory injection for personalized conversations\n- Specialized onboarding flow prompt formatting\n- Context validation and compression for long conversations\n- Conversation history loading from database\n\nThis completely replaces LangChain's context management with native Claude API functionality, enabling direct control over prompt engineering and context assembly.\n\nTechnical Achievements:\n- Zero dependencies on LangChain/LangGraph for context management\n- Intelligent context truncation preserving important messages\n- Optimized token usage with smart estimation algorithms\n- Database integration for persistent conversation memory\n- Flexible system prompt engineering for different conversation flows\n</info added on 2025-05-30T15:58:44.474Z>",
+          "status": "done"
+        },
+        {
+          "id": 4,
+          "title": "Tool Calling Integration and Testing",
+          "description": "Add support for Claude's tool calling (function calling) capabilities, including schema validation and response parsing.",
+          "dependencies": [
+            3
+          ],
+          "details": "Implement tool calling per Anthropic's documentation, ensuring JSON schema compliance and robust error handling. Write TDD tests for tool invocation, argument validation, and tool response parsing.",
+          "status": "done"
+        },
+        {
+          "id": 5,
+          "title": "Temperature and Generation Parameter Mapping",
+          "description": "Map and test generation parameters (temperature, top_p, max_tokens) from LangChain to Claude's API equivalents.",
+          "dependencies": [
+            2
+          ],
+          "details": "Analyze parameter differences, implement mapping logic, and write tests to ensure behavioral parity and correct parameter translation.\n<info added on 2025-05-31T03:00:49.222Z>\nStreaming implementation in progress. Added streaming logic to ClaudeAPIClient.send_message method. The test_send_message_streaming_event_types test in test-suite/api/test_claude_api_client.py is currently failing. Issue appears to be with mocking httpx.Response and its aiter_bytes method. While the client-side call to `await response.aiter_bytes()` looks correct, the test mock for `aiter_bytes` is not being invoked as expected, resulting in an empty event collection. Need to investigate and fix the mock setup to properly simulate the streaming response behavior.\n</info added on 2025-05-31T03:00:49.222Z>",
+          "status": "done"
+        },
+        {
+          "id": 6,
+          "title": "Streaming Support Implementation",
+          "description": "Implement and test streaming response handling for Claude API, ensuring compatibility with downstream consumers.",
+          "dependencies": [
+            2
+          ],
+          "details": "Add support for Claude's streaming endpoints, handle partial responses, and write tests for stream lifecycle, error cases, and consumer integration.",
+          "status": "done"
+        },
+        {
+          "id": 7,
+          "title": "Migration from LangChain: Strategy and Refactoring",
+          "description": "Plan and execute migration from LangChain to direct Claude API usage, including code refactoring and compatibility layers.",
+          "dependencies": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "details": "Develop a migration checklist, refactor code to remove LangChain dependencies, and ensure feature parity. Write integration tests to validate migrated workflows.",
+          "status": "done"
+        },
+        {
+          "id": 8,
+          "title": "Performance Benchmarking and Cost Optimization",
+          "description": "Benchmark Claude API integration for latency, throughput, and cost; optimize prompt design and batching for efficiency.",
+          "dependencies": [],
+          "details": "Set up automated benchmarks, analyze performance metrics, and iterate on prompt/context assembly for cost and speed. Write tests to ensure optimizations do not break functionality.",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Implement Viral Marketing Engine Backend",
+      "description": "Develop the backend logic for the viral marketing engine, including social sharing and conversion tracking.",
+      "details": "1. Implement endpoint for generating shareable personality test results\n2. Create tracking system for quiz completions and social shares\n3. Develop logic for attributing new signups to quiz traffic\n4. Implement viral coefficient calculation\n5. Create conversion tracking from quiz-taker to active platform user\n6. Implement A/B testing framework for quiz variations",
+      "testStrategy": "1. Test shareable result generation\n2. Verify tracking of quiz completions and shares\n3. Test new signup attribution\n4. Verify viral coefficient calculation accuracy\n5. Test conversion tracking from quiz to active user\n6. Verify A/B testing framework functionality",
+      "priority": "medium",
+      "dependencies": [
+        2,
+        3,
+        4
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 15,
+      "title": "Implement Next.js 14 Frontend Setup",
+      "description": "Set up the frontend project using Next.js 14 with React, TypeScript, and Chakra UI.",
+      "details": "1. Create new Next.js 14 project with TypeScript\n2. Install and configure Chakra UI\n3. Set up project structure (pages/, components/, styles/, etc.)\n4. Configure ESLint and Prettier for code quality\n5. Set up Vercel deployment with auto-deployment from main branch\n6. Implement basic layout and navigation components\n7. Create reusable UI components (buttons, forms, etc.)\n8. Set up state management with React hooks and context",
+      "testStrategy": "1. Verify Next.js and TypeScript configuration\n2. Test Chakra UI integration\n3. Run ESLint and Prettier checks\n4. Test Vercel deployment process\n5. Verify basic layout and navigation functionality\n6. Test reusable UI components",
+      "priority": "high",
+      "dependencies": [],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 16,
+      "title": "Implement Personality Quiz Frontend",
+      "description": "Develop the frontend for the Creativity Personality Test, including progress tracking and social sharing features.",
+      "details": "1. Create quiz interface with progress indicators\n2. Implement quiz logic and state management\n3. Develop results page with archetype information\n4. Implement social sharing functionality for Instagram, TikTok, and Twitter\n5. Create animations and transitions for engaging user experience\n6. Implement quiz variant for entrepreneur/business builder\n7. Ensure mobile responsiveness and accessibility",
+      "testStrategy": "1. Test quiz flow and progress tracking\n2. Verify correct result calculation and display\n3. Test social sharing functionality\n4. Verify animations and transitions\n5. Test entrepreneur variant\n6. Conduct cross-browser and mobile testing\n7. Perform accessibility audit",
+      "priority": "high",
+      "dependencies": [
+        4,
+        14,
+        15
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 17,
+      "title": "Implement AI-Powered Onboarding Frontend",
+      "description": "Develop the frontend for the AI-powered project onboarding process, including the 8-topic guided conversation.",
+      "details": "1. Create conversational UI for onboarding process\n2. Implement real-time interaction with backend AI\n3. Develop progress indicators for 8-topic flow\n4. Create smooth transitions between topics\n5. Implement project overview display\n6. Develop personality-driven UI adaptations\n7. Ensure responsive design for various devices",
+      "testStrategy": "1. Test conversation flow and AI responses\n2. Verify progress tracking accuracy\n3. Test topic transitions\n4. Verify project overview generation and display\n5. Test personality-driven UI variations\n6. Conduct usability testing\n7. Perform cross-device compatibility checks",
+      "priority": "high",
+      "dependencies": [
+        5,
+        15
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 18,
+      "title": "Implement Project Dashboard and Progress Tracking Frontend",
+      "description": "Develop the frontend for the user dashboard, including progress tracking, analytics, and project management features.",
+      "details": "1. Create main dashboard layout\n2. Implement progress visualization components\n3. Develop project milestone tracking interface\n4. Create analytics and insights display\n5. Implement long-term progress charts\n6. Develop archetype-specific progress celebration animations\n7. Create interface for updating project status and goals",
+      "testStrategy": "1. Test dashboard layout responsiveness\n2. Verify progress visualization accuracy\n3. Test milestone tracking functionality\n4. Verify analytics data display\n5. Test long-term progress chart interactions\n6. Verify archetype-specific celebrations\n7. Test project status and goal update process",
+      "priority": "medium",
+      "dependencies": [
+        9,
+        15
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 19,
+      "title": "Implement Partner Matching and Communication Frontend",
+      "description": "Develop the frontend for the accountability partner matching and communication features.",
+      "details": "1. Create partner matching request interface\n2. Develop partner profile display\n3. Implement scheduling interface for accountability calls\n4. Create in-app messaging or video call integration\n5. Develop notification system for upcoming calls\n6. Implement feedback and rating system for partners\n7. Create partner search and filtering options",
+      "testStrategy": "1. Test partner matching request process\n2. Verify partner profile display accuracy\n3. Test call scheduling functionality\n4. Verify messaging or video call integration\n5. Test notification system\n6. Verify feedback and rating submission\n7. Test partner search and filtering",
+      "priority": "medium",
+      "dependencies": [
+        7,
+        15
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 21,
+      "title": "Establish Isolated, Secure Development Environment for Safe AI Testing",
+      "description": "IMMEDIATE PRIORITY: Set up a fully isolated development environment to unblock all AI development work. This includes provisioning a separate Supabase project for development (no shared data or credentials with production), robust environment variable management to ensure strict separation between dev and prod, automated CI/CD deployment for the dev branch, a safe workflow for live AI interaction testing, and reliable database seeding/migration for development. The current dev Heroku app and dev.fridaysatfour.co are incorrectly connected to the PROD Supabase—this must be fixed to enable safe, three-dimensional personalization testing.",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "immediate",
+      "details": "1. Provision a new, dedicated Supabase project for development, ensuring no shared data or credentials with production. Update all dev infrastructure (Heroku app, Vercel deployment, FastAPI backend) to point to the isolated dev Supabase instance using environment variables.\n2. Implement strict environment variable management: use .env files for local, Vercel/Heroku secrets for cloud, and document all required variables. Ensure no secrets are committed to version control. Dev and prod must have fully separate credentials and endpoints.\n3. Automate environment setup using Docker Compose or similar tooling to guarantee consistency and reproducibility across developer machines and CI/CD. Use separate docker-compose configurations for dev and test environments as needed[2][5].\n4. Integrate CI/CD pipelines (e.g., GitHub Actions) for the dev branch: automate linting, testing, and deployment to dev environments, and ensure all secrets are injected securely at build time. Dev branch must auto-deploy to dev infrastructure only.\n5. Implement a safe AI testing workflow in the dev environment, ensuring no data or side effects reach production systems. Enable live testing of three-dimensional personalization features.\n6. Set up database seeding and migration for the dev Supabase project. Use Supabase CLI and migrations to keep dev schema up to date and seed with safe, non-production data[1][3][4].\n7. Configure monitoring and logging for the dev environment to track AI interactions and catch issues early, without leaking production data.\n8. Document the full setup process and provide onboarding instructions for new developers, emphasizing the separation between dev and prod.\n9. Enforce policy-based governance for third-party packages and dependencies to prevent vulnerabilities from entering the dev environment.\n10. Regularly review and update the environment to reflect best practices for AI safety and compliance.",
+      "testStrategy": "- Verify that the dev environment uses a completely separate Supabase database and credentials from production by inspecting connection strings and running test queries.\n- Confirm that environment variables are managed securely and not present in version control. Check that dev and prod use different secrets and endpoints.\n- Run the full CI/CD pipeline for the dev branch: ensure automated tests, linting, and deployments execute successfully and only affect the dev environment.\n- Perform live AI interaction tests in the dev environment and confirm no data or side effects reach production systems. Validate three-dimensional personalization features safely.\n- Review monitoring/logging outputs to ensure all activity is isolated to dev and no sensitive production data is exposed.\n- Onboard a new developer using the documentation and confirm they can set up and use the dev environment without accessing production resources.\n- Run database migrations and seeding scripts on the dev Supabase project and confirm schema and data are correct and isolated from production.",
+      "subtasks": [
+        {
+          "id": 211,
+          "title": "Provision new Supabase project for development",
+          "description": "Create a new Supabase project dedicated to development. Ensure no shared credentials or data with production. Update all dev infrastructure to use this new project.",
+          "status": "pending"
+        },
+        {
+          "id": 212,
+          "title": "Update environment variable management for strict dev/prod separation",
+          "description": "Audit and refactor environment variable usage. Ensure .env files (local) and cloud secrets (Heroku/Vercel) are set up for dev and prod separately. Document all required variables. Remove any production credentials from dev.",
+          "status": "pending"
+        },
+        {
+          "id": 213,
+          "title": "Implement dev branch auto-deployment pipeline",
+          "description": "Set up or update CI/CD (e.g., GitHub Actions) so that the dev branch auto-deploys to the dev Heroku app and dev.fridaysatfour.co, using only the dev Supabase project and secrets.",
+          "status": "pending"
+        },
+        {
+          "id": 214,
+          "title": "Establish safe AI testing workflow in dev",
+          "description": "Document and enforce a workflow for live AI interaction testing in the dev environment, ensuring no data or side effects reach production. Enable safe testing of three-dimensional personalization.",
+          "status": "pending"
+        },
+        {
+          "id": 215,
+          "title": "Set up database seeding and migration for dev Supabase",
+          "description": "Configure Supabase CLI migrations and seeding for the dev project. Ensure schema and seed data are reproducible and isolated from production. Document the process for future updates.",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Implement Claude Prompt Caching Optimization for Token Cost Reduction",
+      "description": "Implement Claude's prompt caching feature to reduce token costs by 90%+ for user context, serving static context upfront in a cacheable format and only appending new conversation messages.",
+      "details": "1. Analyze current context structure and identify static components (project overview, personality data, conversation history).\n2. Design a consistent, cacheable prompt format for static user context:\n   - Create a JSON schema for the cached context\n   - Implement serialization/deserialization functions for the cache format\n3. Modify the existing context assembly process:\n   - Implement a function to generate the cacheable context\n   - Create a caching mechanism using Redis or a similar in-memory data store\n   - Implement a function to retrieve cached context and append new conversation data\n4. Update the Claude API integration to use the new caching system:\n   - Modify the API call function to first check for cached context\n   - If cached context exists, use it and append only new conversation data\n   - If no cache exists, generate and cache the context before making the API call\n5. Implement cache invalidation and update mechanisms:\n   - Set up periodic cache refresh for long-term consistency\n   - Implement triggers to update cache on significant user data changes\n6. Optimize the three-dimensional personalization system integration:\n   - Ensure personality archetypes, global AI insights, and evolution stage data are efficiently incorporated into the cached context\n   - Implement a system to update these components separately if needed\n7. Create detailed logging and monitoring for cache performance:\n   - Log cache hit/miss rates\n   - Track token usage before and after implementation\n   - Set up alerts for unexpected cache behavior or performance drops\n8. Implement fallback mechanisms for cache failures:\n   - Create a function to generate context from scratch if cache retrieval fails\n   - Implement automatic cache rebuilding for consistent failures\n9. Update all relevant unit tests and integration tests to work with the new caching system\n10. Document the new caching system, including cache structure, update mechanisms, and best practices for developers",
+      "testStrategy": "1. Unit Tests:\n   - Test cache generation function with various input data\n   - Test cache retrieval and update functions\n   - Test serialization/deserialization of cached context\n   - Verify correct handling of cache misses and failures\n\n2. Integration Tests:\n   - Test end-to-end flow with cache hits and misses\n   - Verify correct context assembly with cached and new data\n   - Test cache invalidation and update triggers\n   - Ensure three-dimensional personalization system works correctly with cached context\n\n3. Performance Tests:\n   - Measure and compare token usage before and after implementation\n   - Verify 90%+ reduction in token costs for repeated contexts\n   - Benchmark API response times with and without caching\n   - Test system performance under high load with concurrent requests\n\n4. Compatibility Tests:\n   - Ensure backward compatibility with existing conversation flows\n   - Test with various user profiles and project types\n   - Verify correct functionality across different Claude API versions\n\n5. Error Handling and Recovery Tests:\n   - Simulate cache failures and verify fallback mechanisms\n   - Test automatic cache rebuilding functionality\n   - Verify system resilience under various error conditions\n\n6. Monitoring and Logging Tests:\n   - Verify accurate logging of cache hit/miss rates\n   - Test token usage tracking accuracy\n   - Ensure proper functioning of performance alerts\n\n7. Security Tests:\n   - Verify that cached data is properly encrypted at rest\n   - Test access controls to ensure only authorized access to cached contexts\n   - Perform penetration testing on the caching system\n\n8. Regression Testing:\n   - Run full suite of existing tests to ensure no unintended side effects\n   - Verify that all existing functionality remains intact after implementation",
+      "status": "in-progress",
+      "dependencies": [
+        13
+      ],
+      "priority": "high",
+      "subtasks": []
+    },
+    {
+      "id": 23,
+      "title": "Migrate from Custom HTTP Client to Official Anthropic Claude SDK",
+      "description": "Replace the custom claude_client.py implementation with the official Anthropic Python SDK to improve reliability, maintainability, and feature support. This migration will dramatically simplify our codebase (reducing ~700 lines to ~10-50 lines), eliminate our current streaming bugs, and leverage the SDK's built-in functionality for streaming, retries, and error handling.",
+      "status": "done",
+      "dependencies": [
+        13,
+        22
+      ],
+      "priority": "high",
+      "details": "1. Update requirements.txt to use the latest version of the Anthropic SDK (currently anthropic==0.39.0).\n\n2. Replace ClaudeAPIClient with AsyncAnthropic:\n   - Reduce code from 700+ lines to ~10-50 lines total\n   - Use client.messages.stream() for streaming functionality\n   - Leverage built-in async context managers for streaming\n   - Eliminate manual SSE parsing and async generator complexity\n   - Utilize SDK's automatic error handling with proper exception types\n   - Take advantage of built-in retry logic and rate limiting\n   - Benefit from full type safety with Pydantic models\n\n3. Update ClaudeContextManager and ClaudeToolManager:\n   - Maintain existing API compatibility\n   - Simplify integration with AsyncAnthropic\n   - Remove all custom HTTP/SSE handling code\n   - Utilize SDK's built-in error handling and rate limiting\n\n4. Implement proper type hints throughout the refactored code:\n   - Use SDK's provided Pydantic models for requests and responses\n   - Add custom type hints for any remaining custom logic\n\n5. Refactor existing tests:\n   - Update mocking strategy to use SDK's patterns\n   - Eliminate mock nightmares with simpler testing approach\n   - Ensure all existing functionality is covered in tests\n   - Add new tests for SDK-specific features (e.g., retries, rate limiting)\n\n6. Optimize performance:\n   - Leverage SDK's connection pooling for better efficiency\n   - Implement any SDK-specific optimizations\n   - Expect better performance and reliability from official SDK\n\n7. Update documentation:\n   - Document changes in API usage (if any)\n   - Update any internal documentation on Claude integration\n   - Include examples of the simplified code patterns\n\n8. Perform thorough testing:\n   - Conduct integration tests with live API calls\n   - Verify streaming functionality works as expected\n   - Test error scenarios and rate limiting behavior\n   - Confirm we've resolved our current async generator bugs\n\n9. Clean up:\n   - Remove all custom HTTP handling code\n   - Remove httpx dependency if no longer needed elsewhere\n   - Eliminate all manual SSE parsing code\n\n10. Monitor and optimize:\n    - Set up logging for SDK interactions\n    - Monitor performance and adjust configurations as needed",
+      "testStrategy": "1. Unit Tests:\n   - Write tests for the new AsyncAnthropic integration\n   - Test error handling scenarios using SDK's patterns\n   - Verify type hints are correct and comprehensive\n   - Confirm we no longer need complex mocking for HTTP/SSE\n\n2. Integration Tests:\n   - Test full request-response cycle with live API calls\n   - Verify streaming functionality works end-to-end using SDK's stream context manager\n   - Test rate limiting behavior with rapid successive calls\n   - Confirm we've resolved our current streaming bugs\n\n3. Performance Tests:\n   - Benchmark response times before and after migration\n   - Verify that SDK implementation maintains or improves performance\n   - Test streaming performance specifically\n\n4. Compatibility Tests:\n   - Ensure ClaudeContextManager and ClaudeToolManager maintain existing API\n   - Verify all existing functionalities still work with the new implementation\n   - Confirm no breaking changes to dependent components\n\n5. Error Handling Tests:\n   - Simulate various API errors and verify correct handling\n   - Test SDK's built-in retry logic for transient errors\n   - Verify proper exception types are raised and handled\n\n6. Load Tests:\n   - Verify system stability under high concurrent request loads\n   - Ensure proper resource management (e.g., connection pooling)\n   - Compare performance under load before and after migration\n\n7. Security Tests:\n   - Verify proper handling of API keys and authentication\n   - Ensure no sensitive data is logged or exposed\n   - Confirm SDK's security best practices are followed\n\n8. Regression Tests:\n   - Run full test suite to catch any unintended side effects\n   - Verify all existing features still function correctly\n   - Ensure we haven't introduced any new bugs\n\n9. Documentation Review:\n   - Ensure all changes are properly documented\n   - Verify API usage examples are up-to-date\n   - Include examples of the simplified streaming approach\n\n10. Code Review:\n    - Conduct thorough code review to ensure best practices are followed\n    - Verify removal of all unused custom HTTP handling code\n    - Confirm dramatic code reduction (from 700+ lines to ~10-50 lines)",
+      "subtasks": []
+    },
+    {
+      "id": 24,
+      "title": "Extract App Logic from Claude Client to Proper Modules",
+      "description": "Refactor the claude_client.py file to separate API client functionality from application logic, moving components to their appropriate modules to improve separation of concerns and maintainability.",
+      "details": "This task involves a significant refactoring of the claude_client.py file to properly separate concerns:\n\n1. Analyze the current claude_client.py structure to identify all components that need to be moved\n2. Create a refactoring plan with clear mappings of which components move to which modules\n3. Move ClaudeContextManager (200+ lines) to simple_memory.py:\n   - Integrate with existing memory management functionality\n   - Update imports and dependencies\n   - Ensure backward compatibility with existing code\n\n4. Move ClaudeToolManager (100+ lines) to react_agent.py:\n   - Integrate with existing agent functionality\n   - Update tool registration and execution logic\n   - Maintain the same interface for tool calling\n\n5. Move onboarding prompts to project_planning.py:\n   - Relocate build_onboarding_system_prompt() function\n   - Ensure prompt generation remains consistent\n\n6. Move database memory integration logic to simple_memory.py:\n   - Relocate inject_memory_context() function\n   - Ensure proper integration with existing memory retrieval\n\n7. Move message buffer management to conversation management module:\n   - Relocate buffer compression and management logic\n   - Maintain the same interface for message handling\n\n8. Clean up claude_client.py to contain only:\n   - ClaudeCredentials class\n   - ClaudeAPIClient class with pure API calls\n   - HTTP request/response handling\n   - Error handling specific to API calls\n   - Streaming functionality\n\n9. Update all imports across the codebase to reference the new module locations\n10. Ensure the external interfaces remain consistent to minimize disruption\n11. Add appropriate documentation to each moved component\n12. Update any tests that directly reference the moved components",
+      "testStrategy": "1. Create a comprehensive test suite before beginning refactoring:\n   - Unit tests for each component being moved\n   - Integration tests for interactions between components\n   - End-to-end tests for critical user flows\n\n2. After each component is moved:\n   - Run unit tests to verify the component functions correctly in its new location\n   - Run integration tests to verify interactions with other components\n   - Verify that the external interface remains unchanged\n\n3. Specific test cases:\n   - Test ClaudeContextManager in simple_memory.py with various memory scenarios\n   - Test ClaudeToolManager in react_agent.py with different tool configurations\n   - Test onboarding prompt generation in project_planning.py\n   - Test memory context injection in simple_memory.py\n   - Test message buffer management in conversation management\n\n4. Performance testing:\n   - Verify that response times remain consistent or improve\n   - Check memory usage patterns\n\n5. Code quality verification:\n   - Run linters to ensure code quality\n   - Verify that module sizes are appropriate (claude_client.py should be reduced to 100-200 lines)\n   - Check for any circular dependencies\n\n6. Final regression testing:\n   - Run the full test suite to ensure no functionality was broken\n   - Manually test critical user flows in the application",
+      "status": "pending",
+      "dependencies": [
+        13
+      ],
+      "priority": "high",
+      "subtasks": []
+    },
+    {
+      "id": 25,
+      "title": "Implement Real-Time Claude API Streaming Integration",
+      "description": "Implement real-time streaming of Claude API responses to replace frontend fake streaming, ensuring immediate user feedback with < 3 second first chunk response times.",
+      "details": "1. Analyze and fix multi-layer async generator issues across:\n   - main.py: Implement proper async streaming handlers\n   - claude_agent.py: Modify to support real-time streaming of responses\n   - claude_client_simple.py: Update to properly handle Claude API streaming responses\n\n2. Implement Server-Sent Events (SSE) streaming on the backend:\n   - Configure FastAPI endpoints to return StreamingResponse objects\n   - Set appropriate content type headers (text/event-stream)\n   - Implement proper error handling for stream interruptions\n\n3. Optimize streaming performance:\n   - Implement chunked response handling\n   - Configure appropriate buffer sizes\n   - Minimize latency between Claude API and frontend\n   - Target < 3 second first chunk response time\n\n4. Update frontend to consume SSE streams:\n   - Implement EventSource or fetch with proper stream handling\n   - Add progressive rendering of incoming chunks\n   - Implement typing indicators during streaming\n   - Handle stream completion and error states\n\n5. Fix environment configuration issues:\n   - Remove hardcoded backend URLs from frontend code\n   - Implement environment-aware configuration\n   - Add proper environment variable handling for dev/prod environments\n   - Ensure frontend connects to the correct backend based on environment\n\n6. Implement comprehensive logging:\n   - Add timing metrics for streaming performance\n   - Log stream start/end events\n   - Track chunk delivery times\n   - Monitor for streaming errors or interruptions\n\n7. Optimize for production:\n   - Ensure proper connection handling for multiple concurrent users\n   - Implement connection pooling if necessary\n   - Add rate limiting protection\n   - Configure appropriate timeouts",
+      "testStrategy": "1. Unit Testing:\n   - Write unit tests for async generator functions\n   - Test stream handling with mocked Claude API responses\n   - Verify proper error handling during stream interruptions\n   - Test environment configuration loading\n\n2. Integration Testing:\n   - Test end-to-end streaming from Claude API to frontend\n   - Verify SSE implementation works correctly\n   - Test with various response lengths and content types\n   - Ensure proper handling of connection drops\n\n3. Performance Testing:\n   - Measure and verify first chunk response time is < 3 seconds\n   - Test with simulated network latency\n   - Benchmark streaming performance under load\n   - Verify memory usage during streaming operations\n\n4. Environment Testing:\n   - Verify frontend connects to correct backend in each environment\n   - Test deployment to dev, staging, and production environments\n   - Ensure environment variables are properly loaded\n\n5. User Experience Testing:\n   - Verify typing indicators display correctly during streaming\n   - Test user experience with various response lengths\n   - Ensure UI remains responsive during streaming\n   - Compare experience with industry standards (ChatGPT, Claude web interface)\n\n6. Regression Testing:\n   - Ensure all existing functionality continues to work\n   - Verify personalization features work with streaming\n   - Test compatibility with existing conversation history",
+      "status": "done",
+      "dependencies": [
+        13
+      ],
+      "priority": "high",
+      "subtasks": []
+    },
+    {
+      "id": 26,
+      "title": "Integrate Taskmaster Project Planning as User-Facing Feature",
+      "description": "Implement Taskmaster's PRD and task list generation capabilities to create a comprehensive, detailed project description and structured task list after the 8-topic onboarding conversation. This information will be used internally to enhance Hai's coaching capabilities without exposing task management complexity to users.",
+      "status": "pending",
+      "dependencies": [
+        5,
+        25
+      ],
+      "priority": "high",
+      "details": "1. Create data transformation layer to convert onboarding conversation data into Taskmaster-compatible format:\n   - Extract project goals, scope, timeline, and constraints from onboarding data\n   - Format user's creative project information for PRD generation\n   - Transform user inputs into structured parameters for Taskmaster\n\n2. Implement backend services for Taskmaster integration:\n   - Develop API endpoints for generating detailed project descriptions and task lists\n   - Utilize Taskmaster's PRD and task list generation capabilities\n   - Implement service to process and enhance the generated PRD and task list\n   - Create system to store and retrieve the detailed project descriptions and task lists\n\n3. Design and implement enhanced project description format:\n   - Create JSON schema for comprehensive project documentation including structured task list\n   - Implement serialization/deserialization for storage in database\n   - Develop versioning system to track project evolution over time\n   - Structure the description to be more actionable and specific than current basic summaries\n\n4. Implement internal project context for Hai:\n   - Design data structures to store detailed project descriptions and task lists\n   - Create reference system for Hai to access the PRD and task list during coaching conversations\n   - Implement context-aware project awareness including task status and progression\n   - Build intelligence for Hai to determine next steps based on project description and task list\n\n5. Develop presentation layer for user-facing project overview:\n   - Maintain the existing simple project overview UI for users\n   - Ensure no task management interfaces are exposed to users\n   - Focus on backend intelligence enhancement rather than frontend complexity\n   - Keep the user experience consistent with the current simple project overview\n\n6. Integrate with existing systems:\n   - Connect to persistent memory system for context-aware project references\n   - Utilize streaming API for real-time PRD and task list generation\n   - Implement database storage for project descriptions and task lists with user account association\n   - Ensure Hai can reference task status and progression during coaching conversations",
+      "testStrategy": "1. Unit Testing:\n   - Test data transformation functions with various onboarding conversation inputs\n   - Verify Taskmaster PRD and task list generation produces expected outputs for different project types\n   - Test formatting and processing of generated PRDs and task lists\n   - Validate the quality and completeness of generated project descriptions and task structures\n\n2. Integration Testing:\n   - Verify end-to-end flow from onboarding completion to enhanced project description and task list generation\n   - Test database storage and retrieval of project descriptions and task lists\n   - Validate API endpoints for PRD and task list generation and retrieval\n   - Test integration with Claude API streaming for real-time feedback\n\n3. UI/UX Testing:\n   - Verify the user-facing project overview remains simple and unchanged\n   - Confirm that no task management interfaces are exposed to users\n   - Validate that the backend enhancements improve Hai's coaching without changing the user experience\n   - Ensure the user interface maintains its current simplicity\n\n4. Performance Testing:\n   - Measure PRD and task list generation time for projects of varying complexity\n   - Test system performance with detailed project descriptions and task lists\n   - Verify streaming response times meet < 3 second first chunk requirement\n\n5. User Acceptance Testing:\n   - Create test scenarios for different creative project types\n   - Verify Hai can effectively reference the detailed PRD and task list during coaching conversations\n   - Test Hai's ability to suggest appropriate next steps based on the task list\n   - Validate that Hai can make intelligent statements about project progress (e.g., \"I see you're working on character development - that's the perfect next step\")\n\n6. Regression Testing:\n   - Ensure onboarding system continues to function correctly\n   - Verify that existing personalization features work with the new project description system\n   - Test that Hai's coaching capabilities are enhanced by the detailed project information and task list\n   - Confirm that the user experience remains consistent with the current implementation",
+      "subtasks": []
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+.DS_Store
+
+# Task files
+# tasks.json
+# tasks/ 
+reference_files/frontend_reference/FAF_website/
+
+# Sensitive files and reference materials with API keys
+reference_files/developer-env-template.txt
+reference_files/test-suite/.env.test  
+reference_files/new_tests/test-suite/.env.test
+backup.sql
+schema_dump.sql
+schema_with_relationships.sql
+src/.env

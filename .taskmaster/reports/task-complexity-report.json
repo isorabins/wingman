@@ -1,0 +1,213 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-11T02:13:36.831Z",
+		"tasksAnalyzed": 25,
+		"totalTasks": 25,
+		"analysisCount": 25,
+		"thresholdScore": 6,
+		"projectName": "Taskmaster",
+		"usedResearch": false
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Fork and Repo Setup for WingmanMatch",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"reasoning": "This task involves multiple configuration steps across different technologies (Next.js, FastAPI, Supabase) and requires setting up CI/CD pipelines, linting, and environment configurations. While each individual step is straightforward, the combination and integration of all these elements increases complexity. The task is foundational for the entire project.",
+			"expansionPrompt": "Break down the 'Fork and Repo Setup for WingmanMatch' task into 5 subtasks covering: 1) Repository creation and initial structure setup, 2) Environment configuration for all services, 3) Package and dependency management setup, 4) Code quality tools configuration (linters, formatters), and 5) CI/CD pipeline implementation with GitHub Actions."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Supabase Database Migration for New Schema",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"reasoning": "This task requires deep database knowledge, including schema design, migrations, indexes, RLS policies, and triggers. It's critical infrastructure work that affects all other components. The complexity comes from ensuring data integrity, security through RLS, and performance through proper indexing. Errors here would have cascading effects throughout the application.",
+			"expansionPrompt": "Break down the 'Supabase Database Migration for New Schema' task into 6 subtasks covering: 1) Initial migration setup and users table modification, 2) Creating core relationship tables (wingman_matches, sessions), 3) Creating challenge-related tables, 4) Implementing indexes and triggers for performance, 5) Setting up Row Level Security policies for all tables, and 6) Creating utility functions and seeding initial data."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Backend FastAPI Project Configuration",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"reasoning": "This task involves setting up the core backend infrastructure including authentication with JWT verification, CORS, Redis integration, and environment configuration. The JWT verification with JWKS is particularly complex and critical for security. The task touches multiple services and requires careful integration testing.",
+			"expansionPrompt": "Break down the 'Backend FastAPI Project Configuration' task into 5 subtasks covering: 1) Basic FastAPI app setup with settings and environment variables, 2) CORS configuration for frontend communication, 3) JWT authentication implementation with Supabase JWKS, 4) Redis client integration for session state and rate limiting, and 5) Logging and OpenAPI documentation setup."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "User Profile Endpoints",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves creating multiple endpoints with validation logic, database interactions, and security considerations like age verification. While the endpoints themselves are straightforward CRUD operations, the validation rules, sanitization, and security checks add complexity.",
+			"expansionPrompt": "Break down the 'User Profile Endpoints' task into 4 subtasks covering: 1) Implementing GET /api/user/profile endpoint with proper authentication, 2) Creating PUT /api/user/profile with validation and sanitization, 3) Building POST /api/user/location endpoint with fallback logic, and 4) Implementing age verification and security checks across all endpoints."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Confidence Assessment Submission & Results",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task requires implementing complex business logic for scoring assessments and mapping to archetypes. It involves data persistence, result calculation algorithms, and ensuring idempotent behavior. The scoring logic and archetype mapping add significant complexity.",
+			"expansionPrompt": "Break down the 'Confidence Assessment Submission & Results' task into 4 subtasks covering: 1) Creating the assessment submission endpoint with input validation, 2) Implementing the scoring algorithm to map answers to archetypes, 3) Building the results retrieval endpoint, and 4) Ensuring data persistence with idempotent behavior for resubmissions."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Wingman Nearby Search Endpoint",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"reasoning": "This task involves complex geospatial calculations (Haversine), filtering logic based on multiple criteria (availability, goals, distance), and performance optimization with caching. The combination of spatial search, complex filtering, and performance requirements makes this particularly challenging.",
+			"expansionPrompt": "Break down the 'Wingman Nearby Search Endpoint' task into 5 subtasks covering: 1) Implementing the Haversine distance calculation function, 2) Creating the basic nearby search query with location filtering, 3) Adding availability and goals overlap filtering logic, 4) Implementing pagination and result formatting, and 5) Adding Redis caching for performance optimization."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Connection Request and Response Endpoints",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves creating multiple endpoints with relationship management logic, status transitions, and security checks. While the core functionality is straightforward, ensuring proper authorization, preventing duplicates, and managing the relationship states adds complexity.",
+			"expansionPrompt": "Break down the 'Connection Request and Response Endpoints' task into 4 subtasks covering: 1) Implementing the connection request endpoint with duplicate prevention, 2) Creating the response endpoint with proper authorization checks, 3) Building the matches retrieval endpoint with profile information, and 4) Adding email notification functionality for accepted connections."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Challenges Catalog API",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"reasoning": "This task involves creating endpoints to list challenges and determine user progression. The complexity comes from the progression rules and optimizing database queries, but the overall logic is relatively straightforward compared to other tasks.",
+			"expansionPrompt": "Break down the 'Challenges Catalog API' task into 3 subtasks covering: 1) Implementing the challenges listing endpoint with grouping by level/category, 2) Creating the current challenges endpoint with progression logic, and 3) Optimizing database queries for performance."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Challenge Completion & History API",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves complex business logic for XP calculation, streak updates, and level progression. It also includes anti-abuse measures and uniqueness constraints. The combination of these elements and their impact on user progression makes this moderately complex.",
+			"expansionPrompt": "Break down the 'Challenge Completion & History API' task into 4 subtasks covering: 1) Implementing the challenge completion endpoint with validation, 2) Creating XP and streak update logic, 3) Building the history retrieval endpoint with pagination, and 4) Adding rate limiting for anti-abuse protection."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Sessions API (Create/Start/End/Rate)",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"reasoning": "This task involves implementing a complete session lifecycle with multiple state transitions, validation rules, and participant checks. The proximity verification adds another layer of complexity. Managing the different session states and ensuring proper authorization at each step makes this a complex task.",
+			"expansionPrompt": "Break down the 'Sessions API (Create/Start/End/Rate)' task into 5 subtasks covering: 1) Implementing session creation with match validation, 2) Building session start functionality with optional proximity check, 3) Creating session end endpoint with status updates, 4) Implementing the rating system with participant validation, and 5) Building session history and upcoming session retrieval endpoints."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Simple Messaging Between Matched Wingmen",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"reasoning": "This task involves creating basic messaging endpoints with authorization checks and content sanitization. While there are security considerations and read status tracking, the overall functionality is relatively straightforward compared to other tasks.",
+			"expansionPrompt": "Break down the 'Simple Messaging Between Matched Wingmen' task into 3 subtasks covering: 1) Implementing the message sending endpoint with authorization and content validation, 2) Creating the thread and inbox retrieval endpoints with read status tracking, and 3) Adding content sanitization and security measures."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Claude AI Coach Integration Update",
+			"complexityScore": 9,
+			"recommendedSubtasks": 5,
+			"reasoning": "This task involves complex AI integration with context management, memory handling, and safety guardrails. Working with the Claude API, managing token limits, implementing rate limiting, and ensuring appropriate responses makes this one of the most complex tasks in the project.",
+			"expansionPrompt": "Break down the 'Claude AI Coach Integration Update' task into 5 subtasks covering: 1) Updating the message endpoint to use Claude 3.5 Sonnet, 2) Implementing memory and context management for conversation history, 3) Adding safety guardrails and content filtering, 4) Creating rate limiting and usage tracking, and 5) Building the conversation history retrieval endpoint."
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "Frontend Design System and Theme",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves creating a comprehensive design system with multiple components, theming, and accessibility considerations. While each component is relatively straightforward, ensuring consistency, responsiveness, and accessibility across the entire system adds complexity.",
+			"expansionPrompt": "Break down the 'Frontend Design System and Theme' task into 4 subtasks covering: 1) Setting up Tailwind configuration with custom theme colors and typography, 2) Creating basic UI components (Button, Card, Input, etc.), 3) Implementing interactive components with Headless UI (Tabs, Modal, etc.), and 4) Adding accessibility enhancements and testing."
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Homepage/Dashboard Screen",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"reasoning": "This task involves building a dashboard with multiple data points and UI components. While it requires integration with several APIs, the overall structure is straightforward and primarily focused on presentation rather than complex logic.",
+			"expansionPrompt": "Break down the 'Homepage/Dashboard Screen' task into 3 subtasks covering: 1) Implementing the basic dashboard layout with navigation, 2) Creating data fetching logic for user profile and challenge information, and 3) Building UI components for progress tracking and quick actions."
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Confidence Assessment UI Flow",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves creating a multi-step form with state management, API integration, and result display. The complexity comes from maintaining state across steps, ensuring proper validation, and handling the transition to profile completion.",
+			"expansionPrompt": "Break down the 'Confidence Assessment UI Flow' task into 4 subtasks covering: 1) Creating the multi-step question interface with navigation, 2) Implementing state management with persistence across reloads, 3) Building the results display with archetype information, and 4) Adding the profile completion CTA and location permission flow."
+		},
+		{
+			"taskId": 16,
+			"taskTitle": "Wingman Finder List UI",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves building a complex UI with filtering, infinite scroll, and detailed profile views. It requires integration with multiple APIs and handling various user interactions. The combination of these elements and the importance of this feature to the core app functionality increases its complexity.",
+			"expansionPrompt": "Break down the 'Wingman Finder List UI' task into 4 subtasks covering: 1) Implementing the nearby wingmen list with card components, 2) Creating filtering functionality for radius, availability, and goals, 3) Building the connection request flow with messaging, and 4) Implementing the detailed profile view page."
+		},
+		{
+			"taskId": 17,
+			"taskTitle": "Matches Management UI",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"reasoning": "This task involves creating a tabbed interface for managing connection requests with different states. While it requires integration with the matches API, the overall functionality is relatively straightforward with clear state transitions.",
+			"expansionPrompt": "Break down the 'Matches Management UI' task into 3 subtasks covering: 1) Implementing the tabbed interface for different match statuses, 2) Creating the accept/reject functionality with state updates, and 3) Building deep links to chat and session creation after acceptance."
+		},
+		{
+			"taskId": 18,
+			"taskTitle": "Basic Chat UI for Matched Wingmen",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves building a messaging interface with polling, thread management, and read status tracking. While the core functionality is straightforward, handling real-time updates, drafts, and ensuring proper authorization adds complexity.",
+			"expansionPrompt": "Break down the 'Basic Chat UI for Matched Wingmen' task into 4 subtasks covering: 1) Implementing the inbox view with thread list, 2) Creating the conversation view with message bubbles and input, 3) Adding polling mechanism for message updates, and 4) Implementing draft storage and read status tracking."
+		},
+		{
+			"taskId": 19,
+			"taskTitle": "Session Planning and Active Session UI",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"reasoning": "This task involves creating complex UI flows for session scheduling, tracking, and completion with multiple integrations. The combination of date/time selection, location tracking, challenge integration, and rating system makes this one of the more complex frontend tasks.",
+			"expansionPrompt": "Break down the 'Session Planning and Active Session UI' task into 5 subtasks covering: 1) Implementing the session creation form with date/time and location selection, 2) Building the challenge selection interface, 3) Creating the active session screen with location verification, 4) Implementing the challenge tracking during sessions, and 5) Building the session end flow with ratings and feedback."
+		},
+		{
+			"taskId": 20,
+			"taskTitle": "Challenges Browser and Tracker UI",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"reasoning": "This task involves creating a challenges listing with progression logic, completion tracking, and XP display. While it requires integration with multiple APIs, the overall structure and interactions are relatively straightforward.",
+			"expansionPrompt": "Break down the 'Challenges Browser and Tracker UI' task into 3 subtasks covering: 1) Implementing the challenges listing with level grouping and lock rules, 2) Creating the challenge completion flow with difficulty rating and notes, and 3) Building XP and streak indicators with progress tracking."
+		},
+		{
+			"taskId": 21,
+			"taskTitle": "Chat with Connell UI",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves creating an AI chat interface with streaming responses, context chips, and rate limiting feedback. The integration with the AI backend and handling of streaming responses adds significant complexity.",
+			"expansionPrompt": "Break down the 'Chat with Connell UI' task into 4 subtasks covering: 1) Implementing the basic chat interface with persona styling, 2) Creating quick prompt suggestions based on user context, 3) Adding streaming response handling with typewriter effect, and 4) Implementing rate limit feedback and usage indicators."
+		},
+		{
+			"taskId": 22,
+			"taskTitle": "Email Notifications (Optional MVP)",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"reasoning": "This task involves setting up email notifications for specific events using Resend. While it requires integration with a third-party service and background job processing, the overall functionality is relatively straightforward and marked as optional for MVP.",
+			"expansionPrompt": "Break down the 'Email Notifications (Optional MVP)' task into 3 subtasks covering: 1) Setting up the Resend integration with templates for different notification types, 2) Implementing the background job system for scheduled reminders, and 3) Adding email sending functionality to relevant endpoints (matches, sessions)."
+		},
+		{
+			"taskId": 23,
+			"taskTitle": "Security, Abuse Reporting, and Legal Copy",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"reasoning": "This task involves implementing critical trust and safety features including abuse reporting, content filtering, and legal compliance. The security implications and potential legal requirements add significant complexity despite the relatively straightforward implementation.",
+			"expansionPrompt": "Break down the 'Security, Abuse Reporting, and Legal Copy' task into 4 subtasks covering: 1) Implementing the user reporting endpoint and database schema, 2) Creating the report UI in profiles and chat, 3) Adding Terms of Service and Privacy Policy integration, and 4) Implementing basic content filtering and rate limiting for abuse prevention."
+		},
+		{
+			"taskId": 24,
+			"taskTitle": "Analytics and KPI Instrumentation",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"reasoning": "This task involves setting up analytics tracking for key user actions with privacy considerations. While it requires integration with analytics services and careful event tracking, the overall implementation is relatively straightforward.",
+			"expansionPrompt": "Break down the 'Analytics and KPI Instrumentation' task into 3 subtasks covering: 1) Setting up PostHog or Vercel Analytics integration with opt-out support, 2) Implementing client-side event tracking for key user actions, 3) Creating server-side counters and basic dashboards for KPI monitoring."
+		},
+		{
+			"taskId": 25,
+			"taskTitle": "Deployment, Monitoring, and Runbooks",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"reasoning": "This task involves setting up the entire production infrastructure including deployments, monitoring, alerting, and incident response. The combination of multiple services, security considerations, and operational requirements makes this a complex task that's critical for project success.",
+			"expansionPrompt": "Break down the 'Deployment, Monitoring, and Runbooks' task into 5 subtasks covering: 1) Configuring Vercel deployment for the frontend, 2) Setting up Railway/Render deployment for the backend with Docker, 3) Implementing monitoring and alerting with Sentry and health checks, 4) Creating incident response runbooks for common failure scenarios, and 5) Setting up database backups and security hardening."
+		}
+	]
+}

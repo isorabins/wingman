@@ -1,0 +1,2176 @@
+{
+  "wingman-match": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Create WingmanMatch repo and environment baselines",
+        "description": "Verify and document runtime baselines, environment variables, local dev commands, and CI for the existing Wingman repository using reference_files as patterns. No repo creation or forking.",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "details": "- References (read-only): reference_files/frontend_reference/FAF_website/CLAUDE.md (dev/test commands), reference_files/frontend_reference/FAF_website/memory-bank/techContext.md (stack), reference_files/src/main.py (backend style), reference_files/src/config.py (env structure)\n- Verify Node 20 LTS, PNPM 9 or npm, Python 3.11; ensure package.json scripts (dev, type-check, lint, build) exist and run\n- Ensure .env.local (Next), .env (FastAPI), Supabase keys, Redis URL, and Resend key are configured and load correctly\n- Confirm Next.js app (App Router) runs locally; confirm FastAPI service runs locally with Supabase connectivity; confirm Redis and Resend connectivity via a smoke call (non-sending)\n- CI: ensure jobs for frontend (lint, typecheck, build) and backend (ruff, pytest) exist; only add missing minimal steps if required (no overengineering)\n- Document any deltas vs reference patterns in a short README note for the team",
+        "testStrategy": "- Verify the codebase runs locally using commands from reference documentation.\n- Ensure environment variables are properly configured.\n- Confirm basic functionality works in the codebase.\n- Local dev runs for FE/BE with env loaded; CI green on lint/build/tests; short README note with the verified baselines.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Review reference files for environment baselines",
+            "description": "Review the reference files to understand the environment baselines and development commands.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "• Review reference_files/frontend_reference/FAF_website/CLAUDE.md for dev/test commands.\n• Review reference_files/frontend_reference/FAF_website/memory-bank/techContext.md for stack details.\n• Review reference_files/src/main.py for backend style.\n• Review reference_files/src/config.py for environment structure.\n• Document key environment requirements and commands for the WingmanMatch project.\n• Do NOT modify any files under reference_files.",
+            "testStrategy": "• Create a summary document of key findings for team reference."
+          },
+          {
+            "id": 2,
+            "title": "Verify runtime versions in current codebase",
+            "description": "Verify that the current codebase is using the correct runtime versions as specified in the reference files.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "• Check package.json for Node version requirements (Node 20 LTS).\n• Verify Python version requirements in any backend code (Python 3.11).\n• Confirm pnpm version 9 or npm usage in package.json or lockfile.\n• Verify package.json scripts (dev, type-check, lint, build) exist and run.\n• Document any discrepancies between current codebase and reference requirements.",
+            "testStrategy": "• Run version checks for Node, Python, and pnpm/npm.\n• Test each package.json script to ensure they work properly.\n• Document current versions and any needed updates."
+          },
+          {
+            "id": 3,
+            "title": "Verify environment variables configuration",
+            "description": "Ensure environment variables are properly configured in the current codebase.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "• Review .env.example and ensure it contains all necessary variables.\n• Create a local .env.local file for Next.js frontend development.\n• Create a local .env file for FastAPI backend development.\n• Verify Supabase keys, Redis URL, and Resend API key are configured correctly.\n• Test that environment variables load correctly in both frontend and backend.\n• Compare with environment structure in reference files.",
+            "testStrategy": "• Run the application locally and verify it connects to services.\n• Check for any environment-related errors in the console.\n• Perform a smoke test for Redis and Resend connectivity (non-sending)."
+          },
+          {
+            "id": 4,
+            "title": "Test local development setup",
+            "description": "Verify that the WingmanMatch codebase can be run locally with the development commands from reference files.",
+            "status": "pending",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "• Use the commands documented in reference_files/frontend_reference/FAF_website/CLAUDE.md.\n• Run pnpm install or npm install to install dependencies.\n• Start the Next.js frontend development server with the appropriate command.\n• Start the FastAPI backend server with the appropriate command.\n• Verify that the Next.js app (App Router) loads correctly in the browser.\n• Confirm FastAPI service runs locally with Supabase connectivity.\n• Test basic functionality to ensure everything works as expected.",
+            "testStrategy": "• Frontend application starts without errors.\n• Backend service starts without errors.\n• Basic pages load correctly.\n• API endpoints respond as expected.\n• Confirm Supabase, Redis, and Resend connectivity."
+          },
+          {
+            "id": 5,
+            "title": "Verify CI/CD pipeline configuration",
+            "description": "Verify the existing CI/CD pipeline configuration for the WingmanMatch repository.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "• Review existing CI configuration files.\n• Ensure CI jobs for frontend (lint, typecheck, build) exist.\n• Ensure CI jobs for backend (ruff, pytest) exist.\n• Add missing minimal steps if required (no overengineering).\n• Compare with reference CI configuration if available.\n• Document any needed updates to CI configuration.",
+            "testStrategy": "• Review CI pipeline configuration for completeness.\n• Document any missing or incorrect configurations.\n• Ensure CI runs successfully with all jobs passing."
+          },
+          {
+            "id": 6,
+            "title": "Document verified baselines in README",
+            "description": "Create a short README note documenting the verified baselines and any deltas from reference patterns.",
+            "status": "pending",
+            "dependencies": [
+              2,
+              3,
+              4,
+              5
+            ],
+            "details": "• Create or update a README.md file with verified runtime versions.\n• Document environment variable requirements.\n• List local development commands for frontend and backend.\n• Note any differences between the current codebase and reference patterns.\n• Include any special instructions for the team.",
+            "testStrategy": "• Review the README for accuracy and completeness.\n• Ensure all verified baselines are properly documented."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Basic Database Migrations for WingmanMatch",
+        "description": "Add essential tables and rename existing contexts as per PRD, maintaining existing data.",
+        "status": "pending",
+        "dependencies": [
+          1
+        ],
+        "priority": "medium",
+        "details": "- Create SQL migration files in supabase/migrations_wm/: 001_add_wingman_tables.sql and 002_rename_creator_contexts.sql.\n- Reference existing schema in reference_files/docs/dev-documentation/04-database-guide.md and reference_files/frontend_reference/FAF_website/memory-bank/techContext.md.\n- Inspect reference_files/supabase/migrations/20250129120912_remote_schema.sql for naming/constraints patterns.\n- SQL: create core tables with exact schema - user_locations, wingman_matches, approach_challenges, wingman_sessions as specified in PRD.\n- Renames: creator_profiles→user_profiles, project_overview→dating_goals, creativity_test_results→confidence_test_results (use ALTER TABLE RENAME).\n- Add specified indexes: idx_user_locations_user_id, idx_wingman_matches_user1, idx_wingman_matches_user2.\n- Implement haversine_miles() function for simple distance calculation without PostGIS.\n- Create seed_challenges.sql script for populating approach_challenges table.\n- Include BEGIN/COMMIT blocks in all migration files.\n- Keep migrations forward-only with no DROP statements.\n<info added on 2025-08-11T03:42:05.654Z>\n- Follow Supabase/Postgres RLS best practices:\n  - Optimize RLS performance by wrapping auth.uid() calls with SELECT in USING/WITH CHECK expressions to enable initPlan caching\n  - Create separate policies per operation (SELECT with USING, INSERT/UPDATE with WITH CHECK, DELETE with USING)\n  - Avoid deprecated auth.role(); use `to authenticated, anon` or JWT claims via (auth.jwt() ->> 'email')\n  - Prefer SECURITY DEFINER helper functions for complex role checks\n  - Use PERMISSIVE policies; avoid RESTRICTIVE; ensure `to authenticated` scopes\n  - Document any SECURITY DEFINER functions and owners\n\n- Enhance indexing strategy:\n  - Create btree indexes on foreign keys and common access patterns\n  - Consider expression indexes for distance queries if needed\n  - Add indexes for created_at, city columns where appropriate\n\n- Migration workflow:\n  - Use `supabase migration new`, `up`, and `db push` for development and deployment\n  - Keep schema-only squashes for cleanup (no DML)\n  - Place Haversine function in its own migration file for better organization\n\n- If adding storage for photos:\n  - Implement storage policies using storage.extension(name) in WITH CHECK\n  - Apply bucket-level RLS for security\n</info added on 2025-08-11T03:42:05.654Z>",
+        "testStrategy": "- Create a verification script under scripts/db/verify_wm_schema.sql to validate:\n  - Tables exist with correct columns/types\n  - Indexes are present\n  - Haversine function exists and returns expected values\n- Run migrations on local environment; verify tables exist.\n- Insert sample data using seed_challenges.sql; test simple queries.\n- Verify renamed tables maintain existing data integrity.\n- Test haversine_miles() function with known coordinate pairs.\n- Use EXPLAIN to verify indexes are being used for radius queries.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create SQL migration file for new tables",
+            "description": "Create the supabase/migrations_wm/001_add_wingman_tables.sql file with SQL statements to add the core tables needed for the WingmanMatch functionality.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create a new SQL migration file that will add four essential tables with exact schema:\n- user_locations(user_id UUID PK refs user_profiles(id), lat DECIMAL(10,8), lng DECIMAL(11,8), city VARCHAR(100), max_travel_miles INT DEFAULT 20, updated_at TIMESTAMP DEFAULT NOW())\n- wingman_matches(id UUID PK DEFAULT uuid_generate_v4(), user1_id UUID refs user_profiles(id), user2_id UUID refs user_profiles(id), status VARCHAR(50) DEFAULT 'pending', created_at TIMESTAMP DEFAULT NOW())\n- approach_challenges(id UUID PK DEFAULT uuid_generate_v4(), difficulty VARCHAR(50) NOT NULL, title VARCHAR(200), description TEXT, points INT DEFAULT 10)\n- wingman_sessions(id UUID PK DEFAULT uuid_generate_v4(), match_id UUID refs wingman_matches(id), user1_challenge_id UUID refs approach_challenges(id), user2_challenge_id UUID refs approach_challenges(id), venue_name VARCHAR(200), scheduled_time TIMESTAMP, status VARCHAR(50) DEFAULT 'scheduled', completed_at TIMESTAMP, user1_completed_confirmed_by_user2 BOOLEAN DEFAULT FALSE, user2_completed_confirmed_by_user1 BOOLEAN DEFAULT FALSE, notes TEXT)\n\nAlso include the required indexes and haversine_miles() function. Wrap everything in BEGIN/COMMIT blocks.",
+            "testStrategy": "Validate SQL syntax using a linter. Run the migration file on a local development database and verify tables are created with correct structure using database inspection tools. Test the haversine_miles() function with known coordinate pairs to ensure it returns values within ±0.2 miles of expected results."
+          },
+          {
+            "id": 2,
+            "title": "Create SQL migration file for table renaming",
+            "description": "Create the supabase/migrations_wm/002_rename_creator_contexts.sql file with ALTER TABLE statements to rename existing tables while preserving data.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create a migration file that renames the following tables:\n- creator_profiles to user_profiles\n- project_overview to dating_goals\n- creativity_test_results to confidence_test_results\n\nUse ALTER TABLE RENAME statements to ensure all existing data is preserved during the renaming process. Include BEGIN/COMMIT blocks. Keep the migration forward-only with no DROP statements or data mutations.",
+            "testStrategy": "Run the migration on a test database with sample data. Verify that tables are renamed correctly and that all existing data remains intact by comparing row counts and sample records before and after migration."
+          },
+          {
+            "id": 3,
+            "title": "Add basic indexes to new tables",
+            "description": "Add essential indexes to the newly created tables to support basic query performance for the most common operations.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "Add the following specific indexes to improve query performance:\n- CREATE INDEX idx_user_locations_user_id ON user_locations(user_id)\n- CREATE INDEX idx_wingman_matches_user1 ON wingman_matches(user1_id)\n- CREATE INDEX idx_wingman_matches_user2 ON wingman_matches(user2_id)\n\nThese indexes should be included in the 001_add_wingman_tables.sql migration file. Follow indexing patterns from reference_files/supabase/migrations/20250129120912_remote_schema.sql.",
+            "testStrategy": "Verify indexes are created by inspecting database metadata. Run sample queries that would use these indexes and confirm via EXPLAIN that the indexes are being utilized for radius queries where applicable."
+          },
+          {
+            "id": 4,
+            "title": "Implement haversine_miles function",
+            "description": "Create a SQL function to calculate distance between user locations using the Haversine formula without using complex spatial extensions.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement the haversine_miles(lat1,lng1,lat2,lng2) function that calculates the distance between two geographic points using the Haversine formula. The function should:\n- Take latitude and longitude coordinates as inputs\n- Return distance in miles as NUMERIC type\n- Be accurate within ±0.2 miles on known coordinate pairs\n- Support 20-mile radius queries\n\nAdd this function to the 001_add_wingman_tables.sql migration file. Avoid using PostGIS or other complex extensions.",
+            "testStrategy": "Test the function with known coordinate pairs and verify the calculated distances are within ±0.2 miles of expected results. Include edge cases like same location (distance = 0) and locations at various distances. Verify the function works correctly for 20-mile radius queries."
+          },
+          {
+            "id": 5,
+            "title": "Create seed data script for approach challenges",
+            "description": "Develop a script to insert seed data for approach challenges with different difficulty levels.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "Create scripts/db/seed_challenges.sql that inserts at least 9 approach challenges (3 per difficulty level: beginner, intermediate, advanced). The script should:\n- Be idempotent using ON CONFLICT DO NOTHING\n- Include realistic challenge titles, descriptions, and point values\n- Set appropriate difficulty levels for each challenge\n- Follow the exact schema defined for the approach_challenges table",
+            "testStrategy": "Run the seed script on a clean database and verify it populates at least 9 rows (3 per difficulty). Run it a second time to verify idempotency (no duplicate records created). Verify the data inserted matches the expected schema and contains appropriate values for each difficulty level."
+          },
+          {
+            "id": 6,
+            "title": "Create SQL verification script",
+            "description": "Create a verification script to validate the schema changes after migrations are applied.",
+            "status": "pending",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Create a SQL verification script at scripts/db/verify_wm_schema.sql that checks:\n- All required tables exist with correct columns and types\n- All specified indexes are present\n- The haversine_miles function exists and returns expected values for known coordinates\n- Renamed tables have the correct structure and data integrity is maintained\n\nThe script should output clear success/failure messages for each verification step.",
+            "testStrategy": "Run the verification script after applying all migrations. Ensure it correctly identifies any missing or incorrectly configured database objects. Test with both successful and deliberately broken migrations to verify it catches issues. Verify the script can detect if tables, columns, indexes, or the haversine function are missing or incorrectly implemented."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Backend config: Supabase, Redis, Resend wiring",
+        "description": "Ensure serverside SDKs configured and injectable through app runtime, based on existing reference implementation.",
+        "status": "pending",
+        "dependencies": [
+          1
+        ],
+        "priority": "high",
+        "details": "- Use reference_files/src/config.py and reference_files/src/main.py strictly as patterns; implement/configure in our code only. Do NOT edit reference files.\n- Ensure environment variables are properly configured for all services.\n- Centralize supabase server client factory with service role for server routes and anon for edge functions.\n- Redis connection pool with ioredis@5 and health ping.\n- Resend setup for transactional emails; templates for match invite/acceptance.\n- Rate limiter (upstash/redis-ratelimit or custom token bucket) on public endpoints to mitigate abuse.\n- Secrets loaded via runtime config only on server.\n- Add retry policies with exponential backoff for IO (p-retry).\n- Note: Reference files remain unchanged; they are only used as implementation patterns.",
+        "testStrategy": "- Verify existing infrastructure works as expected rather than building new services.\n- Unit test factory returns authenticated clients.\n- Simulate redis down; ensure graceful fallback and logs.\n- Send test email to sandbox domain, assert 202 accepted.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Review reference_files/src/config.py and reference_files/src/main.py to understand existing implementation patterns",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Study the reference files as implementation patterns only. Do not modify the reference files.",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Configure environment variables for Supabase, Redis, and Resend services",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Set up environment variables in our project based on the patterns observed in reference files.",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Adapt existing Supabase integration from reference files to current project",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement Supabase integration in our codebase following the patterns in reference files. Do not modify reference files.",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Adapt existing Redis session management from reference files to current project",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement Redis session management in our codebase following the patterns in reference files. Do not modify reference files.",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Implement Resend email service integration with templates for match notifications",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create new implementation in our codebase, using reference files only as patterns if applicable.",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Add rate limiting on public endpoints",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement rate limiting in our codebase, using reference files only as patterns if applicable.",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "",
+            "description": "Implement retry policies with exponential backoff",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Add retry policies in our codebase, using reference files only as patterns if applicable.",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "",
+            "description": "Document implementation approach and reference patterns used",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create documentation that explains how reference patterns were adapted for our implementation without modifying the original reference files.",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Transform AI coach: Hai→Connell prompts",
+        "description": "Update main prompt and memory context to Connell Barrett coaching persona, preserving memory hooks.",
+        "status": "pending",
+        "dependencies": [
+          1,
+          3
+        ],
+        "priority": "high",
+        "details": "- Create/modify our src/prompts.py by deriving the Connell persona from reference_files/src/prompts.py; include memory keys: assessment results, attempts, triggers, session history.\n- Update our src/claude_agent.py if needed using patterns in reference_files/src/claude_agent.py. Do NOT edit any reference_files.\n- Keep simple_memory.py and llm_router.py usage as-is in our project.\n- Map model to Anthropic Claude 3.5 Sonnet or OpenAI GPT-4o-mini for cost-effective streaming.\n- Safety guardrails: refuse PII sharing, enforce respectful guidance.\n- Temperature 0.7, top_p 0.9, max_tokens tuned for streaming.\n- Add smalltalk and challenge-coaching tools list for function-calling to fetch challenges and sessions.\n- Persist conversation context via simple_memory.py keyed per user.",
+        "testStrategy": "- Prompt unit tests: given context entries, ensure the coach references prior sessions.\n- Manual eval set with 10 inputs; check style adherence.\n- A/B test flag to flip old/new prompt in staging.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Review reference_files/src/prompts.py and reference_files/src/claude_agent.py to understand existing patterns",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Create/modify src/prompts.py with Connell Barrett coaching persona based on reference implementation",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Update src/claude_agent.py if needed to support the new prompt structure",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Implement memory hooks for assessment results, attempts, triggers, and session history",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Configure model parameters (temperature 0.7, top_p 0.9, max_tokens) for streaming",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Add function-calling tools for smalltalk and challenge-coaching",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "",
+            "description": "Implement safety guardrails against PII sharing and ensure respectful guidance",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "",
+            "description": "Create prompt unit tests to verify memory context references",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Confidence assessment agent and flow",
+        "description": "Fork creativity assessment to ConfidenceTestAgent with 12 dating questions and 6 archetypes.",
+        "status": "pending",
+        "dependencies": [
+          2,
+          4
+        ],
+        "priority": "high",
+        "details": "- Create new files based on reference patterns (do NOT modify reference files):\n  - src/agents/confidence_agent.py (ported from creativity_agent.py)\n  - src/assessment/confidence_scoring.py (pure scoring functions: score_answers, choose_archetype, compute_level)\n  - src/api/assessment_routes.py or extend src/main.py with assessment endpoints\n- Implement 12-question multi-choice flow with 6 archetypes (Analyzer, Sprinter, Ghost, Scholar, Naturalist, Protector)\n- Compute primary archetype + experience level (beginner/intermediate/advanced) from scoring thresholds\n- Persist to confidence_test_results with timestamps and JSON answers\n- Add summary generation via content_summarizer.py for profile hints\n- Follow TDD approach: implement pure functions first, then write unit tests with fixed answer vectors\n<info added on 2025-08-11T03:42:15.289Z>\n## Context7 FastAPI + Pydantic v2 Best Practices for Assessment Endpoints\n\n- Define strict request/response models using Pydantic:\n  ```python\n  class ConfidenceAssessmentRequest(BaseModel):\n      user_id: UUID\n      answers: list[int] = Field(..., min_length=12, max_length=12)\n      \n  class ConfidenceResult(BaseModel):\n      archetype: str\n      level: str\n      scores: dict[str, float]\n      summary: str | None = None\n  ```\n\n- Use `response_model=` parameter in endpoint definitions; avoid returning naked dictionaries\n- Leverage `.model_validate()` for request parsing and `.model_dump()` for responses\n- Use `pydantic_settings.BaseSettings` for environment configuration\n- Add field constraints with `Field(..., ge=0, le=5, max_length=50)` for validation\n- Implement validation-first approach: pure scoring functions handle all business logic, FastAPI endpoints only orchestrate\n- Use `BackgroundTasks` for non-critical side effects (summary generation, analytics)\n- Prefer explicit unions (`str | None`) over `Any` types\n- Avoid `response_model=None` unless streaming or returning binary content\n- Document HTTP status codes and provide examples in OpenAPI via `responses={...}` parameter:\n  ```python\n  @router.post(\"/api/assessment/confidence\", \n               response_model=ConfidenceResult,\n               responses={\n                   200: {\"description\": \"Assessment processed successfully\"},\n                   422: {\"description\": \"Invalid assessment data\"}\n               })\n  ```\n</info added on 2025-08-11T03:42:15.289Z>",
+        "testStrategy": "- TDD approach: implement pure functions first, then write unit tests with fixed answer vectors\n- Deterministic unit tests for scoring in tests/backend/test_confidence_scoring.py\n- Property tests for boundary thresholds\n- Integration tests in tests/backend/test_confidence_endpoints.py: POST then GET returns same; resubmission overwrites",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design question bank and 6-archetype scoring rubric",
+            "description": "Author 12 multiple-choice dating-context questions and map each answer option to weighted scores across the six archetypes: Analyzer, Sprinter, Ghost, Scholar, Naturalist, Protector.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Define clear behavioral signals per archetype; ensure balanced coverage across questions; document scoring weights; prepare localization-ready structures; version the bank for future updates.",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Define experience level thresholds and rules",
+            "description": "Establish deterministic thresholds to classify experience level (beginner/intermediate/advanced) from aggregate scores, including tie-breaking and boundary semantics.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Specify numeric ranges, inclusive/exclusive edges, and handling for low-response or neutral patterns; document tie resolution between archetypes and levels.",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement pure scoring functions in confidence_scoring.py",
+            "description": "Create deterministic, side-effect-free functions for scoring answers, selecting primary archetype, and computing experience levels in src/assessment/confidence_scoring.py.",
+            "status": "pending",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Implement three core functions with docstrings: score_answers, choose_archetype, compute_level. Functions should accept answer vectors and scoring config; return archetype scores, primary archetype, level, and metadata; ensure stable sort/tie-breaks. Follow TDD approach by implementing these pure functions first.",
+            "testStrategy": "Write comprehensive unit tests in tests/backend/test_confidence_scoring.py with fixed answer vectors to assert expected archetype/level outcomes."
+          },
+          {
+            "id": 4,
+            "title": "Create ConfidenceTestAgent in confidence_agent.py",
+            "description": "Create src/agents/confidence_agent.py based on reference_files/src/agents/creativity_agent.py structure and flow.",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "details": "Port the agent class while maintaining the 12-question multi-choice flow; wire the agent to call pure functions from confidence_scoring.py; do NOT modify reference files.",
+            "testStrategy": "Verify the agent correctly uses the pure scoring functions and maintains the same flow as the reference implementation."
+          },
+          {
+            "id": 5,
+            "title": "Persistence layer for confidence_test_results",
+            "description": "Implement save/load to confidence_test_results with timestamps and JSON answers, ensuring backward compatibility and schema validation.",
+            "status": "pending",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Define schema fields (user_id UUID, created_at TIMESTAMP, answers_json JSONB, archetype TEXT, level TEXT, scores_json JSONB, version INT); add repository/service methods with retries and error handling.",
+            "testStrategy": "Test persistence operations with mock data; verify correct schema and data integrity."
+          },
+          {
+            "id": 6,
+            "title": "Implement assessment endpoints",
+            "description": "Create assessment endpoints in src/api/assessment_routes.py or extend src/main.py following FastAPI style from reference.",
+            "status": "pending",
+            "dependencies": [
+              4,
+              5
+            ],
+            "details": "Implement POST /api/assessment/confidence for submitting assessment and GET /api/assessment/results for retrieving results. Follow FastAPI patterns from reference_files/src/main.py. POST should return {archetype, level, scores}; GET should return the latest result for the user_id.",
+            "testStrategy": "Integration tests in tests/backend/test_confidence_endpoints.py: verify POST then GET returns same data; confirm resubmission overwrites previous results."
+          },
+          {
+            "id": 7,
+            "title": "Summary generation via content_summarizer",
+            "description": "Add profile hint generation that converts results into concise, user-facing summaries using content_summarizer.py.",
+            "status": "pending",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Follow summary patterns from reference_files/src/content_summarizer.py; craft prompt/templates using archetype and level; ensure deterministic stubs for tests; include safety guards and length limits.",
+            "testStrategy": "Test summary generation with various archetype/level combinations; verify appropriate content and length."
+          },
+          {
+            "id": 8,
+            "title": "Write unit tests for confidence scoring",
+            "description": "Create comprehensive unit tests in tests/backend/test_confidence_scoring.py for the pure scoring functions.",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "details": "Create fixtures of answer vectors; implement property tests for boundary edges; test tie-breaking logic and edge cases; ensure deterministic scoring.",
+            "testStrategy": "Use fixed answer vectors to assert expected archetype/level outcomes; test boundary conditions and edge cases."
+          },
+          {
+            "id": 9,
+            "title": "Write integration tests for confidence endpoints",
+            "description": "Implement integration tests in tests/backend/test_confidence_endpoints.py for the assessment endpoints.",
+            "status": "pending",
+            "dependencies": [
+              6
+            ],
+            "details": "Test POST /api/assessment/confidence followed by GET /api/assessment/results; verify data consistency; test resubmission overwrites previous results.",
+            "testStrategy": "End-to-end testing of the assessment flow; verify persistence and retrieval work correctly."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Frontend: Assessment page transformation",
+        "description": "Update assessment UI to new question set and archetype results using existing component framework.",
+        "status": "pending",
+        "dependencies": [
+          5
+        ],
+        "priority": "high",
+        "details": "- Create app/confidence-test/page.tsx by copying structure from reference_files/frontend_reference/FAF_website/app/creativity-test/page.tsx.\n- Create app/confidence-test/questions.v1.json for versioned question bank with 12 questions.\n- Maintain the same Chakra UI component structure, using tokens from reference_files/frontend_reference/FAF_website/app/theme.ts.\n- Implement client-side validation to require all 12 questions answered before enabling submit.\n- On submit, POST to /api/assessment/confidence to save results; display archetype card and level.\n- Add CTA to profile-setup after showing results.\n- Accessibility: keyboard navigation, ARIA groups, progress bar.\n- Analytics events: assessment_started/completed with duration.\n- Create Cypress/Vitest test file at app/confidence-test/__tests__/confidence-test.spec.ts.\n<info added on 2025-08-11T03:42:24.007Z>\n## Context7 Next.js App Router Best Practices\n\n- Implement API endpoint as a Route Handler in `app/api/assessment/confidence/route.ts` with default dynamic behavior for POST operations.\n- After successful assessment submission, call `revalidatePath('/profile-setup')` to refresh cache for the profile setup page.\n- Tag data fetches with `next: { tags: ['assessment-results'] }` and use `revalidateTag('assessment-results')` after successful submission.\n- Implement Suspense boundaries for progressive loading:\n  ```jsx\n  <Suspense fallback={<QuestionSkeleton />}>\n    <AssessmentQuestions />\n  </Suspense>\n  ```\n- Enhance accessibility implementation:\n  - Use Chakra components with proper ARIA attributes\n  - Add `aria-describedby` for validation error messages\n  - Ensure question groups have proper `role=\"radiogroup\"` and `aria-labelledby` attributes\n- Co-locate component tests in `app/confidence-test/__tests__/` directory\n- Add Playwright e2e tests with trace-on-first-retry for comprehensive test coverage\n</info added on 2025-08-11T03:42:24.007Z>",
+        "testStrategy": "- Cypress/Vitest tests in app/confidence-test/__tests__/confidence-test.spec.ts: verify user completes 12 answers, sees archetype result.\n- Validate client-side form validation prevents incomplete submissions.\n- Test error handling with toast display.\n- Verify accessibility with Lighthouse a11y score ≥ 95.\n- Visual regression for card layouts.\n- Verify UI matches reference spacing/typography tokens.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Create app/confidence-test/page.tsx by copying structure from creativity-test reference",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Copy structure from reference_files/frontend_reference/FAF_website/app/creativity-test/page.tsx to create app/confidence-test/page.tsx. Do not modify the reference file. Ensure UI matches reference spacing/typography tokens from theme.ts.",
+            "testStrategy": "Verify the page renders correctly with the same component structure as the reference."
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Create app/confidence-test/questions.v1.json with 12 confidence assessment questions",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create a versioned question bank JSON file with 12 questions, each having radio options A-D. Structure the JSON to be compatible with the page component.",
+            "testStrategy": "Verify JSON is valid and contains all required questions and options."
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Implement client-side validation for the assessment form",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Add validation to ensure all 12 questions must be answered before the Submit button is enabled. Maintain accessibility with proper ARIA attributes and keyboard navigation.",
+            "testStrategy": "Test that Submit button is disabled until all questions are answered. Verify keyboard navigation works correctly."
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Implement API integration to save results and display archetype",
+            "status": "pending",
+            "dependencies": [],
+            "details": "On form submission, POST data to /api/assessment/confidence endpoint. Handle the response to display the appropriate archetype card and level. Implement error handling with toast notifications. Add CTA to profile-setup after showing results.",
+            "testStrategy": "Test successful submission and result display. Verify error handling with mock API failures."
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Create Cypress/Vitest test file for confidence assessment",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create app/confidence-test/__tests__/confidence-test.spec.ts to test the complete flow: answering all 12 questions, submitting the form, and seeing the archetype result. Include accessibility checks to ensure Lighthouse score ≥ 95.",
+            "testStrategy": "Run the test suite to verify all aspects of the assessment flow work correctly, including validation, submission, and result display."
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Implement analytics events for assessment tracking",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Add analytics events for assessment_started and assessment_completed with duration tracking. Ensure these events are triggered at appropriate points in the user flow.",
+            "testStrategy": "Verify analytics events are fired correctly with the expected parameters."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Profile setup API and page",
+        "description": "Build /profile-setup page and POST /api/profile/complete to capture photo, bio, and location preferences.",
+        "status": "pending",
+        "dependencies": [
+          2,
+          3,
+          6
+        ],
+        "priority": "high",
+        "details": "- UI: Create NEW Next.js page at app/profile-setup/page.tsx using Chakra+Tailwind form patterns from reference_files/frontend_reference/FAF_website/app with React Hook Form + Zod.\n- Implement single photo upload, bio (≤ 400 chars), slider for radius (1-50mi, default 20mi), location capture (HTML Geolocation + fallback manual city).\n- Create storage/photo_upload.ts helper using Supabase Storage signed upload flow pattern from reference_files/frontend_reference/FAF_website for photo storage; enforce image/* mime type and ≤5MB size.\n- Implement POST /api/profile/complete in src/api/profile_routes.py OR extend src/main.py following FastAPI route style in reference_files/src/main.py to validate input (zod), write to user_profiles and user_locations.\n- Add privacy toggle for location to allow approximate location (city centroid) if exact not shared.\n- On successful submission, redirect to /find-buddy and return {ready_for_matching:true}.\n<info added on 2025-08-11T03:42:31.899Z>\n## Backend (FastAPI) Best Practices\n- Define request model with nested `location` type (e.g., `class LocationData(BaseModel): lat: float; lng: float; city: Optional[str]`)\n- Validate lat/lng ranges (-90 to 90 for latitude, -180 to 180 for longitude)\n- Use `BackgroundTasks` parameter for post-processing images or metadata after response is sent\n\n## Frontend Best Practices\n- Disable Link prefetch for forms where POST redirects by setting `prefetch={false}` to avoid stale cache issues\n- Implement optimistic UI updates but rely on server response for confirmation\n- For the redirect after form submission, ensure proper cache invalidation\n\n## Caching Considerations\n- POST endpoint should call `revalidatePath('/find-buddy')` to ensure fresh data after profile completion\n- Alternatively, implement tag-based invalidation on profile read endpoints\n\n## Security Measures\n- Validate max bio length server-side (≤400 chars) in addition to client-side validation\n- Sanitize all user input server-side to prevent XSS and injection attacks\n- Enforce Row-Level Security (RLS) in Supabase to ensure users can only access their own profile data\n</info added on 2025-08-11T03:42:31.899Z>",
+        "testStrategy": "- API unit tests for validation and storage writes.\n- E2E test in tests/e2e/profile_setup.spec.ts: complete setup and verify redirect to find-buddy.\n- Security: verify upload uses signed URL limited to image/* mime type and 5MB size.\n- Test city-only mode stores city + centroid only (no precise lat/lng).",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Next.js profile-setup page with Chakra+Tailwind",
+            "description": "Create a new page at app/profile-setup/page.tsx using form patterns from reference files",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement Chakra UI form with fields for photo upload, bio, radius slider, and location capture following patterns in reference_files/frontend_reference/FAF_website/app",
+            "testStrategy": "Verify form renders correctly with all required fields"
+          },
+          {
+            "id": 2,
+            "title": "Implement React Hook Form with Zod validation",
+            "description": "Set up form validation for bio, radius, and location fields following patterns in reference_files/frontend_reference/FAF_website/app",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement validation rules: bio ≤ 400 chars, radius between 1-50 miles, and proper location format",
+            "testStrategy": "Test validation rules with valid and invalid inputs"
+          },
+          {
+            "id": 3,
+            "title": "Implement photo upload with Supabase Storage",
+            "description": "Create storage/photo_upload.ts helper using signed upload flow pattern from reference_files/frontend_reference/FAF_website for secure image uploads",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Enforce mime type image/* and size ≤5MB in the signed upload implementation",
+            "testStrategy": "Test upload with valid and invalid file types/sizes"
+          },
+          {
+            "id": 4,
+            "title": "Create FastAPI route for profile completion",
+            "description": "Implement POST /api/profile/complete in src/api/profile_routes.py or extend src/main.py following style in reference_files/src/main.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Handle {photo_url, bio, location{lat,lng|city}, max_travel_miles} and persist to user_profiles + user_locations tables; return {ready_for_matching:true}",
+            "testStrategy": "Unit test API endpoint with various input combinations"
+          },
+          {
+            "id": 5,
+            "title": "Implement location privacy toggle",
+            "description": "Add option to store only city and centroid coordinates instead of precise location",
+            "status": "pending",
+            "dependencies": [],
+            "details": "When privacy toggle is enabled, store only city name and city centroid coordinates instead of precise lat/lng",
+            "testStrategy": "Test that city-only mode correctly stores city + centroid only"
+          },
+          {
+            "id": 6,
+            "title": "Add location capture with privacy options",
+            "description": "Implement HTML Geolocation with fallback to manual city entry and option for approximate location",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Use HTML Geolocation API with fallback to manual city entry; implement privacy toggle for using city centroid instead of precise coordinates",
+            "testStrategy": "Test geolocation capture and fallback mechanism"
+          },
+          {
+            "id": 7,
+            "title": "Implement redirect to find-buddy page",
+            "description": "Add redirect to /find-buddy after successful profile completion",
+            "status": "pending",
+            "dependencies": [],
+            "details": "On successful form submission and API response, redirect user to /find-buddy page",
+            "testStrategy": "Verify redirect happens after successful form submission"
+          },
+          {
+            "id": 8,
+            "title": "Create E2E test for profile setup flow",
+            "description": "Implement tests/e2e/profile_setup.spec.ts to verify the complete profile setup flow",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Test the full flow from form completion to API submission and redirect",
+            "testStrategy": "Run E2E test to verify successful submission redirects to /find-buddy"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Distance calculation utilities",
+        "description": "Implement reliable 20-mile radius filtering using Haversine SQL or Postgres earthdistance.",
+        "status": "pending",
+        "dependencies": [
+          2
+        ],
+        "priority": "high",
+        "details": "- Create SQL function: haversine_miles(lat1,lng1,lat2,lng2) in supabase/migrations_wm/003_fn_haversine.sql following naming conventions in reference_files/docs/dev-documentation/04-database-guide.md\n- Implement Python helper function find_candidates_within_radius() in src/db/distance.py patterned after query helpers in reference_files/src/main.py\n- Focus on implementing new code only; reference files remain unchanged\n- Backend helper to query users within radius with ORDER BY distance ASC\n- Exclude users with missing locations or stale data (updated_at > 30 days)\n<info added on 2025-08-11T03:42:38.505Z>\n- Server-side filtering: Implement SQL-based filtering with ORDER BY distance ASC LIMIT N to avoid pulling large datasets into the application\n- Add BTREE indexes on user_id and updated_at columns for performance optimization\n- GIST/BTREE indexing on (lat,lng) is optional for MVP but document as future enhancement\n- Ensure stale data filtering (>30 days) happens in SQL query, not application code\n- Keep distance calculation logic separate from Row Level Security (RLS) policies\n- Do not implement RLS policies that call the distance function per-row as this impacts performance\n- Document in SQL comments that the Haversine function should not be used directly in RLS policies\n</info added on 2025-08-11T03:42:38.505Z>",
+        "testStrategy": "- Unit tests against known coordinates in tests/backend/test_distance_fn.sql and tests/backend/test_distance_helper.py\n- Verify haversine_miles returns expected values within ±0.2mi accuracy\n- Explain analyze shows index usage and acceptable cost on 10k users\n- Test edge cases: missing location, stale updated_at > 30 days excluded\n- TDD approach: implement tests first, then code to pass tests",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Create SQL function haversine_miles() in supabase/migrations_wm/003_fn_haversine.sql with documented formula",
+            "status": "pending",
+            "dependencies": [],
+            "details": "- Follow naming conventions from database guide\n- Document the Haversine formula in comments\n- Function should take lat1, lng1, lat2, lng2 as parameters and return distance in miles\n- Ensure accuracy within ±0.2 miles",
+            "testStrategy": "Test with known coordinate pairs in tests/backend/test_distance_fn.sql"
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Implement find_candidates_within_radius() helper in src/db/distance.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "- Follow patterns in reference_files/src/main.py\n- Function should SELECT users within specified miles radius\n- ORDER BY distance ASC\n- Include parameters for user coordinates and radius in miles",
+            "testStrategy": "Test with tests/backend/test_distance_helper.py"
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Write unit tests with known coordinates to verify distance calculations",
+            "status": "pending",
+            "dependencies": [],
+            "details": "- Create tests/backend/test_distance_fn.sql for SQL function tests\n- Include multiple test cases with known distances\n- Verify results are within ±0.2 miles of expected values",
+            "testStrategy": "Use TDD approach - write tests before implementing the function"
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Test query performance with EXPLAIN ANALYZE on dataset of 10k+ users",
+            "status": "pending",
+            "dependencies": [],
+            "details": "- Add performance tests to tests/backend/test_distance_helper.py\n- Verify index usage is optimal\n- Ensure query cost is acceptable for production use",
+            "testStrategy": "Run EXPLAIN ANALYZE and verify results meet performance requirements"
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Implement handling for edge cases in find_candidates_within_radius()",
+            "status": "pending",
+            "dependencies": [],
+            "details": "- Exclude users with missing location data\n- Exclude users with stale data (updated_at > 30 days)\n- Add appropriate WHERE clauses to the query",
+            "testStrategy": "Add specific test cases in tests/backend/test_distance_helper.py for each edge case"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Auto-matching service and wingman_matcher.py",
+        "description": "Build simple matching algorithm: within radius + similar experience; present one match.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          8
+        ],
+        "priority": "high",
+        "details": "- Create NEW file src/services/wingman_matcher.py (class WingmanMatcher) following service patterns from reference_files/src/agents/agent_manager.py.\n- Use Supabase client acquisition as in reference_files/src/main.py.\n- Persist to wingman_matches table (from migrations_wm).\n- Service selects candidates not already paired recently (last 7 days); status pending.\n- Matcher rules (MVP): get user loc+level; find users within radius (default 20 mi) and experience level ∈ {same, ±1}; exclude if recent pair exists; order by (distance ASC, last_active DESC).\n- Create wingman_matches row with user1=user, user2=candidate, status=pending.\n- Throttle: one active pending per user.\n- Implement GET /api/buddy/find in src/api/match_routes.py OR extend src/main.py; returns single match object or null.\n- No edits to reference_files/*.\n<info added on 2025-08-11T03:42:46.119Z>\n## Context7 Best Practices for Matcher Service Implementation\n\n- Implement a deterministic pure selection function that runs within a database transaction: select candidate FOR UPDATE SKIP LOCKED; insert match row if not exists.\n- Enforce idempotency with a unique partial index (user_id_a,user_id_b,status='pending'); on conflict do nothing; return existing match.\n- Optimize performance by applying radius and level filters directly in SQL queries with ordering by distance ASC, last_active DESC.\n- Return minimal payload from the API endpoint; let client fetch additional details separately as needed.\n- Implement cache invalidation tags for match list after responding to ensure consistent data views.\n</info added on 2025-08-11T03:42:46.119Z>",
+        "testStrategy": "- Unit tests in tests/backend/test_matcher_service.py: given pool, returns expected candidate.\n- Integration tests in tests/backend/test_match_find_endpoint.py: creates wingman_matches; respects throttling.\n- Test with synthetic pools for rule coverage.\n- Verify deterministic selection given fixed pool.\n- Ensure enforces throttle and recency rules.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Create src/services/wingman_matcher.py with WingmanMatcher class following service patterns from agent_manager.py reference",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement pure selection method that takes input pool and returns candidate",
+            "testStrategy": "Test with synthetic user pools to verify selection logic"
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Implement Supabase client acquisition similar to main.py reference",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Follow the pattern in reference_files/src/main.py for acquiring Supabase client",
+            "testStrategy": "Verify client is properly initialized and authenticated"
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Implement matching algorithm (radius + experience level filtering)",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Apply rules: within radius (default 20mi), level in {same, ±1}, exclude recent pairs (7 days), order by distance ASC then last_active DESC",
+            "testStrategy": "Test each rule independently with controlled test data"
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Add persistence to wingman_matches table with proper status management",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Insert into wingman_matches with status='pending', implement throttling (one active pending per user)",
+            "testStrategy": "Verify records are created correctly and throttling is enforced"
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Create src/api/match_routes.py OR extend src/main.py with GET /api/buddy/find endpoint",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Endpoint should use the matcher service and return a single match object or null",
+            "testStrategy": "Test endpoint returns expected response format and handles edge cases"
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Create tests/backend/test_matcher_service.py for unit testing",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Write comprehensive unit tests for the matcher service with synthetic pools for rule coverage",
+            "testStrategy": "Test deterministic selection given fixed pool, verify all matching rules are applied correctly"
+          },
+          {
+            "id": 7,
+            "title": "",
+            "description": "Create tests/backend/test_match_find_endpoint.py for integration testing",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Test the API endpoint with various scenarios including throttling and recency rules",
+            "testStrategy": "Verify endpoint integrates correctly with the service and database"
+          },
+          {
+            "id": 8,
+            "title": "",
+            "description": "Implement throttling mechanism (one active pending match per user)",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Ensure users can only have one active pending match at a time",
+            "testStrategy": "Test attempts to create multiple pending matches for the same user"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Match response endpoint and state machine",
+        "description": "Implement POST /api/buddy/respond to accept/decline and enable chat on mutual accept.",
+        "status": "pending",
+        "dependencies": [
+          9
+        ],
+        "priority": "high",
+        "details": "- Implement in FastAPI following patterns in reference_files/src/main.py\n- Create new file src/api/match_response_routes.py OR extend src/main.py with POST /api/buddy/respond\n- Add POST /api/buddy/respond with validation and auth style matching existing endpoints\n- Validates match_id and user is a participant\n- State machine transitions: pending → accepted (both accept) | declined | expired(48h)\n- If accept and both accepted → set status=accepted, create chat channel record (or mark ready), and notify via email (Resend) both users\n- If decline → mark declined, immediately find next best match and return\n- No-show heuristics: if neither responds in 48h, auto-expire\n- Emit events for analytics\n- Create new code only; do not edit reference_files/*\n<info added on 2025-08-11T03:42:51.254Z>\n## Context7 best practices (Respond endpoint)\n\n- Implement state machine using SQL constraints or CHECK constraints; perform updates within a transaction; verify participant authorization using Row-Level Security (RLS)\n- For mutual accept scenario: use FastAPI BackgroundTasks to enqueue email notifications and chat readiness operations asynchronously to keep the endpoint response time fast\n- Implement idempotency by accepting an Idempotency-Key header and storing a short-lived Redis key to deduplicate requests\n- Emit cache invalidations by calling `revalidateTag('match')` on frontend route handlers if used to ensure UI consistency\n</info added on 2025-08-11T03:42:51.254Z>",
+        "testStrategy": "- Create tests/backend/test_match_response.py\n- API tests for accept-first, accept-second transitions\n- Decline flow returns next match payload\n- Verify unauthorized users cannot mutate match\n- Test FastAPI implementation follows patterns in reference_files/src/main.py\n- TDD approach: implement tests covering accept-first, accept-second, decline, unauthorized scenarios",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Create FastAPI endpoint POST /api/buddy/respond in src/api/match_response_routes.py or extend src/main.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Follow patterns in reference_files/src/main.py for route style and auth validation",
+            "testStrategy": "Verify endpoint structure matches reference implementation"
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Implement validation and authentication to ensure caller is a participant in the match",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Validate match_id and user authorization before allowing any state changes",
+            "testStrategy": "Test unauthorized access attempts are properly rejected"
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Implement match state machine logic for accept/decline flows",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Handle state transitions: pending → accepted (both accept) | declined | expired(48h)",
+            "testStrategy": "Test accept-first, accept-second, and decline scenarios with proper state transitions"
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Create chat channel on mutual accept using message storage pattern from Task 11",
+            "status": "pending",
+            "dependencies": [],
+            "details": "When both users accept, create chat channel record or mark as ready for chat",
+            "testStrategy": "Verify chat channel is properly created/marked on mutual accept"
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Implement email notification via Resend when match is accepted",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Send email to both users when match reaches accepted state",
+            "testStrategy": "Verify emails are sent to both users on mutual accept"
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Add next-best-match finding logic for decline flow",
+            "status": "pending",
+            "dependencies": [],
+            "details": "When a match is declined, find and return the next best match",
+            "testStrategy": "Verify decline response includes next match payload"
+          },
+          {
+            "id": 7,
+            "title": "",
+            "description": "Implement no-show auto-expiration logic (48h timeout)",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Auto-expire matches if neither user responds within 48 hours",
+            "testStrategy": "Test expiration logic with simulated time passage"
+          },
+          {
+            "id": 8,
+            "title": "",
+            "description": "Add analytics event emission",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Emit events for match state transitions for analytics tracking",
+            "testStrategy": "Verify events are properly emitted for each state transition"
+          },
+          {
+            "id": 9,
+            "title": "",
+            "description": "Create tests/backend/test_match_response.py with TDD approach",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement comprehensive tests covering accept-first, accept-second, decline, and unauthorized scenarios",
+            "testStrategy": "Follow TDD approach to ensure all acceptance criteria are met"
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Basic buddy chat implementation",
+        "description": "Create a simple buddy chat page at /buddy-chat/[matchId] by reusing existing chat components and implementing basic message endpoints.",
+        "status": "pending",
+        "dependencies": [
+          10
+        ],
+        "priority": "medium",
+        "details": "- Create new chat UI components in our app by following patterns from reference_files/frontend_reference/FAF_website/app/chat/ (DO NOT edit reference files)\n- Implement basic message endpoints in our backend (src/api/chat_routes.py or extend src/main.py) following the style in reference_files/src/main.py for GET /api/chat/messages/[matchId] and POST /api/chat/send\n- Keep existing Redis session management and streaming responses as-is\n- Text-only messages (sanitized, 2-2000 chars) with rate limiting (1 msg/0.5s)\n- Poll every 5s to append new messages while maintaining scroll position\n- Track last_read timestamp\n- Create necessary database structure in src/chat/message_model.sql or reuse existing messages structure\n- Implement proper authentication to ensure only match participants can access their chats\n<info added on 2025-08-11T03:42:57.903Z>\n## Context7 Best Practices for Chat Implementation\n\n### Backend (FastAPI)\n- Validate message length and sanitize content server-side\n- Enforce participant ACL through Row-Level Security (RLS) and path parameter validation\n- Implement rate limiting with Redis (redis.asyncio):\n  - 1 message per 0.5s per user\n  - Use connection pool for efficiency\n  - Set appropriate timeouts\n  - Implement Retry with ExponentialBackoff for transient errors\n- Use cursor-based pagination for message history\n- Keep GET endpoints dynamic (no caching) to ensure fresh data\n- Avoid over-fetching data by implementing proper query limits\n\n### Frontend\n- Implement cache tags per matchId for efficient invalidation\n- Use optimistic UI updates: append sent messages immediately but refetch to confirm\n- Handle scroll restoration properly when new messages arrive or history loads\n- Poll every 5 seconds for new messages\n- Consider Server-Sent Events (SSE) or streaming for future improvements\n</info added on 2025-08-11T03:42:57.903Z>",
+        "testStrategy": "- Create tests in tests/backend/test_chat_endpoints.py and tests/e2e/chat.spec.ts\n- Test send/receive flow, access control, pagination, and polling\n- Verify two users can exchange messages in <5s via polling\n- Confirm ACL blocks non-participants\n- Ensure no edits to reference_files/*",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up basic chat page route and layout",
+            "description": "Create the /buddy-chat/[matchId] route and implement a basic page layout using patterns from reference_files/frontend_reference/FAF_website/app/chat/.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create a new page at app/buddy-chat/[matchId]/page.tsx in our application that follows the patterns from reference_files/frontend_reference/FAF_website/app/chat/. DO NOT modify any files in the reference_files directory. Instead, create new components in our app that implement similar functionality. Keep the layout simple with just a message list and input field. Ensure the matchId is properly extracted from the URL and used for data fetching. No need to implement advanced UI features like typing indicators or read receipts.",
+            "testStrategy": "Manually verify the page loads correctly with different matchId values and displays the basic chat interface elements. Include this in tests/e2e/chat.spec.ts."
+          },
+          {
+            "id": 2,
+            "title": "Implement GET message endpoint",
+            "description": "Create a GET /api/chat/messages/[matchId] endpoint in our backend that retrieves message history for a specific buddy match.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement a GET endpoint in src/api/chat_routes.py or extend src/main.py that follows the style in reference_files/src/main.py. The endpoint should be GET /api/chat/messages/[matchId]?cursor=...&limit=50 and query the database for messages associated with the given matchId. Include pagination with cursor and limit parameters. Ensure proper authentication to verify the requesting user is part of the match. Return messages in chronological order with sender information, message text, and timestamp. DO NOT modify any files in the reference_files directory.",
+            "testStrategy": "Create tests in tests/backend/test_chat_endpoints.py to test the endpoint with valid and invalid matchIds. Verify authentication works correctly and only returns messages for matches the user is part of. Test pagination works as expected."
+          },
+          {
+            "id": 3,
+            "title": "Implement POST message endpoint",
+            "description": "Create a POST /api/chat/send endpoint in our backend that allows users to send text messages to their buddy match.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement a POST endpoint in src/api/chat_routes.py or extend src/main.py that follows the style in reference_files/src/main.py. The endpoint should accept a match_id and message. Validate the user is part of the match before storing the message. Implement text sanitization, character limits (2-2000 chars), and rate limiting (1 msg/0.5s). Store the message with sender ID, recipient ID, timestamp, and message text. For MVP, only support plain text messages without attachments or formatting. Update the last_read timestamp for the sender. DO NOT modify any files in the reference_files directory.",
+            "testStrategy": "Create tests in tests/backend/test_chat_endpoints.py to test sending messages with valid and invalid matchIds. Verify authentication works correctly. Test message storage and retrieval to ensure messages are properly saved and can be retrieved via the GET endpoint. Test sanitization, character limits, and rate limiting."
+          },
+          {
+            "id": 4,
+            "title": "Implement database structure for messages",
+            "description": "Create or reuse database structure for storing chat messages and tracking last_read timestamps.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Create src/chat/message_model.sql with the necessary table structure for storing chat messages and tracking last_read timestamps. If an existing messages structure is already present, evaluate if it can be reused instead. The structure should include fields for message ID, match ID, sender ID, recipient ID, message text, timestamp, and read status. Ensure proper indexing for efficient querying by match ID and timestamp.",
+            "testStrategy": "Verify the database structure works correctly with the implemented endpoints. Test that messages are properly stored and retrieved, and that last_read timestamps are accurately tracked."
+          },
+          {
+            "id": 5,
+            "title": "Implement polling mechanism",
+            "description": "Add a polling mechanism to the chat page that fetches new messages every 5 seconds while maintaining scroll position.",
+            "status": "pending",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Set up a polling mechanism that calls the GET messages endpoint every 5 seconds to check for new messages. Implement state management to append new messages to the UI without duplicates. Maintain scroll position when new messages arrive. Ensure this works alongside the existing Redis session management without conflicts. Update the last_read timestamp when appropriate. Implement this in our application code, not in the reference files.",
+            "testStrategy": "Create tests in tests/e2e/chat.spec.ts to verify that new messages appear within 5 seconds when sent from another account. Test that polling maintains proper scroll position and doesn't cause performance issues. Confirm that Redis session management continues to function correctly."
+          },
+          {
+            "id": 6,
+            "title": "Implement end-to-end testing",
+            "description": "Create comprehensive end-to-end tests for the chat functionality.",
+            "status": "pending",
+            "dependencies": [
+              1,
+              2,
+              3,
+              5
+            ],
+            "details": "Create tests/e2e/chat.spec.ts to test the complete chat flow. Test scenarios should include: two users exchanging messages, verifying messages appear within 5 seconds via polling, confirming non-participants cannot access chats, testing pagination works correctly, and verifying message sanitization and rate limiting function as expected.",
+            "testStrategy": "Run the end-to-end tests in a test environment with two test accounts. Verify all aspects of the chat functionality work as expected, including authentication, message exchange, polling, and access control."
+          },
+          {
+            "id": 7,
+            "title": "Static venue suggestions panel in chat",
+            "description": "Add a suggestions panel to /buddy-chat/[matchId] with static venue categories (coffee shops, bookstores, malls, parks) and example tips. No external API. Toggleable UI section. Reference PRD §2.2 Feature 5 \"Suggested Venue Types\".",
+            "details": "",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 11
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Challenges catalog and API",
+        "description": "Seed and expose GET /api/challenges with difficulty filter and metadata.",
+        "status": "pending",
+        "dependencies": [
+          2,
+          3
+        ],
+        "priority": "medium",
+        "details": "- Populate approach_challenges per PRD with titles, descriptions, points.\n- Implement GET /api/challenges?difficulty=... in FastAPI following route style in reference_files/src/main.py.\n- Cache results in Redis for 10m following existing Redis usage patterns in reference_files/src/main.py.\n- Add feature flag to add more later without deploy (config table).\n- Include per-challenge tips surfaced by Connell via tool call.\n- New endpoints should live alongside existing ones without changing references.\n<info added on 2025-08-11T03:43:02.276Z>\n- Implement cache tagging system with 'challenges' tag for GET /api/challenges Redis cache\n- Add support for manual cache invalidation via revalidateTag('challenges') for admin updates\n- Include ETag header support in response for client-side caching if needed\n- Keep cache invalidation implementation simple for MVP phase\n</info added on 2025-08-11T03:43:02.276Z>",
+        "testStrategy": "- API returns correct sets per difficulty.\n- Cache hit/miss verified.\n- Schema validation on response with zod.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Populate approach_challenges table with initial challenge data per PRD",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Implement GET /api/challenges endpoint in FastAPI following existing route patterns",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Add difficulty filter parameter to challenges endpoint",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Implement Redis caching for challenge results with 10m expiration",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Create feature flag in config table for enabling additional challenges",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Add integration with Connell tool calls to surface per-challenge tips",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Session creation flow and API",
+        "description": "Implement POST /api/session/create to schedule wingman sessions with per-user challenges.",
+        "status": "pending",
+        "dependencies": [
+          11,
+          12
+        ],
+        "priority": "high",
+        "details": "- Input: match_id, venue_name, time (ISO8601), user1_challenge_id, user2_challenge_id.\n- Verify match status accepted; ensure challenges exist.\n- Create wingman_sessions row status=scheduled.\n- Notify both users via email and in-app message; add to chat as system card.\n- Enforce one active session per match at a time.\n- Follow FastAPI style in reference_files/src/main.py for implementation.\n- Reuse email (resend) import style already present in main.py.\n- Write to wingman_sessions table; ensure one active session per match.\n- Create new code only; do not modify reference files.",
+        "testStrategy": "- API tests for validation, authorization, and creation.\n- E2E: schedule from chat and see confirmation card.\n- Timezone handling tests using TZ-mock.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Create FastAPI endpoint for POST /api/session/create following style in reference_files/src/main.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Implement input validation for match_id, venue_name, time, and challenge IDs",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Add logic to verify match status is accepted and challenges exist",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Implement wingman_sessions table write with status=scheduled",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Add check to enforce one active session per match at a time",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Implement email notifications using existing resend import style",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "",
+            "description": "Add in-app notification and chat system card creation",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "",
+            "description": "Write API tests for validation, authorization, and creation flows",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "",
+            "description": "Create E2E test for scheduling from chat and confirming system card appears",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 10,
+            "title": "",
+            "description": "Implement timezone handling tests using TZ-mock",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Active session page UI",
+        "description": "Build /session/[id] to display both challenges, confirm buttons, and notes.",
+        "details": "- Fetch session details; show each user's challenge and status.\n- Buttons: \"I confirm my buddy completed\" for each side; disabled until scheduled_time passes OR user marks present.\n- Notes field stored in wingman_sessions.notes.\n- Show reputation preview impact.\n- Mobile-first, offline-friendly state caching.\n<info added on 2025-08-11T03:43:06.175Z>\n- Next.js architecture: Use Server Components for initial session data loading, Client Components for interactive elements like chat controls, and avoid over-fetching data.\n- Disable automatic prefetching with `prefetch={false}` on session page links to prevent stale state issues.\n- Implement `router.refresh()` after actions to ensure fresh data.\n- Structure the page with Suspense boundaries to separate messages from metadata for better loading experience.\n- Configure Playwright to capture traces on first retry for debugging session page interactions.\n</info added on 2025-08-11T03:43:06.175Z>",
+        "testStrategy": "- E2E: both users confirm; UI updates to completed.\n- Permission tests ensure only matched users can view/act.\n- Snapshot tests for responsive layouts.",
+        "priority": "high",
+        "dependencies": [
+          13
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "RSC page scaffold for /session/[id] with initial data load and Suspense layout",
+            "description": "Create the Server Component route for the active session page that fetches session details and renders both users' challenges and statuses, with Suspense boundaries separating messages from session metadata. Disable link prefetch to this page.",
+            "dependencies": [],
+            "details": "Files to create/edit:\n- app/session/[id]/page.tsx (Server Component):\n  - Fetch session data (match participants, scheduled_time, both challenges, confirmation statuses, notes, reputation preview data) via server-side data function using fetch with cache tags.\n  - Render metadata section (time, venue, participants, challenge titles/status) and a <ClientActions /> slot inside a Suspense boundary for interactive controls.\n  - Add another Suspense boundary for messages/chat region to prevent blocking metadata rendering.\n  - Ensure links pointing to this route use prefetch={false}.\n- app/session/[id]/loading.tsx: Lightweight skeletons for metadata and actions.\n- app/session/[id]/error.tsx: Error boundary to display access or load errors with retry.\n- lib/sessions/getSession.ts (server util): Fetch by id using Supabase or internal API with fetch tags like ['session', `session:${id}`]; return typed object for RSC.\n- app/(components)/SessionMetadata.tsx (Server Component): Present scheduled time, venue, each user's challenge and current status. Accessibility: use ARIA regions and headings.\nReference-first patterns:\n- Use Next.js Server vs Client composition per Next docs to keep data fetching on server and interactivity in clients[2][5]. Prefer Server Components for initial load and smaller bundles; use Client Components only where needed[1][3][4].\nArchitecture:\n- Use Suspense boundaries to stream metadata separately from messages as specified.\n- Tag fetches to enable revalidateTag on mutations later.\nAcceptance criteria:\n- Navigating to /session/[id] shows both participants' challenges and statuses from server-rendered HTML before client JS loads.\n- Suspense keeps metadata visible even if messages area is still loading.\n- Links to this page have prefetch disabled.\n- Accessibility: metadata grouped with role='region' and aria-labelledby.\nVerification:\n- Snapshot tests for metadata skeleton and final render across mobile widths.\n- Check prefetch={false} present on links to this route.",
+            "status": "pending",
+            "testStrategy": "Vitest/React Testing Library: render page.tsx with mocked getSession to assert server-rendered metadata and presence of Suspense placeholders. Snapshot tests for mobile/desktop breakpoints. Playwright: navigate to /session/[id], assert metadata shows before messages resolve (using network throttling), and verify no prefetch requests are made."
+          },
+          {
+            "id": 2,
+            "title": "Client interactivity: confirmation buttons, notes form, and offline-friendly state cache",
+            "description": "Implement Client Components for confirmation actions per side, notes editing bound to wingman_sessions.notes, reputation impact preview, and offline-first local cache to queue actions and hydrate UI on reconnect.",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Files to create/edit:\n- app/session/[id]/ClientActions.tsx ('use client'):\n  - Props: sessionId, currentUserId, scheduled_time, presence flags, current statuses, notes, reputation preview delta per action.\n  - Render two buttons: \"I confirm my buddy completed\" for each side, disabled until scheduled_time passes OR user marked present is true (as specified). Buttons show optimistic state and disabled spinner during mutate.\n  - Notes textarea bound to notes; debounce save.\n  - Show reputation preview impact (+/- points) next to each action.\n  - On submit actions, call route handlers (see Subtask 3), then router.refresh() to ensure fresh data per guidance.\n  - Offline caching: store pending actions and notes edits in IndexedDB/localStorage; apply optimistic UI. On regain connectivity, replay queued actions with exponential backoff; show toasts.\n- app/session/[id]/ReputationPreview.tsx ('use client'): small component to compute/display delta passed from server.\n- lib/offline/queue.ts ('use client'): simple queue with retry/backoff and rate limit (reuse exponential backoff approach from Context7 Redis guidance conceptually) and visibilitychange/online listeners.\n- Accessibility: buttons with aria-disabled and proper labels; form with RHF + Zod for notes validation; keyboard navigation.\nReference-first patterns:\n- Use Client Components only for interactivity and hooks; keep heavy data fetch server-side[2][5][1][3][4].\n- Call router.refresh() after actions to invalidate RSC payload as instructed.\nAcceptance criteria:\n- Buttons remain disabled until either scheduled_time has passed or the user is marked present; they enable accordingly.\n- Notes persist to backend and reflect after refresh.\n- Reputation preview shows before committing.\n- Offline: toggling airplane mode allows entering notes and clicking confirm; actions are queued and replay successfully when back online; UI reconciles after router.refresh().\nVerification:\n- Visual checks on mobile breakpoints; keyboard-only navigation works; form validation errors announced.",
+            "status": "pending",
+            "testStrategy": "Playwright: simulate time passing and presence to verify button enable/disable logic; go offline (browser context) to queue actions, then back online to assert replay and data persistence; assert router.refresh() is called (via UI state). Vitest: unit test Zod schema for notes, queue retry logic with fake timers, and optimistic reducer."
+          },
+          {
+            "id": 3,
+            "title": "API route handlers, FastAPI endpoints, and Supabase policies for session actions",
+            "description": "Implement endpoints to fetch session, confirm completion per side, and update notes. Ensure RLS allows only matched users to view/act. Wire invalidation with revalidateTag/path and capture Playwright traces on retry.",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Files to create/edit (Next.js):\n- app/api/session/[id]/route.ts (GET): Return session with challenges, statuses, notes; cache-safe GET with { next: { tags: ['session', `session:${id}`] }, cache: 'force-cache' } and export dynamic='force-static' for safe caching of GETs.\n- app/api/session/[id]/confirm/route.ts (POST): Body: { side: 'user1'|'user2' }. Validate ACL; update confirmation status and reputation preview calc in response. After success, call revalidateTag(`session:${id}`) and revalidatePath(`/session/${id}`).\n- app/api/session/[id]/notes/route.ts (PATCH): Body: { notes: string }. Validate and update notes; revalidate as above.\nFiles to create/edit (FastAPI backend):\n- src/api/session.py: Endpoints GET /session/{id}, POST /session/{id}/confirm, PATCH /session/{id}/notes using Pydantic v2 models with Field constraints; use response_model and BackgroundTasks for side effects (emails/notifications if needed). Enforce auth and ACL via Supabase RLS.\nDatabase:\n- migrations/20250811_session_policies.sql:\n  - RLS: PERMISSIVE policies per operation (SELECT/UPDATE) on wingman_sessions ensuring only the two match users (wrap auth.uid() in SELECT) can access; separate UPDATE policies for notes and confirmation fields.\n  - Indexes (BTREE) on wingman_sessions(id), (match_id), (scheduled_time) for access paths.\nIntegration glue:\n- lib/api/client.ts: helper to call app/api endpoints from ClientActions with idempotency headers.\nOther config:\n- playwright.config.ts: ensure trace='on-first-retry' as instructed.\nReference-first patterns:\n- Route Handlers under app/api/... with cache only for GETs; use revalidateTag/revalidatePath for invalidation; adhere to patterns in reference files for FastAPI style and config.\nAcceptance criteria:\n- Only matched users can GET/POST/PATCH for a session; others receive 403.\n- Confirming updates the correct side's status and returns updated payload.\n- Notes update persists to wingman_sessions.notes.\n- GET is cacheable and invalidated on mutations.\n- Playwright captures traces on first retry for session page tests.",
+            "status": "pending",
+            "testStrategy": "Pytest: auth/ACL tests for GET/confirm/notes; validation errors for bad side or notes length. SQL test: policies permit exactly the two users. Vitest: route handler unit tests with mock fetch and revalidateTag. Playwright: end-to-end flow where both users confirm and UI updates to completed; verify trace artifacts produced on retry."
+          },
+          {
+            "id": 4,
+            "title": "Reputation preview computation and UI integration",
+            "description": "Compute and surface reputation impact deltas for each confirm action server-side, display a clear preview in the UI, and ensure consistency after actions.",
+            "dependencies": [
+              "14.1",
+              "14.3"
+            ],
+            "details": "Files to create/edit:\n- lib/sessions/reputation.ts (server util): Function getReputationPreview(session): returns { user1Delta, user2Delta } based on current statuses and rules; exported for use in page.tsx and API responses.\n- Update app/session/[id]/page.tsx: include preview values in props passed to ClientActions.\n- Update app/api/session/[id]/route.ts (GET): include preview deltas from getReputationPreview in the JSON.\n- Update app/api/session/[id]/confirm/route.ts (POST): after update, recompute and return new preview deltas.\n- UI: app/session/[id]/ReputationPreview.tsx renders concise badges (e.g., +5) with tooltips; ensure mobile-friendly.\nReference-first patterns:\n- Keep computation on the server and pass minimal props to clients consistent with Server/Client separation guidance[2][5][1][3][4].\nAcceptance criteria:\n- On initial load, preview matches server computation.\n- After confirming, preview updates via router.refresh() and API response consistency.\n- No extra client fetches for preview; values flow from server and mutations.\nVerification:\n- Edge cases: when both sides already confirmed, deltas are 0 and UI hides preview.",
+            "status": "pending",
+            "testStrategy": "Vitest: unit tests for getReputationPreview across status combos. Playwright: confirm action updates preview immediately (optimistic) and matches post-refresh values; responsive snapshot of preview badges."
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Completion confirmation API and reputation update",
+        "description": "Implement POST /api/session/confirm-completion and reputation counters.",
+        "status": "pending",
+        "dependencies": [
+          13,
+          14
+        ],
+        "priority": "high",
+        "details": "- Implement POST /api/session/confirm-completion following FastAPI patterns in reference_files/src/main.py.\n- Validates session/match membership; toggles userX_completed_confirmed_by_userY.\n- When both true → set session status=completed and completed_at.\n- Update reputation with simple SQL statements: increment completed_sessions counter.\n- Return both_confirmed and reputation_updated.\n- Document placeholder for future cron job that will handle no-shows detection (not implementing now for MVP).",
+        "testStrategy": "- Unit tests toggling confirm flags in different orders.\n- Test idempotency for double-submit scenarios.\n- Verify SQL statements correctly update reputation counters.\n- Ensure proper validation of session membership and state transitions.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Implement POST /api/session/confirm-completion endpoint following FastAPI patterns",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Add session membership validation logic",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Implement confirmation flag toggle functionality",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Add session completion logic when both users confirm",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Implement simple SQL for reputation counter updates",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Document placeholder for future no-show detection cron job",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "",
+            "description": "Write unit tests for confirmation scenarios",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "title": "Reputation read endpoint and UI badges",
+        "description": "GET /api/user/reputation/[userId] and display basic trust indicators in match cards.",
+        "status": "pending",
+        "dependencies": [
+          15
+        ],
+        "priority": "medium",
+        "details": "- Compute score = completed_sessions - no_shows; cap at [-5, +20].\n- Include totals; cache per user 5m.\n- Show badge colors: green/gold/red based on thresholds.\n- Expose in find-buddy and chat header.\n- Implement using patterns from reference_files/src/main.py for read endpoints and simple caching.\n- Use Chakra Badge component pattern from reference_files/frontend_reference/FAF_website/app for UI implementation.\n- Create new files only, don't modify existing ones.",
+        "testStrategy": "- API tests for users with different histories.\n- UI test: badges render correctly.\n- Cache invalidation on updates verified.\n- Verify endpoint follows patterns from reference implementation.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement GET /api/user/reputation/[userId] endpoint",
+            "description": "Create new endpoint following patterns from reference_files/src/main.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement reputation score calculation logic",
+            "description": "Calculate score = completed_sessions - no_shows with cap at [-5, +20]",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Add caching mechanism",
+            "description": "Implement 5-minute caching per user following reference patterns",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create UI badge component",
+            "description": "Implement badge using Chakra Badge component pattern from reference files",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Integrate badges in match cards",
+            "description": "Add reputation badges to find-buddy interface and chat header",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Write API tests",
+            "description": "Test endpoint with users having different reputation histories",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Write UI tests",
+            "description": "Verify badges render correctly with different reputation levels",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "title": "Homepage and copy updates",
+        "description": "Update homepage copy from 'Hai' to 'Connell' and replace creative project references with dating confidence references.",
+        "status": "pending",
+        "dependencies": [
+          6,
+          4
+        ],
+        "priority": "medium",
+        "details": "- Update home/page.tsx content per PRD: replace 'Hai' with 'Connell' throughout.\n- Change creative project references to dating confidence references as specified in PRD.\n- Use existing Chakra UI + Tailwind components for content updates.\n- Update meta title/description for SEO.\n- Ensure all copy changes match the PRD specifications.",
+        "testStrategy": "- Visual QA to verify copy matches PRD specifications.\n- Verify all 'Hai' references have been replaced with 'Connell'.\n- Confirm creative project references have been updated to dating confidence references.\n- Check that SEO meta tags are properly updated.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Replace 'Hai' with 'Connell' throughout homepage",
+            "description": "",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Update creative project references to dating confidence references",
+            "description": "",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Update SEO meta title and description",
+            "description": "",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Verify all copy changes against PRD specifications",
+            "description": "",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "title": "Transform project_overview API→/api/dating-goals",
+        "description": "Repurpose project overview to dating goals with minimal changes, creating new endpoints without modifying reference files.",
+        "status": "pending",
+        "dependencies": [
+          2,
+          4,
+          5
+        ],
+        "priority": "medium",
+        "details": "- Copy reference_files/src/agents/project_overview_agent.py → src/agents/wingman_profile_agent.py and simplify to goals for dating\n- Create new route /api/dating-goals in FastAPI per reference_files/src/main.py; do not modify existing project-overview route\n- Adapt schema fields to goals for confidence building (targets, triggers, past attempts)\n- Store in dating_goals table with same shape\n- Integrate into Connell memory so coach references goals\n- Link from assessment results page to optionally fill goals",
+        "testStrategy": "- API tests for CRUD operations on new endpoint\n- Coach conversation references stored goals in responses in sandbox tests\n- Verify original project-overview endpoint still works correctly\n- Ensure new implementation doesn't interfere with existing code paths",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Copy and adapt project_overview_agent.py to wingman_profile_agent.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Create new FastAPI route for /api/dating-goals without modifying existing routes",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Adapt schema fields for dating goals context (targets, triggers, past attempts)",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Create dating_goals table with appropriate schema",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Integrate goals data into Connell memory context",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Add link from assessment results page to dating goals form",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "title": "Email notifications for coordination",
+        "description": "Leverage Resend to notify match creation, acceptance, session scheduled, reminders.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          10,
+          13
+        ],
+        "priority": "medium",
+        "details": "- Create NEW email templates local to WingmanMatch for match_accepted and session_scheduled events.\n- Reuse existing Resend configuration already present in reference_files/src/main.py.\n- Include unsubscribe/manage preferences per user.\n- Use background job queue (Redis) for scheduled sends with cron worker.\n- Localize time zones in subject/body.\n- Future templates to consider: match_found, session_reminder (T-24h and T-2h), session_feedback.\n<info added on 2025-08-11T03:43:10.690Z>\n## Resend Email Implementation Best Practices\n\n- Use official resend-python SDK; set API key via environment variables for security.\n- Version control all email templates within the codebase.\n- Pass tags with each email for tracking and analytics purposes.\n- Implement application-level retry logic with exponential backoff for transient failures.\n- Log message IDs returned from Resend API for troubleshooting and auditing.\n- Include idempotency keys in metadata to prevent duplicate emails during retries.\n- Leverage FastAPI's BackgroundTasks for asynchronous email sending to avoid blocking request handlers.\n- Consider implementing a dead letter queue for failed email attempts that exceed retry limits.\n</info added on 2025-08-11T03:43:10.690Z>",
+        "testStrategy": "- Send test emails to seed users.\n- Verify scheduling triggers via time travel in tests.\n- Unsubscribe link updates prefs.\n- Ensure templates render correctly with various user data.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Create email template for match_accepted notification",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Create email template for session_scheduled notification",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Implement email sending function using existing Resend configuration",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "",
+            "description": "Add unsubscribe/preference management links to email templates",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "",
+            "description": "Implement timezone localization for dates/times in email content",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "",
+            "description": "Set up Redis job queue for scheduled email notifications",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "",
+            "description": "Create test cases for email rendering and delivery",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "title": "Safety and reporting MVP",
+        "description": "Add basic report/block features and safety copy emphasizing public venues.",
+        "status": "pending",
+        "dependencies": [
+          9,
+          11
+        ],
+        "priority": "medium",
+        "details": "- Add POST /api/user/block and /api/user/report with reasons following FastAPI patterns in reference_files/src/main.py; store in moderation table.\n- Apply RLS/ownership principles from reference_files/docs/dev-documentation/04-database-guide.md.\n- Hide blocked users from matching and chat.\n- Rate-limit messaging; profanity filter using simple local bad-words list with soft warnings.\n- Safety tips modal before first session.\n- Admin view to review reports (basic table).",
+        "testStrategy": "- API tests for block/report flows.\n- Matching excludes blocked users in unit tests.\n- Profanity filter unit tests.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement POST /api/user/block endpoint",
+            "description": "Create block endpoint following FastAPI patterns in reference code, with proper RLS/ownership principles",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement POST /api/user/report endpoint",
+            "description": "Create report endpoint with reason selection, following reference code patterns and RLS principles",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create moderation database table",
+            "description": "Design and implement moderation table to store block/report data with proper ownership controls",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement user blocking in matching algorithm",
+            "description": "Update matching logic to exclude blocked users from potential matches",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement chat blocking functionality",
+            "description": "Prevent blocked users from appearing in chat or sending messages",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Create simple profanity filter",
+            "description": "Implement basic profanity filter using local word list with warning messages",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Implement message rate limiting",
+            "description": "Add rate limiting to message sending to prevent abuse",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Create safety tips modal",
+            "description": "Design and implement modal with safety tips to show before first session",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "Build admin report review interface",
+            "description": "Create basic table view for admins to review user reports",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "title": "Location privacy controls",
+        "description": "Allow city-level matching and adjustable radius in preferences.",
+        "status": "pending",
+        "dependencies": [
+          7,
+          8,
+          9
+        ],
+        "priority": "low",
+        "details": "- In profile, toggle \"Use precise location\" vs \"Use city-only centroid\" using Chakra form patterns.\n- Matching reads max_travel_miles and privacy setting from user_locations table.\n- Update user_locations.updated_at periodically if user consents to background updates.\n- Document privacy in settings page.\n- Implement Haversine function for distance calculation as per Task 8.\n- Follow UI patterns from reference_files/frontend_reference/FAF_website/app.",
+        "testStrategy": "- Matching respects radius and privacy flags in tests.\n- UI toggles persist and apply.\n- No coordinates stored when city-only selected (only centroid).\n- Verify Haversine function correctly calculates distances between locations.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement UI toggle on profile page",
+            "description": "Create location privacy toggle using Chakra form patterns from reference files",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Backend logic for privacy settings",
+            "description": "Implement backend logic to read max_travel_miles and privacy settings from user_locations table",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Integrate Haversine function",
+            "description": "Implement distance calculation using Haversine function as specified in Task 8",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Documentation in settings page",
+            "description": "Add privacy documentation to the settings page explaining location privacy options",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "title": "Performance and cost optimizations",
+        "description": "Cache hot reads, stream AI responses, and control LLM cost.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          11,
+          12,
+          16
+        ],
+        "priority": "medium",
+        "details": "- Redis cache for challenges and reputation using connection style from reference_files/src/main.py; ETag headers on static.\n- AI: route to cheaper model for small talk; use summarization to compress memory; truncate context to last N turns plus summary (inspired by reference_files/src/content_summarizer.py and reference_files/src/simple_memory.py).\n- DB connection pooling (pgbouncer or Supabase pooler).\n- Lazy load pages; code-split chat.\n- Observability: p95 latency dashboards.",
+        "testStrategy": "- Load tests with k6; track p95 under 300ms for APIs (excluding LLM).\n- Verify token spend drops after routing policy.\n- Lighthouse performance ≥ 90 on core pages.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Redis caching for hot reads",
+            "description": "Set up Redis caching for frequently accessed data like challenges and reputation using the connection style from reference_files/src/main.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement AI content summarization",
+            "description": "Create content truncation and summary approach for AI memory based on patterns in reference_files/src/content_summarizer.py and reference_files/src/simple_memory.py",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Set up model routing for cost optimization",
+            "description": "Implement logic to route small talk to cheaper models while using more capable models for coaching",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Configure database connection pooling",
+            "description": "Set up pgbouncer or Supabase pooler for efficient database connection management",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Optimize frontend performance",
+            "description": "Implement lazy loading for pages and code-splitting for chat components",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Create observability dashboards",
+            "description": "Set up dashboards to track p95 latency and other performance metrics",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "title": "Basic user journey test for critical paths",
+        "description": "Implement basic tests covering the main user flow: SIGNUP→PROFILE→MATCH→CHAT",
+        "status": "pending",
+        "dependencies": [
+          6,
+          7,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          16
+        ],
+        "priority": "medium",
+        "details": "- Use existing test framework with a single synthetic user\n- Leverage existing test fixtures for database setup\n- Focus on happy path testing only\n- Basic screenshots for failure documentation\n- Reuse existing F@4 patterns where possible\n- Base E2E scaffolding on reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py and run_all_tests.py (structure/conventions)\n- Create NEW tests under tests/e2e/wingmanmatch; do not touch reference_files tests\n<info added on 2025-08-11T03:43:16.275Z>\n- Configure tests with worker-scoped fixtures for test isolation and seeded users\n- Enable trace capturing with `trace: 'on-first-retry'` and set retries=2 for CI runs\n- Implement geolocation mocking for location-based match radius tests\n- Use Clock API for time-dependent test scenarios that require fast-forwarding\n- Set up network interception to stub external service dependencies\n- Utilize request fixture for API-based test setup when appropriate\n- Keep tests parallel where possible, only making them serial when state dependencies require it\n- Configure automatic trace and screenshot recording on test retry attempts\n- Follow Playwright best practices for stable E2E test execution\n</info added on 2025-08-11T03:43:16.275Z>",
+        "testStrategy": "- Basic test run on PR before merge\n- Focus on stability over comprehensive coverage\n- Test only critical user paths\n- Keep scope to happy path SIGNUP→PROFILE→MATCH→CHAT per PRD timeline",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement basic signup flow test",
+            "description": "Create a simple test that verifies a new user can successfully complete the signup process with valid credentials.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Use the existing test framework to create a single test case that validates the core signup functionality. Focus only on the happy path with valid input data. Capture a screenshot at the end of successful signup. Reuse existing test fixtures for database setup and teardown. Create this test under tests/e2e/wingmanmatch/ following the structure in reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py.",
+            "testStrategy": "Run as part of PR validation. Test only that a user can complete signup with valid credentials and verify they reach the confirmation/success state."
+          },
+          {
+            "id": 2,
+            "title": "Implement basic profile creation test",
+            "description": "Create a test that verifies a user can successfully set up their basic profile with required fields only.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "Build on the signup test to verify profile creation. Use a synthetic user and focus only on required profile fields. Skip optional profile customization. Take a screenshot of the completed profile for verification. Use existing test fixtures for any necessary data setup. Implement in tests/e2e/wingmanmatch/ directory following reference test patterns.",
+            "testStrategy": "Run after signup test in the PR validation sequence. Verify only that required profile fields can be completed and saved successfully."
+          },
+          {
+            "id": 3,
+            "title": "Implement basic match discovery test",
+            "description": "Create a test that verifies a user with a completed profile can view potential matches in the match discovery interface.",
+            "status": "pending",
+            "dependencies": [
+              2
+            ],
+            "details": "Use the synthetic user with completed profile to access the match discovery feature. Verify only that matches are displayed and the interface loads correctly. Do not test filtering, preferences, or other advanced matching features. Take a screenshot of the match discovery screen for verification. Follow the structure and conventions from reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py.",
+            "testStrategy": "Run after profile test in the PR validation sequence. Verify only that the match discovery interface loads and displays potential matches."
+          },
+          {
+            "id": 4,
+            "title": "Implement basic match selection test",
+            "description": "Create a test that verifies a user can select a match from the discovery interface to initiate contact.",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "details": "Build on the match discovery test to verify a user can select a potential match. Use existing test fixtures to simulate available matches. Test only the basic selection functionality without testing advanced matching algorithms or preference-based matching. Take a screenshot of the successful match selection. Implement in the tests/e2e/wingmanmatch/ directory.",
+            "testStrategy": "Run after match discovery test in the PR validation sequence. Verify only that a user can successfully select a match from those presented."
+          },
+          {
+            "id": 5,
+            "title": "Implement basic chat initiation test",
+            "description": "Create a test that verifies users can initiate and send a basic message in the chat interface after matching.",
+            "status": "pending",
+            "dependencies": [
+              4
+            ],
+            "details": "Complete the user journey by testing the chat functionality. Verify only that the chat interface opens correctly after match selection and that a simple text message can be sent. Do not test media sharing, notifications, or other advanced chat features. Take a screenshot of the successful message sending for verification. Follow the patterns from reference_files/new_tests/real_world_tests/test_db_driven_full_journey.py.",
+            "testStrategy": "Run as the final step in the PR validation sequence. Verify only that the chat interface loads correctly and a basic text message can be sent."
+          },
+          {
+            "id": 6,
+            "title": "Create test runner for full journey",
+            "description": "Implement a test runner that executes all tests in sequence to validate the complete user journey.",
+            "status": "pending",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "details": "Create a test runner in tests/e2e/wingmanmatch/ based on the structure of reference_files/new_tests/real_world_tests/run_all_tests.py. Ensure the runner executes all tests in the correct sequence to validate the full SIGNUP→PROFILE→MATCH→CHAT journey. Include proper setup and teardown to ensure tests can run independently or as a complete sequence.",
+            "testStrategy": "Run as part of PR validation to ensure the complete user journey works end-to-end. Focus on stability and reliability of the test suite."
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "title": "Deployment, monitoring, and alerts",
+        "description": "Ship staging and production with monitoring, logs, and error tracking.",
+        "status": "pending",
+        "dependencies": [
+          1,
+          2,
+          3,
+          22
+        ],
+        "priority": "high",
+        "details": "- Follow deployment patterns in reference_files/docs/dev-documentation/07-deployment.md and reference_files/docs/deployment_workflow_docs.md.\n- Deploy frontend on Vercel; backend APIs as Next.js route handlers or FastAPI service behind edge if used.\n- Supabase managed Postgres; Redis managed (Upstash/Redis Cloud).\n- Reuse logging/healthcheck patterns from reference_files/src/main.py in our infrastructure.\n- Observability: Sentry for FE/BE, Logtail/Datadog for logs, UptimeRobot.\n- Alerts on error spikes, queue backlogs, and DB CPU.\n- Backups and point-in-time recovery enabled.\n- Feature flags via simple JSON in DB or ConfigCat for prompt A/B.\n<info added on 2025-08-11T03:43:21.295Z>\n- Next.js route handlers: opt-in caching only for safe GETs; use revalidatePath/Tag on mutations.\n- Supabase migrations: run `supabase migration up` in CI before deploy; avoid mixing schema/data in squash; `db push` for staging sync.\n- Observability: enable Playwright trace on CI; log Redis connection errors; simple healthcheck route.\n- Rollback plan: keep migrations atomic; verify with `scripts/db/verify_wm_schema.sql` before promote.\n</info added on 2025-08-11T03:43:21.295Z>\n<info added on 2025-08-12T17:43:45.367Z>\n- Deployment gating: All deployments to production require explicit owner approval. \n- Default workflow is staging deploy only; production release requires a manual approval step and confirmation in chat.\n- Implement approval workflow in CI/CD pipeline with required approvers.\n- Document the approval process in deployment documentation.\n- Set up notifications in chat for deployment approval requests.\n- This aligns with project rule: DEV ONLY by default.\n</info added on 2025-08-12T17:43:45.367Z>",
+        "testStrategy": "- Chaos test: kill Redis; ensure app degrades gracefully.\n- Alerting dry-run notifications to Slack.\n- Rollback plan validated on staging.\n- Verify healthcheck endpoints are working as expected following reference patterns.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Review reference deployment documentation",
+            "description": "Study reference_files/docs/dev-documentation/07-deployment.md and reference_files/docs/deployment_workflow_docs.md to understand deployment patterns.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement logging and healthcheck patterns",
+            "description": "Reuse logging and healthcheck patterns from reference_files/src/main.py in our infrastructure.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Set up Vercel deployment for frontend",
+            "description": "Configure Vercel project settings, environment variables, and deployment hooks.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Configure backend deployment",
+            "description": "Set up backend APIs as Next.js route handlers or FastAPI service behind edge according to reference patterns.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Set up monitoring and observability",
+            "description": "Implement Sentry for FE/BE, Logtail/Datadog for logs, and UptimeRobot following reference patterns.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Configure alerts and notifications",
+            "description": "Set up alerts for error spikes, queue backlogs, and DB CPU with notifications to Slack.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Enable backups and recovery",
+            "description": "Configure backups and point-in-time recovery for Supabase Postgres.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Implement feature flag system",
+            "description": "Set up feature flags via simple JSON in DB or ConfigCat for prompt A/B testing.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "title": "Beta operations and feedback loop",
+        "description": "Enable internal/beta cohort, collect feedback, and iterate quickly.",
+        "status": "pending",
+        "dependencies": [
+          17,
+          23,
+          24
+        ],
+        "priority": "medium",
+        "details": "- Beta invite codes; gate new signups.\n- In-app feedback form after sessions; NPS-style and qualitative.\n- Analytics: match acceptance, session completion, D7 retention; dashboards (based on patterns in reference_files/frontend_reference/FAF_website/README.md and CLAUDE.md).\n- Prompt A/B testing harness for Connell responses.\n- Changelog and release cadence 2-3 days.\n- Implement invite gating and feedback collection in our codebase only, without modifying reference files.",
+        "testStrategy": "- Validate invite gating works.\n- Ensure analytics events populate dashboards using lightweight testing approach.\n- Run a 20-user beta; collect and triage issues within SLA.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement beta invite code system",
+            "description": "Create a system to gate new signups using invite codes",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Set up analytics events based on reference patterns",
+            "description": "Wire up analytics events following patterns in reference_files/frontend_reference/FAF_website/README.md and CLAUDE.md",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create in-app feedback form",
+            "description": "Implement NPS-style and qualitative feedback form to appear after sessions",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Build analytics dashboards",
+            "description": "Create dashboards for tracking match acceptance, session completion, and D7 retention",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Develop A/B testing harness for Connell responses",
+            "description": "Create a system to test different prompt variations for Connell responses",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Establish changelog and release process",
+            "description": "Set up lightweight release cadence (2-3 days) with changelog documentation",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 26,
+        "title": "Provision Supabase Projects for WingmanMatch",
+        "description": "Create and configure Supabase projects for staging and production environments, including proper security settings, storage buckets, migrations, and access controls.",
+        "details": "- Create two Supabase projects: staging and production; document project reference IDs in README.md Ops section\n- Securely capture and store the following secrets for both environments:\n  * SUPABASE_URL\n  * SUPABASE_ANON_KEY\n  * SUPABASE_SERVICE_ROLE_KEY\n  * Database connection string\n  * JWT secret\n- Configure authentication and security:\n  * Set custom JWT secret for both environments\n  * Enable Row Level Security (RLS) globally\n  * Configure proper CORS settings for frontend domains\n- Storage configuration:\n  * Create bucket `profile-photos` in both environments\n  * Add RLS policy allowing only owner writes to their photos\n  * Implement file type restrictions using storage.extension(name) = 'png'|'jpg'|'jpeg'\n- CLI setup:\n  * Link local project(s) via Supabase CLI\n  * Set environment variables in .env/.env.local for frontend/backend\n  * Ensure secrets are never committed to the repository\n  * Configure .gitignore to prevent accidental commits\n- Database migrations:\n  * Run migrations_wm (001/002/003...) against staging environment\n  * Verify schema with scripts/db/verify_wm_schema.sql\n  * After verification, promote migrations to production\n- Seed data:\n  * Run scripts/db/seed_challenges.sql on staging environment only\n  * Document seed data purpose and contents\n- Backup configuration:\n  * Enable Point-in-Time Recovery (PITR)\n  * Configure automated backups with appropriate retention policy\n  * Document backup/restore procedures\n- Access management:\n  * Add team members with least privilege principle\n  * Rotate service role credentials after initial setup/handoff\n  * Document access control policies\n- Documentation:\n  * Create comprehensive documentation in README.md Ops section\n  * Include all project IDs, configuration details, and operational procedures\n  * Document local development setup with Supabase",
+        "testStrategy": "- Verify successful migration execution:\n  * Run `supabase migration up` on staging environment\n  * Execute verification script (scripts/db/verify_wm_schema.sql)\n  * Confirm all expected tables, views, and functions exist\n- Test database operations:\n  * Perform read/write smoke tests on key tables (user_locations, wingman_matches)\n  * Verify operations succeed using application environment\n  * Test RLS policies by attempting cross-user access (should fail)\n- Validate storage functionality:\n  * Test storage upload using signed URLs\n  * Verify RLS prevents cross-user writes to storage\n  * Confirm file type restrictions work as expected\n- Security verification:\n  * Ensure no sensitive values are committed to the repository\n  * Verify CI variables are properly masked\n  * Test JWT authentication flow works correctly\n- Environment isolation:\n  * Verify staging and production environments are properly isolated\n  * Confirm changes to staging don't affect production\n- Document verification:\n  * Review documentation for completeness and accuracy\n  * Ensure all team members can access and understand setup procedures",
+        "status": "pending",
+        "dependencies": [
+          1,
+          3
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Supabase Projects and Configure Security Settings",
+            "description": "Create staging and production Supabase projects, enable Row Level Security globally, set custom JWT secrets, and document project reference IDs.",
+            "dependencies": [],
+            "details": "1. Log into Supabase dashboard and create two new projects: 'wingmanmatch-staging' and 'wingmanmatch-production'\n2. For each project, enable Row Level Security (RLS) globally in the Auth settings\n3. Set custom JWT secrets for both environments (generate secure random strings)\n4. Create ops/supabase/README.md file and document the following:\n   - Project reference IDs for both environments\n   - Project URLs\n   - JWT configuration details (without exposing actual secrets)\n   - RLS configuration status\n5. Securely store the following secrets for both environments (do not commit to repository):\n   - SUPABASE_URL\n   - SUPABASE_ANON_KEY\n   - SUPABASE_SERVICE_ROLE_KEY\n   - Database connection string\n   - JWT secret",
+            "status": "pending",
+            "testStrategy": "Verify both projects are created and accessible. Confirm RLS is enabled by attempting to access a table without proper authentication. Document verification steps in README.md."
+          },
+          {
+            "id": 2,
+            "title": "Configure Local Environment and Link Projects via Supabase CLI",
+            "description": "Set up local environment with Supabase CLI, link to staging project, and configure environment variables securely.",
+            "dependencies": [
+              "26.1"
+            ],
+            "details": "1. Install Supabase CLI if not already installed: `npm install -g supabase`\n2. Login to Supabase CLI: `supabase login`\n3. Link local project to staging environment: `supabase link --project-ref <staging-project-ref>`\n4. Create/update the following environment files (ensure they are in .gitignore):\n   - Backend .env file with:\n     * SUPABASE_URL\n     * SUPABASE_SERVICE_ROLE_KEY\n     * JWT secret\n   - Frontend .env.local file with:\n     * NEXT_PUBLIC_SUPABASE_URL\n     * NEXT_PUBLIC_SUPABASE_ANON_KEY\n5. Verify .gitignore includes patterns for .env and .env.local\n6. Document CLI setup commands and environment variable structure in ops/supabase/README.md\n7. Add a warning note about not committing secrets to the repository",
+            "status": "pending",
+            "testStrategy": "Verify successful CLI linking by running `supabase status`. Test environment variables by executing a simple script that loads and validates them."
+          },
+          {
+            "id": 3,
+            "title": "Run Database Migrations and Create Storage Configuration",
+            "description": "Apply existing migrations to staging environment and create a new migration for storage bucket and policies.",
+            "dependencies": [
+              "26.2"
+            ],
+            "details": "1. Run existing migrations on staging environment: `supabase migration up`\n2. Create new migration file supabase/migrations_wm/004_storage_policies.sql with:\n   ```sql\n   -- Create profile-photos bucket\n   INSERT INTO storage.buckets (id, name)\n   VALUES ('profile-photos', 'profile-photos')\n   ON CONFLICT (id) DO NOTHING;\n   \n   -- RLS policy allowing only owner writes to their photos\n   CREATE POLICY \"Users can upload their own profile photos\"\n   ON storage.objects\n   FOR INSERT\n   TO authenticated\n   WITH CHECK (\n     bucket_id = 'profile-photos' AND\n     auth.uid()::text = (storage.foldername(name))[1] AND\n     storage.extension(name) IN ('png', 'jpg', 'jpeg')\n   );\n   \n   -- Policy for viewing profile photos\n   CREATE POLICY \"Profile photos are publicly viewable\"\n   ON storage.objects\n   FOR SELECT\n   TO authenticated\n   USING (bucket_id = 'profile-photos');\n   ```\n3. Apply the new migration: `supabase migration up`\n4. Run seed data script on staging only: `supabase db execute --file scripts/db/seed_challenges.sql`\n5. Verify schema with verification script: `supabase db execute --file scripts/db/verify_wm_schema.sql`\n6. Document migration results in ops/supabase/README.md",
+            "status": "pending",
+            "testStrategy": "Run verification script and capture output. Test storage policies by attempting to upload files with different extensions and to different user folders. Verify seed data is properly loaded by querying relevant tables."
+          },
+          {
+            "id": 4,
+            "title": "Configure Backups, CORS, and Access Controls",
+            "description": "Enable Point-in-Time Recovery, configure CORS settings for frontend domains, and set up team access with proper permissions.",
+            "dependencies": [
+              "26.3"
+            ],
+            "details": "1. Enable Point-in-Time Recovery (PITR) for both staging and production environments\n2. Configure automated backups with 7-day retention policy\n3. Configure CORS settings in both environments:\n   - Allow Vercel staging domain\n   - Allow Vercel production domain\n   - Allow localhost:3000 for development\n4. Add team members to both projects following least privilege principle:\n   - Developers: Developer role\n   - DevOps: Admin role\n   - Others: Read-only as needed\n5. Document in ops/supabase/README.md:\n   - Backup configuration and retention policy\n   - CORS allowed origins\n   - Access control policies and roles\n   - Backup/restore procedures\n6. Plan for service role credential rotation after initial setup",
+            "status": "pending",
+            "testStrategy": "Verify CORS configuration by making cross-origin requests from expected domains. Test backup functionality by creating a manual backup point. Verify team member access by having different team members attempt operations according to their permission level."
+          },
+          {
+            "id": 5,
+            "title": "Promote Configuration to Production and Final Documentation",
+            "description": "Apply all configurations to production environment, verify schema, and complete comprehensive documentation.",
+            "dependencies": [
+              "26.4"
+            ],
+            "details": "1. Link local project to production environment: `supabase link --project-ref <production-project-ref>`\n2. Run all migrations on production: `supabase migration up`\n3. DO NOT run seed data scripts on production\n4. Verify production schema: `supabase db execute --file scripts/db/verify_wm_schema.sql`\n5. Complete comprehensive documentation in ops/supabase/README.md:\n   - Project IDs and URLs for both environments\n   - Environment variable requirements\n   - Migration procedures\n   - Schema verification results\n   - Storage bucket configuration\n   - Backup and restore procedures\n   - Local development setup instructions\n   - Production deployment checklist\n6. Create a final checklist section confirming:\n   - No secrets in repository\n   - Environment variables configured in CI/Vercel\n   - Schema verified in both environments\n   - RLS enforced globally\n   - Storage policies implemented\n   - PITR enabled\n7. Rotate service role credentials after initial setup/handoff\n8. Document the credential rotation procedure",
+            "status": "pending",
+            "testStrategy": "Perform end-to-end verification by connecting frontend to both environments and testing authentication, database operations, and storage functionality. Verify production environment has no seed data. Have another team member follow documentation to ensure it's complete and accurate."
+          }
+        ]
+      },
+      {
+        "id": 27,
+        "title": "Provision Vercel Projects for WingmanMatch",
+        "description": "Create and configure Vercel projects for staging and production environments, including environment variables, build settings, and deployment configurations.",
+        "details": "- Create two Vercel projects: staging and production\n- Configure environment variables for both environments:\n  * NEXT_PUBLIC_SUPABASE_URL\n  * NEXT_PUBLIC_SUPABASE_ANON_KEY\n  * REDIS_URL\n  * RESEND_API_KEY\n  * Any required NEXT_RUNTIME flags\n- Connect the GitHub repository to both Vercel projects\n- Configure build settings:\n  * Set appropriate Node.js version (Node 20 LTS)\n  * Configure build command and output directory based on project structure\n  * Set up preview deployments for staging\n  * Configure production deployment settings\n- Set up project-specific settings:\n  * Enable automatic preview deployments for PRs\n  * Configure serverless function regions\n  * Set appropriate timeout values\n- Document deployment workflow:\n  * Add deployment instructions to README.md Ops section\n  * Document project IDs and references\n  * Include environment variable names and descriptions\n  * Document rotation cadence for sensitive credentials\n  * Create runbook links for common operations\n- Ensure no secrets are committed to the repository:\n  * Verify .gitignore includes .env and .env.local\n  * Configure CI to mask sensitive values\n- Prepare for domain configuration (to be set up in a later task)\n- Coordinate with Supabase project setup to ensure proper integration:\n  * Verify CORS settings allow Vercel domains\n  * Test connectivity between Vercel and Supabase environments",
+        "testStrategy": "- Verify successful connection to Supabase:\n  * Deploy a simple test page that connects to Supabase\n  * Confirm authentication flow works in the staging environment\n  * Test database read/write operations from Vercel deployment\n- Test environment variable configuration:\n  * Verify all required environment variables are properly set\n  * Confirm environment variables are accessible in the application\n  * Check that sensitive values are properly masked in logs\n- Validate build and deployment process:\n  * Trigger a test deployment to staging\n  * Verify build completes successfully\n  * Confirm application loads and functions correctly\n- Test preview deployments:\n  * Create a test PR to verify preview deployment functionality\n  * Ensure preview deployment uses staging environment variables\n- Security verification:\n  * Confirm no secrets are exposed in client-side code\n  * Verify proper CORS configuration between Vercel and Supabase\n  * Check that environment variables are properly scoped\n- Document verification:\n  * Review documentation for completeness\n  * Ensure all project IDs and references are documented\n  * Verify runbook links are accessible and accurate",
+        "status": "pending",
+        "dependencies": [
+          1,
+          26
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Vercel Projects and Connect GitHub Repository",
+            "description": "Create staging and production Vercel projects and connect them to the GitHub repository. Document project IDs and URLs in the operations documentation.",
+            "dependencies": [],
+            "details": "1. Log into Vercel dashboard and create two new projects: 'wingmanmatch-staging' and 'wingmanmatch-production'\n2. Import the GitHub repository for both projects\n3. Create ops/vercel/README.md file with the following sections:\n   - Project IDs and URLs for both environments\n   - GitHub repository connection details\n   - Team access information\n4. Enable automatic preview deployments for PRs in the staging project\n5. Configure branch deployments: main branch for staging, production branch for production",
+            "status": "pending",
+            "testStrategy": "Verify GitHub repository is properly connected by making a small commit and confirming it triggers a deployment in both environments."
+          },
+          {
+            "id": 2,
+            "title": "Configure Build Settings and Node.js Version",
+            "description": "Set up appropriate build configurations including Node.js version, build commands, and output directory settings for both Vercel projects.",
+            "dependencies": [
+              "27.1"
+            ],
+            "details": "1. In Vercel dashboard for both projects, set Node.js version to 20.x LTS\n2. Configure build command based on package.json (typically 'pnpm build' or 'npm run build')\n3. Let Vercel auto-detect the output directory (Next.js default is .next)\n4. Create vercel.json file if custom settings are needed beyond dashboard configuration\n5. Configure serverless function regions based on target audience (e.g., us-east-1 for US-based users)\n6. Set appropriate function timeout values (recommended: 60s for API routes)",
+            "status": "pending",
+            "testStrategy": "Run a test build in the staging environment to verify build settings are correct and the application builds successfully."
+          },
+          {
+            "id": 3,
+            "title": "Set Up Environment Variables",
+            "description": "Configure all required environment variables for both staging and production environments, ensuring proper scoping and security.",
+            "dependencies": [
+              "27.1"
+            ],
+            "details": "1. Add the following environment variables to both projects:\n   - NEXT_PUBLIC_SUPABASE_URL\n   - NEXT_PUBLIC_SUPABASE_ANON_KEY\n   - REDIS_URL\n   - RESEND_API_KEY\n   - Any required NEXT_RUNTIME flags\n2. Configure variable scoping:\n   - Production variables for production environment\n   - Staging variables for preview/staging environment\n   - Development variables for local development\n3. Ensure sensitive variables are marked as encrypted in Vercel\n4. Verify .gitignore includes .env and .env.local to prevent accidental commit of secrets\n5. Document all environment variables with descriptions in ops/vercel/README.md",
+            "status": "pending",
+            "testStrategy": "Create a simple environment variable test page that displays non-sensitive configuration values to verify they're properly set in each environment."
+          },
+          {
+            "id": 4,
+            "title": "Implement Health Check and Test Supabase Integration",
+            "description": "Create a health check endpoint that verifies connectivity with Supabase and ensures proper CORS configuration between services.",
+            "dependencies": [
+              "27.2",
+              "27.3"
+            ],
+            "details": "1. Create a /api/health route handler that:\n   - Pings Supabase using the anon key\n   - Returns 200 OK if successful, appropriate error code otherwise\n   - Includes basic connectivity status information\n2. Ensure Supabase CORS settings allow Vercel domains:\n   - Add all Vercel preview domains (*.vercel.app)\n   - Add custom domains (when configured later)\n3. Document CORS configuration requirements in ops/vercel/README.md\n4. Test connectivity between Vercel and Supabase in both environments",
+            "status": "pending",
+            "testStrategy": "Deploy the health endpoint and verify it returns 200 OK in both staging and production environments. Test with curl or Postman to confirm proper CORS headers are returned."
+          },
+          {
+            "id": 5,
+            "title": "Document Deployment Workflow and Security Practices",
+            "description": "Create comprehensive documentation for deployment workflows, credential rotation, and security practices for the Vercel projects.",
+            "dependencies": [
+              "27.1",
+              "27.2",
+              "27.3",
+              "27.4"
+            ],
+            "details": "1. Update ops/vercel/README.md with the following sections:\n   - Deployment workflow instructions\n   - PR preview deployment etiquette\n   - Rollback procedures\n   - Environment variable rotation cadence (recommended: 90 days for sensitive credentials)\n   - Security best practices\n   - Domain configuration placeholder (for future task)\n2. Create runbook links for common operations:\n   - How to rotate credentials\n   - How to deploy hotfixes\n   - How to monitor deployments\n3. Document integration points with Supabase\n4. Verify no secrets are exposed in client bundles by inspecting build output\n5. Configure CI to mask sensitive values in logs",
+            "status": "pending",
+            "testStrategy": "Have another team member follow the documentation to perform a test deployment to verify clarity and completeness of instructions."
+          }
+        ]
+      },
+      {
+        "id": 28,
+        "title": "CI Guards for Reference Files and Tasks.json Validation",
+        "description": "Implement CI guards to prevent accidental modifications to reference_files/ directory and validate that tasks.json is properly formatted.",
+        "details": "1. Create a GitHub Actions workflow file in `.github/workflows/ci-guards.yml` that runs on pull requests:\n   ```yaml\n   name: CI Guards\n   on:\n     pull_request:\n       branches: [ main ]\n   \n   jobs:\n     reference-files-guard:\n       runs-on: ubuntu-latest\n       steps:\n         - uses: actions/checkout@v3\n           with:\n             fetch-depth: 0\n         - name: Check for changes in reference_files\n           run: |\n             if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -q \"^reference_files/\"; then\n               echo \"ERROR: Changes detected in reference_files/ directory. These files should not be modified.\"\n               echo \"Affected files:\"\n               git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep \"^reference_files/\"\n               exit 1\n             fi\n   \n     tasks-json-validation:\n       runs-on: ubuntu-latest\n       steps:\n         - uses: actions/checkout@v3\n         - uses: actions/setup-node@v3\n           with:\n             node-version: '20'\n         - name: Validate tasks.json\n           run: |\n             echo \"Validating .taskmaster/tasks/tasks.json...\"\n             cat .taskmaster/tasks/tasks.json | node -e \"\n               try {\n                 const data = JSON.parse(require('fs').readFileSync(0, 'utf-8'));\n                 console.log('✅ tasks.json is valid JSON');\n               } catch (e) {\n                 console.error('❌ Invalid JSON:', e.message);\n                 process.exit(1);\n               }\n             \"\n   \n     taskmaster-lint:\n       runs-on: ubuntu-latest\n       steps:\n         - uses: actions/checkout@v3\n         - uses: actions/setup-node@v3\n           with:\n             node-version: '20'\n         - name: Install dependencies\n           run: npm ci\n         - name: Run Taskmaster lint\n           run: npx taskmaster lint\n   ```\n\n2. Create a script at `scripts/validate-tasks-json.js` for local validation:\n   ```javascript\n   #!/usr/bin/env node\n   const fs = require('fs');\n   const path = require('path');\n\n   const tasksPath = path.join(__dirname, '../.taskmaster/tasks/tasks.json');\n\n   try {\n     const tasksContent = fs.readFileSync(tasksPath, 'utf8');\n     const tasksData = JSON.parse(tasksContent);\n     console.log('✅ tasks.json is valid JSON');\n     process.exit(0);\n   } catch (error) {\n     console.error('❌ Error validating tasks.json:', error.message);\n     process.exit(1);\n   }\n   ```\n\n3. Make the script executable:\n   ```bash\n   chmod +x scripts/validate-tasks-json.js\n   ```\n\n4. Update the README.md with a new section in the Ops area:\n   ```markdown\n   ## CI Guards\n\n   This project includes CI guards to prevent accidental modifications:\n\n   - **Reference Files Protection**: Changes to files under `reference_files/` directory will cause CI to fail\n   - **Tasks.json Validation**: Ensures `.taskmaster/tasks/tasks.json` contains valid JSON\n   - **Taskmaster Lint**: Runs the Taskmaster linter to validate task structure\n\n   To validate tasks.json locally:\n   ```bash\n   ./scripts/validate-tasks-json.js\n   ```\n   ```\n\n5. Add a pre-commit hook (optional) to catch issues before they reach CI:\n   ```bash\n   # .git/hooks/pre-commit\n   #!/bin/bash\n   \n   # Check for changes in reference_files/\n   if git diff --cached --name-only | grep -q \"^reference_files/\"; then\n     echo \"ERROR: You're attempting to commit changes to the reference_files/ directory.\"\n     echo \"These files should not be modified. Please unstage these changes.\"\n     git diff --cached --name-only | grep \"^reference_files/\"\n     exit 1\n   fi\n   \n   # Validate tasks.json if it's being changed\n   if git diff --cached --name-only | grep -q \".taskmaster/tasks/tasks.json\"; then\n     ./scripts/validate-tasks-json.js\n     if [ $? -ne 0 ]; then\n       echo \"ERROR: Invalid tasks.json. Please fix before committing.\"\n       exit 1\n     fi\n   fi\n   \n   exit 0\n   ```",
+        "testStrategy": "1. Test the reference files guard:\n   - Create a test branch and make a change to a file in the reference_files/ directory\n   - Create a PR and verify that the CI workflow fails with a clear error message\n   - Revert the change and verify the CI passes\n\n2. Test the tasks.json validation:\n   - Create a test branch and introduce a syntax error in .taskmaster/tasks/tasks.json (e.g., remove a comma)\n   - Create a PR and verify that the CI workflow fails with a clear error message about invalid JSON\n   - Fix the JSON and verify the CI passes\n\n3. Test the Taskmaster lint:\n   - Create a test branch and introduce a structural issue in tasks.json (e.g., missing required field)\n   - Create a PR and verify that the Taskmaster lint job fails\n   - Fix the issue and verify the CI passes\n\n4. Test the local validation script:\n   - Run `./scripts/validate-tasks-json.js` with a valid tasks.json file and verify it exits with code 0\n   - Temporarily modify tasks.json to be invalid, run the script, and verify it exits with code 1\n   - Restore the valid tasks.json\n\n5. Verify documentation:\n   - Ensure the README.md Ops section clearly explains the CI guards\n   - Verify the instructions for running the local validation script are accurate\n\n6. If implemented, test the pre-commit hook:\n   - Install the pre-commit hook\n   - Attempt to commit a change to a reference_files/ file and verify it's blocked\n   - Attempt to commit an invalid tasks.json and verify it's blocked",
+        "status": "pending",
+        "dependencies": [
+          1,
+          3
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 29,
+        "title": "Create and Maintain Pattern Index Document",
+        "description": "Create and maintain a Pattern Index document that maps reference paths to new file targets for reference-first development, including guidance on what not to copy.",
+        "details": "1. Create a new markdown document at `.taskmaster/docs/pattern-index.md` with the following structure:\n   ```markdown\n   # Pattern Index for Reference-First Development\n   \n   This document maps reference paths to new file targets for all active tasks, providing guidance on what to use and what to avoid.\n   \n   ## How to Use This Document\n   - Find the task you're working on\n   - Review the reference paths that should be consulted\n   - Note the target paths where new code should be created\n   - Pay attention to the \"What Not To Copy\" guidance\n   \n   ## Tasks\n   \n   ### Task X: [Task Title]\n   - **Reference Paths**:\n     - `reference_files/path/to/file.ext` - Purpose/component to reference\n   - **Target Paths**:\n     - `src/path/to/new/file.ext` - New file to create\n   - **What Not To Copy**:\n     - Avoid importing specific patterns/components that don't align with our architecture\n   ```\n\n2. For each active task in the project:\n   - Review the task details and implementation notes\n   - Identify specific reference files mentioned in the task\n   - Document the exact paths to reference files\n   - Document the exact paths where new files should be created\n   - Add specific guidance on what patterns or code should NOT be copied\n\n3. For example, for Task 11 (Basic buddy chat implementation), add:\n   ```markdown\n   ### Task 11: Basic buddy chat implementation\n   - **Reference Paths**:\n     - `reference_files/frontend_reference/FAF_website/app/chat/` - Chat UI components\n     - `reference_files/src/main.py` - API endpoint patterns\n   - **Target Paths**:\n     - `src/app/buddy-chat/[matchId]/page.tsx` - New chat page\n     - `src/api/chat_routes.py` - Chat API endpoints\n   - **What Not To Copy**:\n     - Don't copy specific business logic related to FAF coaching\n     - Avoid importing components directly; recreate with our styling\n   ```\n\n4. Update the Pattern Index whenever:\n   - New tasks are added to the project\n   - Task scope or implementation details change\n   - New reference paths are identified\n   - Target paths are modified\n\n5. Add a section at the top of the document with the last updated date and a changelog of recent updates.\n\n6. Create a PR template addition that includes a checkbox for confirming Pattern Index updates.\n\n7. Add a GitHub workflow that validates the existence of the Pattern Index document and checks that it contains entries for all active tasks.",
+        "testStrategy": "1. Verify document structure:\n   - Confirm the Pattern Index document exists at `.taskmaster/docs/pattern-index.md`\n   - Validate that the document follows the specified structure with clear sections\n\n2. Verify content completeness:\n   - Check that all active tasks have corresponding entries in the Pattern Index\n   - Ensure each entry includes reference paths, target paths, and \"What Not To Copy\" guidance\n   - Validate that paths are accurate and exist in the codebase\n\n3. Process validation:\n   - Create a test PR that adds a new feature\n   - Confirm the PR template includes a checkbox for Pattern Index updates\n   - Verify the review process includes checking for Pattern Index changes\n\n4. Integration testing:\n   - Have a developer use the Pattern Index to implement a small feature\n   - Collect feedback on clarity and usefulness of the document\n   - Make improvements based on developer feedback\n\n5. Maintenance testing:\n   - After a task scope change, verify the Pattern Index is updated accordingly\n   - Check that the changelog reflects recent updates\n   - Ensure the last updated date is current",
+        "status": "pending",
+        "dependencies": [
+          1,
+          3
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 30,
+        "title": "Session Rating Implementation",
+        "description": "Implement a simple per-session rating system (thumbs up/down) that allows users to rate each other after session completion, persists ratings in the database, and displays aggregate ratings on user profiles.",
+        "details": "1. Database Changes:\n   - Add columns to wingman_sessions table: user1_rating_for_user2 and user2_rating_for_user1 (nullable, boolean where true=thumbs up, false=thumbs down)\n   - Add aggregate columns to user_profiles: positive_ratings_count and negative_ratings_count\n\n2. Backend Implementation:\n   - Create POST /api/session/rate endpoint in FastAPI following patterns in reference_files/src/main.py\n   - Required parameters: session_id, rating (boolean), rated_user_id\n   - Validate that:\n     - Session exists and is completed (both sides confirmed)\n     - Current user is a participant in the session\n     - User hasn't already submitted a rating for this session\n   - Update the appropriate rating field in wingman_sessions\n   - Update aggregate counts in user_profiles with atomic increment\n   - Return updated rating counts\n\n3. Create GET /api/user/ratings/[userId] endpoint:\n   - Return user's aggregate ratings: {positive_count, negative_count, total_sessions}\n   - Implement Redis caching with 5-minute TTL\n   - Follow caching patterns from reference_files/src/main.py\n\n4. Frontend Implementation:\n   - Add rating UI component to /session/[id] completion screen\n   - Show thumbs up/down buttons only when session is completed\n   - Disable rating UI after user has submitted their rating\n   - Add analytics event tracking for rating submissions\n   - Update user profile component to display aggregate rating statistics\n\n5. Analytics Integration:\n   - Track rating events with appropriate user and session context\n   - Create simple dashboard view for rating metrics\n\n6. Security Considerations:\n   - Ensure users can only rate sessions they participated in\n   - Prevent multiple ratings from the same user for the same session\n   - Sanitize all inputs to prevent SQL injection",
+        "testStrategy": "1. Unit Tests:\n   - Create tests/backend/test_session_rating.py to test the rating API:\n     - Test successful rating submission\n     - Test validation errors (non-existent session, unauthorized user, etc.)\n     - Test idempotency (attempting to rate twice)\n     - Test aggregate count updates\n   - Test GET /api/user/ratings/[userId] endpoint:\n     - Verify correct counts are returned\n     - Verify cache behavior (hit/miss patterns)\n\n2. Integration Tests:\n   - Test the full rating flow from session completion to rating submission\n   - Verify database updates occur correctly\n   - Test cache invalidation when new ratings are submitted\n\n3. E2E Tests:\n   - Create tests/e2e/session_rating.spec.ts:\n     - Complete a session as both users\n     - Submit ratings from both sides\n     - Verify UI updates appropriately\n     - Verify profile page shows updated aggregate ratings\n\n4. Performance Tests:\n   - Verify cached endpoint response times under load\n   - Test concurrent rating submissions\n\n5. Manual Testing:\n   - Verify rating UI appears only after session completion\n   - Confirm analytics events are firing correctly\n   - Check mobile responsiveness of rating UI",
+        "status": "pending",
+        "dependencies": [
+          15,
+          14
+        ],
+        "priority": "low",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-11T03:04:04.458Z",
+      "updated": "2025-08-12T17:43:38.617Z",
+      "description": "Tasks for wingman-match context"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+# Task ID: 6
+# Title: Frontend: Assessment page transformation
+# Status: pending
+# Dependencies: 5
+# Priority: high
+# Description: Update assessment UI to new question set and archetype results using existing component framework.
+# Details:
+- Create app/confidence-test/page.tsx by copying structure from reference_files/frontend_reference/FAF_website/app/creativity-test/page.tsx.
+- Create app/confidence-test/questions.v1.json for versioned question bank with 12 questions.
+- Maintain the same Chakra UI component structure, using tokens from reference_files/frontend_reference/FAF_website/app/theme.ts.
+- Implement client-side validation to require all 12 questions answered before enabling submit.
+- On submit, POST to /api/assessment/confidence to save results; display archetype card and level.
+- Add CTA to profile-setup after showing results.
+- Accessibility: keyboard navigation, ARIA groups, progress bar.
+- Analytics events: assessment_started/completed with duration.
+- Create Cypress/Vitest test file at app/confidence-test/__tests__/confidence-test.spec.ts.
+<info added on 2025-08-11T03:42:24.007Z>
+## Context7 Next.js App Router Best Practices
+
+- Implement API endpoint as a Route Handler in `app/api/assessment/confidence/route.ts` with default dynamic behavior for POST operations.
+- After successful assessment submission, call `revalidatePath('/profile-setup')` to refresh cache for the profile setup page.
+- Tag data fetches with `next: { tags: ['assessment-results'] }` and use `revalidateTag('assessment-results')` after successful submission.
+- Implement Suspense boundaries for progressive loading:
+  ```jsx
+  <Suspense fallback={<QuestionSkeleton />}>
+    <AssessmentQuestions />
+  </Suspense>
+  ```
+- Enhance accessibility implementation:
+  - Use Chakra components with proper ARIA attributes
+  - Add `aria-describedby` for validation error messages
+  - Ensure question groups have proper `role="radiogroup"` and `aria-labelledby` attributes
+- Co-locate component tests in `app/confidence-test/__tests__/` directory
+- Add Playwright e2e tests with trace-on-first-retry for comprehensive test coverage
+</info added on 2025-08-11T03:42:24.007Z>
+
+# Test Strategy:
+- Cypress/Vitest tests in app/confidence-test/__tests__/confidence-test.spec.ts: verify user completes 12 answers, sees archetype result.
+- Validate client-side form validation prevents incomplete submissions.
+- Test error handling with toast display.
+- Verify accessibility with Lighthouse a11y score ≥ 95.
+- Visual regression for card layouts.
+- Verify UI matches reference spacing/typography tokens.
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Create app/confidence-test/page.tsx by copying structure from creativity-test reference
+### Details:
+Copy structure from reference_files/frontend_reference/FAF_website/app/creativity-test/page.tsx to create app/confidence-test/page.tsx. Do not modify the reference file. Ensure UI matches reference spacing/typography tokens from theme.ts.
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Create app/confidence-test/questions.v1.json with 12 confidence assessment questions
+### Details:
+Create a versioned question bank JSON file with 12 questions, each having radio options A-D. Structure the JSON to be compatible with the page component.
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Implement client-side validation for the assessment form
+### Details:
+Add validation to ensure all 12 questions must be answered before the Submit button is enabled. Maintain accessibility with proper ARIA attributes and keyboard navigation.
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Implement API integration to save results and display archetype
+### Details:
+On form submission, POST data to /api/assessment/confidence endpoint. Handle the response to display the appropriate archetype card and level. Implement error handling with toast notifications. Add CTA to profile-setup after showing results.
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Create Cypress/Vitest test file for confidence assessment
+### Details:
+Create app/confidence-test/__tests__/confidence-test.spec.ts to test the complete flow: answering all 12 questions, submitting the form, and seeing the archetype result. Include accessibility checks to ensure Lighthouse score ≥ 95.
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Implement analytics events for assessment tracking
+### Details:
+Add analytics events for assessment_started and assessment_completed with duration tracking. Ensure these events are triggered at appropriate points in the user flow.
+

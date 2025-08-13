@@ -1,0 +1,64 @@
+# Task ID: 16
+# Title: Reputation read endpoint and UI badges
+# Status: pending
+# Dependencies: 15
+# Priority: medium
+# Description: GET /api/user/reputation/[userId] and display basic trust indicators in match cards.
+# Details:
+- Compute score = completed_sessions - no_shows; cap at [-5, +20].
+- Include totals; cache per user 5m.
+- Show badge colors: green/gold/red based on thresholds.
+- Expose in find-buddy and chat header.
+- Implement using patterns from reference_files/src/main.py for read endpoints and simple caching.
+- Use Chakra Badge component pattern from reference_files/frontend_reference/FAF_website/app for UI implementation.
+- Create new files only, don't modify existing ones.
+
+# Test Strategy:
+- API tests for users with different histories.
+- UI test: badges render correctly.
+- Cache invalidation on updates verified.
+- Verify endpoint follows patterns from reference implementation.
+
+# Subtasks:
+## 1. Implement GET /api/user/reputation/[userId] endpoint [pending]
+### Dependencies: None
+### Description: Create new endpoint following patterns from reference_files/src/main.py
+### Details:
+
+
+## 2. Implement reputation score calculation logic [pending]
+### Dependencies: None
+### Description: Calculate score = completed_sessions - no_shows with cap at [-5, +20]
+### Details:
+
+
+## 3. Add caching mechanism [pending]
+### Dependencies: None
+### Description: Implement 5-minute caching per user following reference patterns
+### Details:
+
+
+## 4. Create UI badge component [pending]
+### Dependencies: None
+### Description: Implement badge using Chakra Badge component pattern from reference files
+### Details:
+
+
+## 5. Integrate badges in match cards [pending]
+### Dependencies: None
+### Description: Add reputation badges to find-buddy interface and chat header
+### Details:
+
+
+## 6. Write API tests [pending]
+### Dependencies: None
+### Description: Test endpoint with users having different reputation histories
+### Details:
+
+
+## 7. Write UI tests [pending]
+### Dependencies: None
+### Description: Verify badges render correctly with different reputation levels
+### Details:
+
+

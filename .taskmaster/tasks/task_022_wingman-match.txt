@@ -1,0 +1,55 @@
+# Task ID: 22
+# Title: Performance and cost optimizations
+# Status: pending
+# Dependencies: 3, 11, 12, 16
+# Priority: medium
+# Description: Cache hot reads, stream AI responses, and control LLM cost.
+# Details:
+- Redis cache for challenges and reputation using connection style from reference_files/src/main.py; ETag headers on static.
+- AI: route to cheaper model for small talk; use summarization to compress memory; truncate context to last N turns plus summary (inspired by reference_files/src/content_summarizer.py and reference_files/src/simple_memory.py).
+- DB connection pooling (pgbouncer or Supabase pooler).
+- Lazy load pages; code-split chat.
+- Observability: p95 latency dashboards.
+
+# Test Strategy:
+- Load tests with k6; track p95 under 300ms for APIs (excluding LLM).
+- Verify token spend drops after routing policy.
+- Lighthouse performance ≥ 90 on core pages.
+
+# Subtasks:
+## 1. Implement Redis caching for hot reads [pending]
+### Dependencies: None
+### Description: Set up Redis caching for frequently accessed data like challenges and reputation using the connection style from reference_files/src/main.py
+### Details:
+
+
+## 2. Implement AI content summarization [pending]
+### Dependencies: None
+### Description: Create content truncation and summary approach for AI memory based on patterns in reference_files/src/content_summarizer.py and reference_files/src/simple_memory.py
+### Details:
+
+
+## 3. Set up model routing for cost optimization [pending]
+### Dependencies: None
+### Description: Implement logic to route small talk to cheaper models while using more capable models for coaching
+### Details:
+
+
+## 4. Configure database connection pooling [pending]
+### Dependencies: None
+### Description: Set up pgbouncer or Supabase pooler for efficient database connection management
+### Details:
+
+
+## 5. Optimize frontend performance [pending]
+### Dependencies: None
+### Description: Implement lazy loading for pages and code-splitting for chat components
+### Details:
+
+
+## 6. Create observability dashboards [pending]
+### Dependencies: None
+### Description: Set up dashboards to track p95 latency and other performance metrics
+### Details:
+
+

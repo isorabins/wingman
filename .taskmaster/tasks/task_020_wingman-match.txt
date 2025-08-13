@@ -1,0 +1,74 @@
+# Task ID: 20
+# Title: Safety and reporting MVP
+# Status: pending
+# Dependencies: 9, 11
+# Priority: medium
+# Description: Add basic report/block features and safety copy emphasizing public venues.
+# Details:
+- Add POST /api/user/block and /api/user/report with reasons following FastAPI patterns in reference_files/src/main.py; store in moderation table.
+- Apply RLS/ownership principles from reference_files/docs/dev-documentation/04-database-guide.md.
+- Hide blocked users from matching and chat.
+- Rate-limit messaging; profanity filter using simple local bad-words list with soft warnings.
+- Safety tips modal before first session.
+- Admin view to review reports (basic table).
+
+# Test Strategy:
+- API tests for block/report flows.
+- Matching excludes blocked users in unit tests.
+- Profanity filter unit tests.
+
+# Subtasks:
+## 1. Implement POST /api/user/block endpoint [pending]
+### Dependencies: None
+### Description: Create block endpoint following FastAPI patterns in reference code, with proper RLS/ownership principles
+### Details:
+
+
+## 2. Implement POST /api/user/report endpoint [pending]
+### Dependencies: None
+### Description: Create report endpoint with reason selection, following reference code patterns and RLS principles
+### Details:
+
+
+## 3. Create moderation database table [pending]
+### Dependencies: None
+### Description: Design and implement moderation table to store block/report data with proper ownership controls
+### Details:
+
+
+## 4. Implement user blocking in matching algorithm [pending]
+### Dependencies: None
+### Description: Update matching logic to exclude blocked users from potential matches
+### Details:
+
+
+## 5. Implement chat blocking functionality [pending]
+### Dependencies: None
+### Description: Prevent blocked users from appearing in chat or sending messages
+### Details:
+
+
+## 6. Create simple profanity filter [pending]
+### Dependencies: None
+### Description: Implement basic profanity filter using local word list with warning messages
+### Details:
+
+
+## 7. Implement message rate limiting [pending]
+### Dependencies: None
+### Description: Add rate limiting to message sending to prevent abuse
+### Details:
+
+
+## 8. Create safety tips modal [pending]
+### Dependencies: None
+### Description: Design and implement modal with safety tips to show before first session
+### Details:
+
+
+## 9. Build admin report review interface [pending]
+### Dependencies: None
+### Description: Create basic table view for admins to review user reports
+### Details:
+
+

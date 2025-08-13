@@ -1,0 +1,77 @@
+# Task ID: 24
+# Title: Deployment, monitoring, and alerts
+# Status: pending
+# Dependencies: 1, 2, 3, 22
+# Priority: high
+# Description: Ship staging and production with monitoring, logs, and error tracking.
+# Details:
+- Follow deployment patterns in reference_files/docs/dev-documentation/07-deployment.md and reference_files/docs/deployment_workflow_docs.md.
+- Deploy frontend on Vercel; backend APIs as Next.js route handlers or FastAPI service behind edge if used.
+- Supabase managed Postgres; Redis managed (Upstash/Redis Cloud).
+- Reuse logging/healthcheck patterns from reference_files/src/main.py in our infrastructure.
+- Observability: Sentry for FE/BE, Logtail/Datadog for logs, UptimeRobot.
+- Alerts on error spikes, queue backlogs, and DB CPU.
+- Backups and point-in-time recovery enabled.
+- Feature flags via simple JSON in DB or ConfigCat for prompt A/B.
+<info added on 2025-08-11T03:43:21.295Z>
+- Next.js route handlers: opt-in caching only for safe GETs; use revalidatePath/Tag on mutations.
+- Supabase migrations: run `supabase migration up` in CI before deploy; avoid mixing schema/data in squash; `db push` for staging sync.
+- Observability: enable Playwright trace on CI; log Redis connection errors; simple healthcheck route.
+- Rollback plan: keep migrations atomic; verify with `scripts/db/verify_wm_schema.sql` before promote.
+</info added on 2025-08-11T03:43:21.295Z>
+
+# Test Strategy:
+- Chaos test: kill Redis; ensure app degrades gracefully.
+- Alerting dry-run notifications to Slack.
+- Rollback plan validated on staging.
+- Verify healthcheck endpoints are working as expected following reference patterns.
+
+# Subtasks:
+## 1. Review reference deployment documentation [pending]
+### Dependencies: None
+### Description: Study reference_files/docs/dev-documentation/07-deployment.md and reference_files/docs/deployment_workflow_docs.md to understand deployment patterns.
+### Details:
+
+
+## 2. Implement logging and healthcheck patterns [pending]
+### Dependencies: None
+### Description: Reuse logging and healthcheck patterns from reference_files/src/main.py in our infrastructure.
+### Details:
+
+
+## 3. Set up Vercel deployment for frontend [pending]
+### Dependencies: None
+### Description: Configure Vercel project settings, environment variables, and deployment hooks.
+### Details:
+
+
+## 4. Configure backend deployment [pending]
+### Dependencies: None
+### Description: Set up backend APIs as Next.js route handlers or FastAPI service behind edge according to reference patterns.
+### Details:
+
+
+## 5. Set up monitoring and observability [pending]
+### Dependencies: None
+### Description: Implement Sentry for FE/BE, Logtail/Datadog for logs, and UptimeRobot following reference patterns.
+### Details:
+
+
+## 6. Configure alerts and notifications [pending]
+### Dependencies: None
+### Description: Set up alerts for error spikes, queue backlogs, and DB CPU with notifications to Slack.
+### Details:
+
+
+## 7. Enable backups and recovery [pending]
+### Dependencies: None
+### Description: Configure backups and point-in-time recovery for Supabase Postgres.
+### Details:
+
+
+## 8. Implement feature flag system [pending]
+### Dependencies: None
+### Description: Set up feature flags via simple JSON in DB or ConfigCat for prompt A/B testing.
+### Details:
+
+

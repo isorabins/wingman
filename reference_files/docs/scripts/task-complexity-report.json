@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "generatedAt": "2025-05-30T15:15:50.675Z",
+    "tasksAnalyzed": 20,
+    "totalTasks": 20,
+    "analysisCount": 20,
+    "thresholdScore": 5,
+    "projectName": "Taskmaster",
+    "usedResearch": true
+  },
+  "complexityAnalysis": [
+    {
+      "taskId": 1,
+      "taskTitle": "Set up FastAPI Backend with Python 3.10+",
+      "complexityScore": 4,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down the FastAPI backend setup into subtasks covering Python installation, virtual environment creation, FastAPI installation, project structure setup, CORS configuration, health check endpoint, and logging setup.",
+      "reasoning": "This task involves standard backend setup steps with moderate configuration but no advanced logic or integrations. It is straightforward and well-bounded, but benefits from clear subtask separation for maintainability."
+    },
+    {
+      "taskId": 2,
+      "taskTitle": "Implement Supabase PostgreSQL Integration",
+      "complexityScore": 6,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand this task into subtasks for Supabase account setup, project creation, library installation, database connection, schema implementation, ORM model creation, CRUD operations, and migration setup.",
+      "reasoning": "Integrating a managed database, implementing schema, and setting up migrations introduces moderate complexity, especially with ORM and CRUD logic. Each step is distinct and requires careful handling."
+    },
+    {
+      "taskId": 3,
+      "taskTitle": "Implement Supabase Authentication",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "List subtasks for configuring Supabase Auth, implementing sign-up/login/logout endpoints, JWT handling, middleware for protected routes, password reset, email verification, and optional social auth.",
+      "reasoning": "Authentication involves multiple flows, security considerations, and integration with external services, increasing complexity and the need for granular subtasks."
+    },
+    {
+      "taskId": 4,
+      "taskTitle": "Implement Creativity Personality Test Backend",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Break down into subtasks for question definition, scoring algorithm, endpoints for fetching/submitting, result storage, profile updating, and handling test variants.",
+      "reasoning": "This task requires custom logic for scoring, multiple endpoints, and database updates, making it moderately complex and suitable for detailed subtasking."
+    },
+    {
+      "taskId": 5,
+      "taskTitle": "Implement AI-Powered Project Onboarding Backend",
+      "complexityScore": 8,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Expand into subtasks for topic definition, onboarding flow endpoints, topic progression logic, Claude API integration, project overview generation, data storage, and personality-driven flow.",
+      "reasoning": "Combines guided conversation logic, AI integration, and personalized flows, resulting in high complexity and requiring careful breakdown."
+    },
+    {
+      "taskId": 6,
+      "taskTitle": "Implement Persistent AI Memory System",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "List subtasks for conversation history storage, context retrieval, buffer management, summarization, integration with project updates, archetype-aware context, and performance optimization.",
+      "reasoning": "Requires advanced data handling, context management, and performance considerations, making it a complex backend feature."
+    },
+    {
+      "taskId": 7,
+      "taskTitle": "Implement Human Partner Matching System",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Break down into subtasks for matching algorithm, schema design, match request endpoint, scheduling logic, notification system, and feedback mechanism.",
+      "reasoning": "Involves algorithmic logic, scheduling, notifications, and user feedback, each needing clear implementation steps."
+    },
+    {
+      "taskId": 8,
+      "taskTitle": "Implement Project Coaching & Support System",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand into subtasks for daily AI scheduling, personality-adapted communication, action item generation, progress celebration, pattern recognition, and accountability logic.",
+      "reasoning": "Combines AI-driven personalization, scheduling, and analytics, requiring multiple coordinated backend features."
+    },
+    {
+      "taskId": 9,
+      "taskTitle": "Implement Progress Tracking & Analytics Backend",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "List subtasks for data model design, progress endpoints, milestone tracking, insight algorithms, metric calculations, data aggregation, and visualization logic.",
+      "reasoning": "Involves analytics, data aggregation, and visualization logic, each with moderate complexity and requiring separation."
+    },
+    {
+      "taskId": 10,
+      "taskTitle": "Implement Hai Evolution System",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Break down into subtasks for evolution stage logic, stage transitions, support logic, relationship depth tracking, endpoints for prompts/guidance, and AI adaptation.",
+      "reasoning": "Requires state management, user progression logic, and adaptive AI, making it a complex, multi-faceted feature."
+    },
+    {
+      "taskId": 11,
+      "taskTitle": "Implement Three-Dimensional Personalization System",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand into subtasks for personality function, archetype temperature logic, insight selection, prompt assembly, performance optimization, and caching.",
+      "reasoning": "Integrates multiple personalization dimensions and performance considerations, requiring careful modularization."
+    },
+    {
+      "taskId": 12,
+      "taskTitle": "Implement Global Insights System",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "List subtasks for insight generation, storage, scoring algorithms, context-based retrieval, usage tracking, and privacy filtering.",
+      "reasoning": "Involves data generation, scoring, retrieval, and privacy, each with moderate complexity."
+    },
+    {
+      "taskId": 13,
+      "taskTitle": "Implement Direct Claude API Integration",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Break down into subtasks for API credential setup, client implementation, wrapper functions, tool calling, migration from LangChain, optimization, and streaming.",
+      "reasoning": "Migrating core AI integration, adding tool calling, and optimizing for cost and performance is a complex, high-impact task."
+    },
+    {
+      "taskId": 14,
+      "taskTitle": "Implement Viral Marketing Engine Backend",
+      "complexityScore": 6,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Expand into subtasks for shareable result generation, tracking systems, signup attribution, viral coefficient calculation, conversion tracking, and A/B testing.",
+      "reasoning": "Involves analytics, attribution, and A/B testing, each with moderate complexity but clear boundaries."
+    },
+    {
+      "taskId": 15,
+      "taskTitle": "Implement Next.js 14 Frontend Setup",
+      "complexityScore": 5,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "List subtasks for project creation, Chakra UI setup, project structure, linting, deployment, layout, reusable components, and state management.",
+      "reasoning": "Frontend setup is standard but involves several configuration and scaffolding steps that benefit from clear subtasks."
+    },
+    {
+      "taskId": 16,
+      "taskTitle": "Implement Personality Quiz Frontend",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Break down into subtasks for quiz UI, logic, results page, social sharing, animations, entrepreneur variant, responsiveness, and accessibility.",
+      "reasoning": "Combines interactive UI, state management, social features, and accessibility, making it moderately complex."
+    },
+    {
+      "taskId": 17,
+      "taskTitle": "Implement AI-Powered Onboarding Frontend",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Expand into subtasks for conversational UI, real-time backend interaction, progress indicators, topic transitions, overview display, personality-driven UI, and responsiveness.",
+      "reasoning": "Requires real-time AI integration, dynamic UI, and personalization, each needing focused implementation."
+    },
+    {
+      "taskId": 18,
+      "taskTitle": "Implement Project Dashboard and Progress Tracking Frontend",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "List subtasks for dashboard layout, progress visualization, milestone tracking, analytics display, long-term charts, celebration animations, and project status updates.",
+      "reasoning": "Involves complex UI components, data visualization, and user interaction, requiring detailed subtasks."
+    },
+    {
+      "taskId": 19,
+      "taskTitle": "Implement Partner Matching and Communication Frontend",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Break down into subtasks for matching request UI, partner profile, scheduling, messaging/video integration, notifications, feedback, and search/filtering.",
+      "reasoning": "Combines matching logic, scheduling, communication, and feedback, each with moderate complexity."
+    },
+    {
+      "taskId": 20,
+      "taskTitle": "Implement Comprehensive Testing and Quality Assurance",
+      "complexityScore": 9,
+      "recommendedSubtasks": 12,
+      "expansionPrompt": "Expand into subtasks for backend and frontend automated testing, end-to-end tests, performance, security, CI/CD, UAT, cross-browser/device, accessibility, and documentation.",
+      "reasoning": "Covers all aspects of testing and QA across the platform, requiring coordination, coverage, and multiple specialized test types, making it highly complex."
+    }
+  ]
+}

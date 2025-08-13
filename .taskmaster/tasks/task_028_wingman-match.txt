@@ -1,0 +1,157 @@
+# Task ID: 28
+# Title: CI Guards for Reference Files and Tasks.json Validation
+# Status: pending
+# Dependencies: 1, 3
+# Priority: high
+# Description: Implement CI guards to prevent accidental modifications to reference_files/ directory and validate that tasks.json is properly formatted.
+# Details:
+1. Create a GitHub Actions workflow file in `.github/workflows/ci-guards.yml` that runs on pull requests:
+   ```yaml
+   name: CI Guards
+   on:
+     pull_request:
+       branches: [ main ]
+   
+   jobs:
+     reference-files-guard:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v3
+           with:
+             fetch-depth: 0
+         - name: Check for changes in reference_files
+           run: |
+             if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -q "^reference_files/"; then
+               echo "ERROR: Changes detected in reference_files/ directory. These files should not be modified."
+               echo "Affected files:"
+               git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep "^reference_files/"
+               exit 1
+             fi
+   
+     tasks-json-validation:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v3
+         - uses: actions/setup-node@v3
+           with:
+             node-version: '20'
+         - name: Validate tasks.json
+           run: |
+             echo "Validating .taskmaster/tasks/tasks.json..."
+             cat .taskmaster/tasks/tasks.json | node -e "
+               try {
+                 const data = JSON.parse(require('fs').readFileSync(0, 'utf-8'));
+                 console.log('✅ tasks.json is valid JSON');
+               } catch (e) {
+                 console.error('❌ Invalid JSON:', e.message);
+                 process.exit(1);
+               }
+             "
+   
+     taskmaster-lint:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v3
+         - uses: actions/setup-node@v3
+           with:
+             node-version: '20'
+         - name: Install dependencies
+           run: npm ci
+         - name: Run Taskmaster lint
+           run: npx taskmaster lint
+   ```
+
+2. Create a script at `scripts/validate-tasks-json.js` for local validation:
+   ```javascript
+   #!/usr/bin/env node
+   const fs = require('fs');
+   const path = require('path');
+
+   const tasksPath = path.join(__dirname, '../.taskmaster/tasks/tasks.json');
+
+   try {
+     const tasksContent = fs.readFileSync(tasksPath, 'utf8');
+     const tasksData = JSON.parse(tasksContent);
+     console.log('✅ tasks.json is valid JSON');
+     process.exit(0);
+   } catch (error) {
+     console.error('❌ Error validating tasks.json:', error.message);
+     process.exit(1);
+   }
+   ```
+
+3. Make the script executable:
+   ```bash
+   chmod +x scripts/validate-tasks-json.js
+   ```
+
+4. Update the README.md with a new section in the Ops area:
+   ```markdown
+   ## CI Guards
+
+   This project includes CI guards to prevent accidental modifications:
+
+   - **Reference Files Protection**: Changes to files under `reference_files/` directory will cause CI to fail
+   - **Tasks.json Validation**: Ensures `.taskmaster/tasks/tasks.json` contains valid JSON
+   - **Taskmaster Lint**: Runs the Taskmaster linter to validate task structure
+
+   To validate tasks.json locally:
+   ```bash
+   ./scripts/validate-tasks-json.js
+   ```
+   ```
+
+5. Add a pre-commit hook (optional) to catch issues before they reach CI:
+   ```bash
+   # .git/hooks/pre-commit
+   #!/bin/bash
+   
+   # Check for changes in reference_files/
+   if git diff --cached --name-only | grep -q "^reference_files/"; then
+     echo "ERROR: You're attempting to commit changes to the reference_files/ directory."
+     echo "These files should not be modified. Please unstage these changes."
+     git diff --cached --name-only | grep "^reference_files/"
+     exit 1
+   fi
+   
+   # Validate tasks.json if it's being changed
+   if git diff --cached --name-only | grep -q ".taskmaster/tasks/tasks.json"; then
+     ./scripts/validate-tasks-json.js
+     if [ $? -ne 0 ]; then
+       echo "ERROR: Invalid tasks.json. Please fix before committing."
+       exit 1
+     fi
+   fi
+   
+   exit 0
+   ```
+
+# Test Strategy:
+1. Test the reference files guard:
+   - Create a test branch and make a change to a file in the reference_files/ directory
+   - Create a PR and verify that the CI workflow fails with a clear error message
+   - Revert the change and verify the CI passes
+
+2. Test the tasks.json validation:
+   - Create a test branch and introduce a syntax error in .taskmaster/tasks/tasks.json (e.g., remove a comma)
+   - Create a PR and verify that the CI workflow fails with a clear error message about invalid JSON
+   - Fix the JSON and verify the CI passes
+
+3. Test the Taskmaster lint:
+   - Create a test branch and introduce a structural issue in tasks.json (e.g., missing required field)
+   - Create a PR and verify that the Taskmaster lint job fails
+   - Fix the issue and verify the CI passes
+
+4. Test the local validation script:
+   - Run `./scripts/validate-tasks-json.js` with a valid tasks.json file and verify it exits with code 0
+   - Temporarily modify tasks.json to be invalid, run the script, and verify it exits with code 1
+   - Restore the valid tasks.json
+
+5. Verify documentation:
+   - Ensure the README.md Ops section clearly explains the CI guards
+   - Verify the instructions for running the local validation script are accurate
+
+6. If implemented, test the pre-commit hook:
+   - Install the pre-commit hook
+   - Attempt to commit a change to a reference_files/ file and verify it's blocked
+   - Attempt to commit an invalid tasks.json and verify it's blocked

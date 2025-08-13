@@ -1,0 +1,56 @@
+# Task ID: 25
+# Title: Beta operations and feedback loop
+# Status: pending
+# Dependencies: 17, 23, 24
+# Priority: medium
+# Description: Enable internal/beta cohort, collect feedback, and iterate quickly.
+# Details:
+- Beta invite codes; gate new signups.
+- In-app feedback form after sessions; NPS-style and qualitative.
+- Analytics: match acceptance, session completion, D7 retention; dashboards (based on patterns in reference_files/frontend_reference/FAF_website/README.md and CLAUDE.md).
+- Prompt A/B testing harness for Connell responses.
+- Changelog and release cadence 2-3 days.
+- Implement invite gating and feedback collection in our codebase only, without modifying reference files.
+
+# Test Strategy:
+- Validate invite gating works.
+- Ensure analytics events populate dashboards using lightweight testing approach.
+- Run a 20-user beta; collect and triage issues within SLA.
+
+# Subtasks:
+## 1. Implement beta invite code system [pending]
+### Dependencies: None
+### Description: Create a system to gate new signups using invite codes
+### Details:
+
+
+## 2. Set up analytics events based on reference patterns [pending]
+### Dependencies: None
+### Description: Wire up analytics events following patterns in reference_files/frontend_reference/FAF_website/README.md and CLAUDE.md
+### Details:
+
+
+## 3. Create in-app feedback form [pending]
+### Dependencies: None
+### Description: Implement NPS-style and qualitative feedback form to appear after sessions
+### Details:
+
+
+## 4. Build analytics dashboards [pending]
+### Dependencies: None
+### Description: Create dashboards for tracking match acceptance, session completion, and D7 retention
+### Details:
+
+
+## 5. Develop A/B testing harness for Connell responses [pending]
+### Dependencies: None
+### Description: Create a system to test different prompt variations for Connell responses
+### Details:
+
+
+## 6. Establish changelog and release process [pending]
+### Dependencies: None
+### Description: Set up lightweight release cadence (2-3 days) with changelog documentation
+### Details:
+
+

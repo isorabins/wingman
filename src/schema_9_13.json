@@ -1,0 +1,62 @@
+[
+    {
+      "table_name": "dating_goals",
+      "column_name": "user_id",
+      "foreign_table_name": "user_profiles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "confidence_test_results",
+      "column_name": "user_id",
+      "foreign_table_name": "user_profiles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_locations",
+      "column_name": "user_id",
+      "foreign_table_name": "user_profiles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "wingman_matches",
+      "column_name": "user1_id",
+      "foreign_table_name": "user_profiles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "wingman_matches",
+      "column_name": "user2_id",
+      "foreign_table_name": "user_profiles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "wingman_sessions",
+      "column_name": "match_id",
+      "foreign_table_name": "wingman_matches",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "wingman_sessions",
+      "column_name": "user1_challenge_id",
+      "foreign_table_name": "approach_challenges",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "wingman_sessions",
+      "column_name": "user2_challenge_id",
+      "foreign_table_name": "approach_challenges",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "confidence_test_progress",
+      "column_name": "user_id",
+      "foreign_table_name": "user_profiles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "agent_sessions",
+      "column_name": "user_id",
+      "foreign_table_name": "user_profiles",
+      "foreign_column_name": "id"
+    }
+  ]

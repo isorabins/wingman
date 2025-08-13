@@ -1,0 +1,89 @@
+# Task ID: 10
+# Title: Match response endpoint and state machine
+# Status: pending
+# Dependencies: 9
+# Priority: high
+# Description: Implement POST /api/buddy/respond to accept/decline and enable chat on mutual accept.
+# Details:
+- Implement in FastAPI following patterns in reference_files/src/main.py
+- Create new file src/api/match_response_routes.py OR extend src/main.py with POST /api/buddy/respond
+- Add POST /api/buddy/respond with validation and auth style matching existing endpoints
+- Validates match_id and user is a participant
+- State machine transitions: pending → accepted (both accept) | declined | expired(48h)
+- If accept and both accepted → set status=accepted, create chat channel record (or mark ready), and notify via email (Resend) both users
+- If decline → mark declined, immediately find next best match and return
+- No-show heuristics: if neither responds in 48h, auto-expire
+- Emit events for analytics
+- Create new code only; do not edit reference_files/*
+<info added on 2025-08-11T03:42:51.254Z>
+## Context7 best practices (Respond endpoint)
+
+- Implement state machine using SQL constraints or CHECK constraints; perform updates within a transaction; verify participant authorization using Row-Level Security (RLS)
+- For mutual accept scenario: use FastAPI BackgroundTasks to enqueue email notifications and chat readiness operations asynchronously to keep the endpoint response time fast
+- Implement idempotency by accepting an Idempotency-Key header and storing a short-lived Redis key to deduplicate requests
+- Emit cache invalidations by calling `revalidateTag('match')` on frontend route handlers if used to ensure UI consistency
+</info added on 2025-08-11T03:42:51.254Z>
+
+# Test Strategy:
+- Create tests/backend/test_match_response.py
+- API tests for accept-first, accept-second transitions
+- Decline flow returns next match payload
+- Verify unauthorized users cannot mutate match
+- Test FastAPI implementation follows patterns in reference_files/src/main.py
+- TDD approach: implement tests covering accept-first, accept-second, decline, unauthorized scenarios
+
+# Subtasks:
+## 1.  [pending]
+### Dependencies: None
+### Description: Create FastAPI endpoint POST /api/buddy/respond in src/api/match_response_routes.py or extend src/main.py
+### Details:
+Follow patterns in reference_files/src/main.py for route style and auth validation
+
+## 2.  [pending]
+### Dependencies: None
+### Description: Implement validation and authentication to ensure caller is a participant in the match
+### Details:
+Validate match_id and user authorization before allowing any state changes
+
+## 3.  [pending]
+### Dependencies: None
+### Description: Implement match state machine logic for accept/decline flows
+### Details:
+Handle state transitions: pending → accepted (both accept) | declined | expired(48h)
+
+## 4.  [pending]
+### Dependencies: None
+### Description: Create chat channel on mutual accept using message storage pattern from Task 11
+### Details:
+When both users accept, create chat channel record or mark as ready for chat
+
+## 5.  [pending]
+### Dependencies: None
+### Description: Implement email notification via Resend when match is accepted
+### Details:
+Send email to both users when match reaches accepted state
+
+## 6.  [pending]
+### Dependencies: None
+### Description: Add next-best-match finding logic for decline flow
+### Details:
+When a match is declined, find and return the next best match
+
+## 7.  [pending]
+### Dependencies: None
+### Description: Implement no-show auto-expiration logic (48h timeout)
+### Details:
+Auto-expire matches if neither user responds within 48 hours
+
+## 8.  [pending]
+### Dependencies: None
+### Description: Add analytics event emission
+### Details:
+Emit events for match state transitions for analytics tracking
+
+## 9.  [pending]
+### Dependencies: None
+### Description: Create tests/backend/test_match_response.py with TDD approach
+### Details:
+Implement comprehensive tests covering accept-first, accept-second, decline, and unauthorized scenarios
+

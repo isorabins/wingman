@@ -1,0 +1,213 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-11T03:08:31.402Z",
+		"tasksAnalyzed": 25,
+		"totalTasks": 25,
+		"analysisCount": 25,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Create WingmanMatch repo and environment baselines",
+			"complexityScore": 6,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Break down repo and environment setup into: 1) Repository creation and import (fork/mirror, history, licenses). 2) Runtime baselines (.nvmrc, .python-version, .tool-versions, pnpm). 3) Dependency upgrades (Next 14.2+, React 18.3, TS 5.5, Supabase JS 2.x, Redis client, Resend), with changelog-driven code mods. 4) Environment variables contract and .env.example with secrets strategy. 5) GitHub Actions CI matrix (Node 20.x, pnpm cache) running lint, prettier check, typecheck, jest, pytest. 6) Vercel/Netlify preview, staging, prod projects with env aliasing. 7) Health check route and status page. 8) CODEOWNERS and branch protection rules (required checks). 9) Renovate/Dependabot for updates. 10) Documentation: CONTRIBUTING, CI badges, runbooks.",
+			"reasoning": "Moderate complexity: multi-runtime baselines, CI matrix, preview deployments, and dependency upgrades require coordination and doc quality; risk in dependency upgrades but limited domain logic."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Database migrations for WingmanMatch tables",
+			"complexityScore": 8,
+			"recommendedSubtasks": 11,
+			"expansionPrompt": "Decompose migrations into: 1) Schema design review against PRD. 2) Forward-only migration scripts: add_wingman_tables.sql. 3) Renames with constraint/view updates: rename_creator_contexts.sql. 4) Data backfill and verification scripts for renamed tables. 5) Geospatial strategy selection (Haversine vs earthdistance/cube), extension enablement policy. 6) Index design and creation with concurrent strategy. 7) Seed approach_challenges with idempotent seeds. 8) Optional materialized view user_reputation_summary and refresh policy. 9) Transaction boundaries and lock impact plan. 10) Rollback/restore plan and staging rehearsal. 11) Performance validation (EXPLAIN on radius queries) and regression checklist.",
+			"reasoning": "High complexity due to data-preserving renames, FK/view updates, geospatial indexing tradeoffs, performance implications, and need for safe rollout and rollback."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Backend config: Supabase, Redis, Resend wiring",
+			"complexityScore": 7,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Split into: 1) Supabase server/edge client factories with typed helpers and auth context. 2) Redis connection pool (ioredis@5) with health checks and circuit breaker. 3) Resend client setup with templates and sandbox config. 4) Rate limiting middleware (Upstash or token bucket) with per-IP/user keys. 5) Secrets management and server-only loading patterns. 6) IO retry/backoff (p-retry) policies and idempotency keys. 7) Structured logging and error taxonomy. 8) Unit tests and fault injection (Redis down, email failures). 9) Docs and examples for service injection.",
+			"reasoning": "Integration-heavy with multiple external services, reliability/retry concerns, and security boundaries; moderate risk controlled via factories and tests."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Transform AI coach: Hai→Connell prompts",
+			"complexityScore": 6,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Create: 1) Persona prompt rewrite and principles mapping from PRD. 2) Memory schema and injection points (assessment, attempts, triggers, sessions). 3) LLM routing policy (Claude 3.5 Sonnet vs GPT-4o-mini) and cost guardrails. 4) Safety guardrails and refusal patterns. 5) Tooling schema for smalltalk and challenge-coaching function calls. 6) Simple per-user memory persistence with TTL/summary. 7) Configurable generation params (temperature/top_p/max_tokens) with env flags and A/B switch. 8) Prompt unit tests and manual eval set.",
+			"reasoning": "Primarily prompt/memory design and integration; non-trivial due to safety and tool-calling, but bounded scope with existing router."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Confidence assessment agent and flow",
+			"complexityScore": 7,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Plan: 1) Define question bank and six-archetype scoring rubric. 2) Port agent code and decouple pure scoring functions. 3) Thresholds for experience levels with boundary tests. 4) Persistence to confidence_test_results schema (timestamps, JSON answers). 5) Service/endpoint for assessment run and save. 6) Summary generation for profile hints. 7) Fixtures and deterministic/unit/property tests. 8) Migration/data compatibility validation. 9) API contract docs and example payloads.",
+			"reasoning": "Custom scoring logic, determinism, and persistence with backward compatibility raise complexity; strong testing mitigates risk."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Frontend: Assessment page transformation",
+			"complexityScore": 5,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Steps: 1) Update UI to new questions via versioned JSON and lazy load. 2) Accessibility (keyboard nav, ARIA groups, progress). 3) Submit flow calling backend and handling errors. 4) Results view with archetype card and level; visual polish. 5) Analytics events and durations. 6) E2E and visual regression setup. 7) Lighthouse a11y/perf checks and fixes.",
+			"reasoning": "UI adaptation with accessibility and analytics; moderate complexity with predictable patterns and existing components."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Profile setup API and page",
+			"complexityScore": 7,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Implement: 1) UI for photo upload, bio, radius slider, location capture with fallback. 2) Supabase Storage signed upload flow and validation (mime/size). 3) API schema validation (zod) and writes to user_profiles and user_locations. 4) Approximate location privacy option (city centroid). 5) Photo verification checklist flag. 6) Security hardening for upload and auth. 7) Error states and retry UX. 8) Integration tests across storage and DB. 9) Analytics for completion funnel. 10) Documentation and screenshots.",
+			"reasoning": "Cross-cutting UI, storage, geolocation, validation, and privacy; higher risk in upload security and DX."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Distance calculation utilities",
+			"complexityScore": 6,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Deliver: 1) Decide Haversine SQL vs earthdistance/cube extensions. 2) Implement haversine_miles SQL function or enable extensions. 3) Schema/index strategy for lat/lng and composite indices. 4) Query helper for candidates within radius ordered by distance and experience proximity. 5) Edge-case handling (missing location, staleness >30 days). 6) Unit tests with known coordinates and tolerances. 7) EXPLAIN ANALYZE tuning on 10k users. 8) Documentation and examples.",
+			"reasoning": "Geospatial-lite implementation with indexing and performance tuning; manageable but requires careful SQL and correctness tests."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Auto-matching service and wingman_matcher.py",
+			"complexityScore": 7,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Outline: 1) Matching rules spec (radius, level ±1, recency, exclusions). 2) Data access layer and distance helper integration. 3) Anti-duplication (not paired recently) logic. 4) Throttling (one active pending). 5) Creation of wingman_matches rows with status pending. 6) Expiration job (48h) and cron wiring. 7) GET /api/buddy/find endpoint and contract. 8) Unit/integration tests with synthetic pools. 9) Load testing at 5k users and p95 targets. 10) Observability for decisions and fallbacks.",
+			"reasoning": "Algorithmic selection with constraints and background expiry; needs performance and correctness under load."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Match response endpoint and state machine",
+			"complexityScore": 7,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Break into: 1) State machine design (pending→accepted/declined/expired). 2) POST /api/buddy/respond validation and authorization. 3) Mutual accept transition and chat channel creation. 4) Decline branch triggers next-best match. 5) Idempotency and concurrency controls. 6) Notifications via Resend. 7) Analytics events emission. 8) Tests for accept-first/second and decline flows. 9) Security tests against unauthorized mutation.",
+			"reasoning": "State transitions with concurrency and side effects (chat, email) increase complexity; careful idempotency required."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Buddy chat service and page",
+			"complexityScore": 8,
+			"recommendedSubtasks": 12,
+			"expansionPrompt": "Deliver: 1) Message model and access control design. 2) Redis streams/pubsub integration and fallbacks to polling. 3) GET/POST message APIs with rate limit and size constraints. 4) UI integration of existing chat components. 5) Venue suggestion chips and session CTA. 6) Safety: block links/media, report action, content filtering. 7) Typing indicators (optional). 8) Last_read persistence/read receipts. 9) Load test (50 concurrent chats) and backpressure. 10) Failure modes (Redis outage) and retries. 11) Monitoring and logs. 12) E2E tests with two users.",
+			"reasoning": "Realtime messaging, consistency, and safety controls are non-trivial; performance and resilience concerns elevate complexity."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Challenges catalog and API",
+			"complexityScore": 5,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Steps: 1) Seed dataset and idempotent seeding tool. 2) GET /api/challenges with difficulty filter and schema validation. 3) Redis 10m caching with cache keys and invalidation strategy. 4) Feature flag/config table for dynamic additions. 5) Integration with coach tool-calls metadata. 6) Tests for filtering and cache behavior. 7) API contract docs.",
+			"reasoning": "Straightforward CRUD+cache API with feature flag; low algorithmic complexity but needs correctness and cache discipline."
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "Session creation flow and API",
+			"complexityScore": 7,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Plan: 1) Contract design and validation for session creation. 2) Authorization: match accepted and membership checks. 3) Challenge existence and ownership validation. 4) Row creation with uniqueness (one active session/match). 5) Email notifications and chat system card. 6) Timezone handling and display. 7) Idempotency keys for retry-safe creation. 8) Tests (unit, integration, E2E from chat). 9) Error handling and user feedback patterns.",
+			"reasoning": "Multi-entity validation, concurrency controls, and notifications make it moderately complex; timezone handling adds subtlety."
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Active session page UI",
+			"complexityScore": 6,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Implement: 1) Data fetching for session details and authorization. 2) UI for dual challenges, statuses, and notes. 3) Confirm buttons gating by time/presence. 4) Reputation impact preview and messaging. 5) Offline-first caching and optimistic updates. 6) Responsive design with snapshot tests. 7) E2E permissions and flows.",
+			"reasoning": "UI with business-state gating and offline UX; moderate complexity with state synchronization."
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Completion confirmation API and reputation update",
+			"complexityScore": 7,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Deliver: 1) Endpoint design and auth for session confirm. 2) Toggle logic for cross-confirmation with idempotency. 3) Transition to completed and timestamps. 4) Reputation counters update and constraints. 5) No-show cron and detection window. 6) Concurrency/race guards (row-level locks). 7) Tests for order permutations and double-submit. 8) Observability for updates. 9) Error handling and retries.",
+			"reasoning": "Stateful updates across session and reputation with cron and race conditions; correctness and idempotency are key."
+		},
+		{
+			"taskId": 16,
+			"taskTitle": "Reputation read endpoint and UI badges",
+			"complexityScore": 5,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Steps: 1) Score formula implementation and caps. 2) GET endpoint with caching (5m) and invalidation hooks. 3) UI badge component states and thresholds. 4) Integration into match cards and chat header. 5) Tests for histories and cache behavior. 6) Monitoring for hot paths.",
+			"reasoning": "Simple read with caching and small UI integration; low algorithmic complexity."
+		},
+		{
+			"taskId": 17,
+			"taskTitle": "Homepage and copy updates",
+			"complexityScore": 4,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Execute: 1) Content rewrite per PRD with i18n keys and Hai→Connell replacements. 2) CTA to Assessment and nav updates. 3) SEO meta and OG images refresh. 4) Analytics click-through tracking. 5) Visual QA and accessibility passes. 6) Link integrity checks and previews.",
+			"reasoning": "Primarily content and SEO changes with light UI; low complexity and risk."
+		},
+		{
+			"taskId": 18,
+			"taskTitle": "Transform project_overview API→/api/dating-goals",
+			"complexityScore": 5,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Plan: 1) Endpoint path rename and routing. 2) Schema adaptation to dating_goals and migration. 3) Back-compat mapping for existing clients. 4) Connell memory integration hooks. 5) Link from assessment results UX. 6) Tests for CRUD and conversation references. 7) Deprecation notice and docs.",
+			"reasoning": "Moderate due to migration and back-compat, plus AI memory integration; contained surface area."
+		},
+		{
+			"taskId": 19,
+			"taskTitle": "Email notifications for coordination",
+			"complexityScore": 6,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Deliver: 1) Template design for each event (match_found, accepted, session_confirmation, reminders, feedback). 2) Preference model and unsubscribe flows. 3) Timezone localization in subject/body. 4) Background job queue and scheduling (Redis + cron). 5) Event triggers from match/session flows. 6) Sandbox/test harness with time-travel. 7) Deliverability checks and domain setup (SPF/DKIM). 8) Audit logs of sends and failures. 9) Monitoring and retries.",
+			"reasoning": "System touches many events with scheduling and preferences; medium complexity with operational considerations."
+		},
+		{
+			"taskId": 20,
+			"taskTitle": "Safety and reporting MVP",
+			"complexityScore": 7,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Implement: 1) Moderation schema (reports, blocks). 2) POST /api/user/block and /api/user/report endpoints with auth and rate limits. 3) Matching exclusion for blocked users. 4) Chat-level enforcement and visibility. 5) Profanity filter with soft warnings and overrides. 6) Safety tips modal and gating UX. 7) Basic admin review table with pagination. 8) Audit logs and export. 9) Tests for block/report flows and exclusions. 10) Privacy and abuse handling policy docs.",
+			"reasoning": "Cross-cutting policy enforcement across matching and chat, plus admin workflows; requires careful security and UX."
+		},
+		{
+			"taskId": 21,
+			"taskTitle": "Location privacy controls",
+			"complexityScore": 6,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Plan: 1) Preference model (precise vs city centroid) and radius. 2) UI toggles and persistence in profile. 3) City centroid derivation and storage without raw coordinates. 4) Matching integration respecting flags and max_travel_miles. 5) Background updates opt-in and cadence. 6) Tests ensuring no precise coords are stored for city-only. 7) UX copy and settings docs. 8) Regression tests for matching behavior.",
+			"reasoning": "Privacy-sensitive changes to matching logic and storage patterns; moderate complexity with policy enforcement."
+		},
+		{
+			"taskId": 22,
+			"taskTitle": "Performance and cost optimizations",
+			"complexityScore": 7,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Execute: 1) Identify hot reads and add Redis caches (challenges, reputation). 2) ETag/HTTP caching for static. 3) LLM routing policy for small talk vs complex tasks; token budgeting. 4) Conversation summarization and context truncation. 5) DB pooling configuration (pgbouncer/Supabase pooler). 6) Code-splitting and lazy loading for chat/pages. 7) p95 latency dashboards and SLOs. 8) Load tests (k6) and regression gates. 9) Cost monitoring for LLM and infra. 10) Rollout/rollback strategy with flags.",
+			"reasoning": "Multi-dimensional tuning across cache, AI costs, DB pooling, and frontend performance; measurable but coordination-heavy."
+		},
+		{
+			"taskId": 23,
+			"taskTitle": "End-to-end user journey tests",
+			"complexityScore": 8,
+			"recommendedSubtasks": 11,
+			"expansionPrompt": "Build: 1) Test env and fixtures for two synthetic users. 2) Geolocation mocks and deterministic time control. 3) SIGNUP→ASSESS→PROFILE→MATCH scripts. 4) Accept/decline/no-show branches. 5) CHAT messaging flow. 6) SESSION scheduling and confirmation. 7) Artifacts (screenshots/videos) and CI integration. 8) Flake mitigation (retries, waits). 9) Coverage of key endpoints and analytics assertions. 10) Data reset/teardown. 11) Reporting and gating in CI (green before merge).",
+			"reasoning": "High complexity due to full-stack orchestration, timing, flake control, and CI reliability across multiple flows."
+		},
+		{
+			"taskId": 24,
+			"taskTitle": "Deployment, monitoring, and alerts",
+			"complexityScore": 8,
+			"recommendedSubtasks": 12,
+			"expansionPrompt": "Deliver: 1) Vercel FE pipelines and envs. 2) Backend deploys (Next route handlers or FastAPI) with edge considerations. 3) Supabase and Redis managed setup. 4) Sentry integration FE/BE. 5) Centralized logs (Logtail/Datadog). 6) Uptime and synthetic checks. 7) Alerts on error spikes, queue backlogs, DB CPU. 8) Backups and PITR validation. 9) Feature flags (DB JSON/ConfigCat) and prompt A/B. 10) Chaos testing (Redis kill) and resilience playbooks. 11) Rollback strategy and staging validation. 12) Runbooks and on-call routing.",
+			"reasoning": "Productionization across infra, monitoring, and reliability with safety nets; coordination and verification increase complexity."
+		},
+		{
+			"taskId": 25,
+			"taskTitle": "Beta operations and feedback loop",
+			"complexityScore": 6,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Implement: 1) Invite-code gating and admin issuance UI. 2) In-app feedback/NPS workflow post-session. 3) Analytics metrics and dashboards (acceptance, completion, D7). 4) Prompt A/B harness and analysis. 5) Release notes and changelog pipeline. 6) Incident and triage workflow with SLAs. 7) Beta cohort comms and onboarding docs. 8) Experiment tracking and decision logs. 9) Post-beta retrospective and action items.",
+			"reasoning": "Ops-focused with analytics and experimentation; moderate complexity driven by process integration and feedback quality."
+		}
+	]
+}
