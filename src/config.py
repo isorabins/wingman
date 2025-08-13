@@ -48,6 +48,7 @@ class Config:
     ENABLE_AI_COACHING: bool = os.getenv("ENABLE_AI_COACHING", "true").lower() in ("true", "1", "yes")
     ENABLE_CHALLENGE_SHARING: bool = os.getenv("ENABLE_CHALLENGE_SHARING", "true").lower() in ("true", "1", "yes")
     ENABLE_DETAILED_LOGGING: bool = os.getenv("ENABLE_DETAILED_LOGGING", "false").lower() in ("true", "1", "yes")
+    ENABLE_RATE_LIMITING: bool = os.getenv("ENABLE_RATE_LIMITING", "true").lower() in ("true", "1", "yes")
     
     # A/B Testing Flags for Coaching Persona
     ENABLE_NEW_COACH_PROMPTS: bool = os.getenv("ENABLE_NEW_COACH_PROMPTS", "true").lower() in ("true", "1", "yes")
@@ -142,6 +143,7 @@ class Config:
             "ai_coaching_enabled": cls.ENABLE_AI_COACHING,
             "challenge_sharing_enabled": cls.ENABLE_CHALLENGE_SHARING,
             "detailed_logging_enabled": cls.ENABLE_DETAILED_LOGGING,
+            "rate_limiting_enabled": cls.ENABLE_RATE_LIMITING,
             "experimental_features_enabled": cls.ENABLE_EXPERIMENTAL_FEATURES,
             "new_coach_prompts_enabled": cls.ENABLE_NEW_COACH_PROMPTS,
             "safety_filters_enabled": cls.ENABLE_SAFETY_FILTERS,
