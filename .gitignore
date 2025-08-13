@@ -37,3 +37,6 @@ backup.sql
 schema_dump.sql
 schema_with_relationships.sql
 src/.env
+
+# Next.js build output  
+.next/
