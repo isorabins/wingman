@@ -24,7 +24,7 @@ pydantic==2.5.0
 pydantic[email]==2.5.0
 
 # HTTP & Async
-httpx==0.25.2
+httpx==0.24.1
 aiofiles==23.2.1
 
 # Retry & Circuit Breaker
