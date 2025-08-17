@@ -104,19 +104,19 @@ class TestRunner:
                 'enabled': True
             },
             'backend_api': {
-                'command': ['python', '-m', 'pytest', 'tests/test_profile_setup_api.py', '-v'],
+                'command': ['python3', '-m', 'pytest', 'tests/test_profile_setup_api.py', '-v'],
                 'description': 'Backend API Tests (pytest)',
                 'timeout': 120,
                 'enabled': True
             },
             'security': {
-                'command': ['python', '-m', 'pytest', 'tests/test_photo_upload_security.py', '-v'],
+                'command': ['python3', '-m', 'pytest', 'tests/test_photo_upload_security.py', '-v'],
                 'description': 'Security Tests',
                 'timeout': 180,
                 'enabled': TestConfig.ENABLE_SECURITY_TESTS
             },
             'performance': {
-                'command': ['python', '-m', 'pytest', 'tests/test_profile_setup_api.py::TestProfileSetupPerformance', '-v'],
+                'command': ['python3', '-m', 'pytest', 'tests/test_profile_setup_api.py::TestProfileSetupPerformance', '-v'],
                 'description': 'Performance Tests',
                 'timeout': 300,
                 'enabled': TestConfig.ENABLE_LOAD_TESTS

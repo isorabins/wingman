@@ -1,0 +1,612 @@
+openapi: 3.1.0
+info:
+  title: WingmanMatch Session Management API
+  description: |
+    API contracts for active session page functionality in WingmanMatch platform.
+    
+    Provides endpoints for session data retrieval, confirmation management, and notes updates
+    with participant-only access control and cache-friendly design for Next.js integration.
+  version: 1.0.0
+  contact:
+    name: WingmanMatch API Support
+    url: https://wingmanmatch.com/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://wingman-backend.herokuapp.com
+    description: Production server
+  - url: http://localhost:8000
+    description: Development server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/session/{session_id}:
+    get:
+      summary: Get Session Details
+      description: |
+        Retrieve complete session details for the active session page including:
+        - Match participants and their profiles
+        - Scheduled time and venue information  
+        - Both users' challenges and completion statuses
+        - Current notes and reputation preview deltas
+        - Confirmation states for each participant
+        
+        **Access Control**: Only matched participants can access their session data.
+        **Caching**: Responses are cached for 5 minutes with revalidation tags.
+      tags:
+        - Sessions
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: UUID of the session to retrieve
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: Session details retrieved successfully
+          headers:
+            Cache-Control:
+              description: Cache behavior directive
+              schema:
+                type: string
+                example: "public, max-age=300, stale-while-revalidate=60"
+            ETag:
+              description: Entity tag for conditional requests
+              schema:
+                type: string
+                example: '"session-1234-v2"'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionDetailResponse"
+              examples:
+                active_session:
+                  summary: Active session with pending confirmations
+                  value:
+                    session_id: "550e8400-e29b-41d4-a716-446655440000"
+                    match_id: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                    venue_name: "Central Park Coffee"
+                    scheduled_time: "2025-08-17T15:00:00Z"
+                    status: "scheduled"
+                    participants:
+                      user1:
+                        user_id: "123e4567-e89b-12d3-a456-426614174000"
+                        first_name: "Alex"
+                        photo_url: "https://example.com/photos/alex.jpg"
+                        challenge:
+                          id: "c1234567-e89b-12d3-a456-426614174000"
+                          title: "Start a conversation with someone reading"
+                          difficulty: "beginner"
+                          points: 10
+                        completed_confirmed_by_buddy: false
+                      user2:
+                        user_id: "456e7890-e89b-12d3-a456-426614174001"
+                        first_name: "Jordan"
+                        photo_url: "https://example.com/photos/jordan.jpg"
+                        challenge:
+                          id: "d2345678-e89b-12d3-a456-426614174001"
+                          title: "Compliment someone's style"
+                          difficulty: "beginner"
+                          points: 10
+                        completed_confirmed_by_buddy: false
+                    notes: "Meeting at the corner table near the window"
+                    current_user_id: "123e4567-e89b-12d3-a456-426614174000"
+                    can_confirm:
+                      user1: false
+                      user2: false
+                    reputation_preview:
+                      user1_delta: 0
+                      user2_delta: 0
+                    time_until_session: 3600
+        "304":
+          description: Not Modified - cached content is still valid
+        "403":
+          description: Forbidden - user is not a participant in this session
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+              example:
+                type: "https://wingmanmatch.com/problems/access-denied"
+                title: "Access Denied"
+                status: 403
+                detail: "You are not authorized to view this session. Only matched participants can access session data."
+                instance: "/api/session/550e8400-e29b-41d4-a716-446655440000"
+        "404":
+          description: Session not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+              example:
+                type: "https://wingmanmatch.com/problems/session-not-found"
+                title: "Session Not Found"
+                status: 404
+                detail: "The requested session does not exist or has been deleted."
+                instance: "/api/session/550e8400-e29b-41d4-a716-446655440000"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+
+  /api/session/{session_id}/confirm:
+    post:
+      summary: Confirm Buddy Completion
+      description: |
+        Allow participants to confirm their buddy completed the challenge.
+        
+        **Business Rules**:
+        - Button is disabled until scheduled_time passes OR user is marked present
+        - Only participants can confirm for their buddy
+        - Confirmation updates reputation impact
+        - Triggers cache invalidation for session data
+        
+        **Side Effects**:
+        - Updates confirmation status in database
+        - Recalculates reputation preview deltas
+        - Invalidates session cache
+        - May trigger completion flow if both confirmed
+      tags:
+        - Sessions
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: UUID of the session
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfirmCompletionRequest"
+            examples:
+              confirm_buddy:
+                summary: Confirm buddy completed their challenge
+                value:
+                  buddy_user_id: "456e7890-e89b-12d3-a456-426614174001"
+                  notes: "Jordan did great - approached three people and had nice conversations!"
+      responses:
+        "200":
+          description: Confirmation recorded successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConfirmCompletionResponse"
+              example:
+                success: true
+                message: "Buddy completion confirmed successfully"
+                session_status: "in_progress"
+                updated_confirmations:
+                  user1_confirmed_by_user2: true
+                  user2_confirmed_by_user1: false
+                reputation_preview:
+                  user1_delta: 10
+                  user2_delta: 5
+                session_completed: false
+        "400":
+          description: Bad request - validation failed or confirmation not allowed
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+              examples:
+                too_early:
+                  summary: Attempted confirmation before scheduled time
+                  value:
+                    type: "https://wingmanmatch.com/problems/confirmation-too-early"
+                    title: "Confirmation Not Allowed"
+                    status: 400
+                    detail: "Confirmation is only allowed after the scheduled session time (2025-08-17T15:00:00Z) or when marked present."
+                    instance: "/api/session/550e8400-e29b-41d4-a716-446655440000/confirm"
+                    scheduled_time: "2025-08-17T15:00:00Z"
+                    time_remaining_seconds: 3600
+                already_confirmed:
+                  summary: Buddy already confirmed
+                  value:
+                    type: "https://wingmanmatch.com/problems/already-confirmed"
+                    title: "Already Confirmed"
+                    status: 400
+                    detail: "You have already confirmed this buddy's completion."
+                    instance: "/api/session/550e8400-e29b-41d4-a716-446655440000/confirm"
+        "403":
+          description: Forbidden - user is not a participant
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "404":
+          description: Session or buddy user not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "422":
+          description: Unprocessable Entity - invalid request data
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+              example:
+                type: "https://wingmanmatch.com/problems/validation-error"
+                title: "Validation Error"
+                status: 422
+                detail: "The buddy_user_id field must be a valid UUID."
+                instance: "/api/session/550e8400-e29b-41d4-a716-446655440000/confirm"
+                validation_errors:
+                  - field: "buddy_user_id"
+                    message: "Invalid UUID format"
+
+  /api/session/{session_id}/notes:
+    patch:
+      summary: Update Session Notes
+      description: |
+        Update session notes field with real-time persistence.
+        
+        **Features**:
+        - Supports debouncing from frontend with idempotency
+        - Content validation and sanitization
+        - Immediate cache invalidation
+        - Optimistic UI support
+        
+        **Validation**:
+        - Notes limited to 2000 characters
+        - HTML content is sanitized
+        - Empty notes are allowed (clears field)
+      tags:
+        - Sessions
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: UUID of the session
+          schema:
+            type: string
+            format: uuid
+        - name: Idempotency-Key
+          in: header
+          required: false
+          description: Optional idempotency key for duplicate request prevention
+          schema:
+            type: string
+            example: "notes-update-1692123456789"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateNotesRequest"
+            examples:
+              add_notes:
+                summary: Add session notes
+                value:
+                  notes: "Great session! Both challenges completed successfully. Meeting again next week."
+              clear_notes:
+                summary: Clear session notes
+                value:
+                  notes: ""
+      responses:
+        "200":
+          description: Notes updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateNotesResponse"
+              example:
+                success: true
+                message: "Session notes updated successfully"
+                notes: "Great session! Both challenges completed successfully. Meeting again next week."
+                updated_at: "2025-08-16T14:30:00Z"
+        "400":
+          description: Bad request - validation failed
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+              example:
+                type: "https://wingmanmatch.com/problems/notes-too-long"
+                title: "Notes Too Long"
+                status: 400
+                detail: "Session notes cannot exceed 2000 characters. Current length: 2150."
+                instance: "/api/session/550e8400-e29b-41d4-a716-446655440000/notes"
+                max_length: 2000
+                current_length: 2150
+        "403":
+          description: Forbidden - user is not a participant
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "404":
+          description: Session not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token from Supabase Auth. Include in Authorization header as "Bearer {token}".
+        
+        The token must contain a valid user ID that matches one of the session participants.
+
+  schemas:
+    SessionDetailResponse:
+      type: object
+      required:
+        - session_id
+        - match_id
+        - venue_name
+        - scheduled_time
+        - status
+        - participants
+        - current_user_id
+        - can_confirm
+        - reputation_preview
+      properties:
+        session_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the session
+        match_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the associated match
+        venue_name:
+          type: string
+          maxLength: 200
+          description: Name of the venue for the session
+        scheduled_time:
+          type: string
+          format: date-time
+          description: Scheduled start time for the session (ISO 8601)
+        status:
+          type: string
+          enum: [scheduled, in_progress, completed, cancelled, no_show]
+          description: Current status of the session
+        participants:
+          type: object
+          required: [user1, user2]
+          properties:
+            user1:
+              $ref: "#/components/schemas/SessionParticipant"
+            user2:
+              $ref: "#/components/schemas/SessionParticipant"
+          description: Details for both session participants
+        notes:
+          type: string
+          nullable: true
+          maxLength: 2000
+          description: Session notes (shared between participants)
+        current_user_id:
+          type: string
+          format: uuid
+          description: ID of the currently authenticated user
+        can_confirm:
+          type: object
+          required: [user1, user2]
+          properties:
+            user1:
+              type: boolean
+              description: Whether user1 can currently confirm completions
+            user2:
+              type: boolean
+              description: Whether user2 can currently confirm completions
+          description: Confirmation availability for each participant
+        reputation_preview:
+          $ref: "#/components/schemas/ReputationPreview"
+        time_until_session:
+          type: integer
+          nullable: true
+          description: Seconds until scheduled time (null if time has passed)
+
+    SessionParticipant:
+      type: object
+      required:
+        - user_id
+        - first_name
+        - challenge
+        - completed_confirmed_by_buddy
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the participant
+        first_name:
+          type: string
+          description: Participant's first name
+        photo_url:
+          type: string
+          format: uri
+          nullable: true
+          description: URL to participant's profile photo
+        challenge:
+          $ref: "#/components/schemas/ChallengeDetail"
+        completed_confirmed_by_buddy:
+          type: boolean
+          description: Whether this participant's completion has been confirmed by their buddy
+
+    ChallengeDetail:
+      type: object
+      required:
+        - id
+        - title
+        - difficulty
+        - points
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the challenge
+        title:
+          type: string
+          description: Challenge title/description
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, advanced]
+          description: Challenge difficulty level
+        points:
+          type: integer
+          minimum: 1
+          description: Points awarded for completing this challenge
+
+    ReputationPreview:
+      type: object
+      required:
+        - user1_delta
+        - user2_delta
+      properties:
+        user1_delta:
+          type: integer
+          description: Reputation points user1 will gain/lose
+        user2_delta:
+          type: integer
+          description: Reputation points user2 will gain/lose
+
+    ConfirmCompletionRequest:
+      type: object
+      required:
+        - buddy_user_id
+      properties:
+        buddy_user_id:
+          type: string
+          format: uuid
+          description: UUID of the buddy whose completion is being confirmed
+        notes:
+          type: string
+          maxLength: 500
+          description: Optional notes about the buddy's performance
+          example: "Great job! Very confident approach and engaging conversation."
+
+    ConfirmCompletionResponse:
+      type: object
+      required:
+        - success
+        - message
+        - session_status
+        - updated_confirmations
+        - reputation_preview
+        - session_completed
+      properties:
+        success:
+          type: boolean
+          description: Whether the confirmation was successful
+        message:
+          type: string
+          description: Human-readable success message
+        session_status:
+          type: string
+          enum: [scheduled, in_progress, completed, cancelled, no_show]
+          description: Updated session status after confirmation
+        updated_confirmations:
+          type: object
+          required:
+            - user1_confirmed_by_user2
+            - user2_confirmed_by_user1
+          properties:
+            user1_confirmed_by_user2:
+              type: boolean
+              description: Whether user1's completion is confirmed by user2
+            user2_confirmed_by_user1:
+              type: boolean
+              description: Whether user2's completion is confirmed by user1
+        reputation_preview:
+          $ref: "#/components/schemas/ReputationPreview"
+        session_completed:
+          type: boolean
+          description: Whether both participants have confirmed completion
+
+    UpdateNotesRequest:
+      type: object
+      required:
+        - notes
+      properties:
+        notes:
+          type: string
+          maxLength: 2000
+          description: Session notes content (empty string to clear)
+          example: "Meeting went well. Both completed challenges successfully."
+
+    UpdateNotesResponse:
+      type: object
+      required:
+        - success
+        - message
+        - notes
+        - updated_at
+      properties:
+        success:
+          type: boolean
+          description: Whether the update was successful
+        message:
+          type: string
+          description: Human-readable success message
+        notes:
+          type: string
+          description: The updated notes content
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when notes were last updated
+
+    ProblemDetail:
+      type: object
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          description: URI reference identifying the problem type
+          example: "https://wingmanmatch.com/problems/access-denied"
+        title:
+          type: string
+          description: Short, human-readable summary of the problem type
+          example: "Access Denied"
+        status:
+          type: integer
+          description: HTTP status code for this problem
+          example: 403
+        detail:
+          type: string
+          description: Human-readable explanation specific to this occurrence
+          example: "You are not authorized to view this session"
+        instance:
+          type: string
+          format: uri
+          description: URI identifying the specific problem occurrence
+          example: "/api/session/550e8400-e29b-41d4-a716-446655440000"
+      additionalProperties: true
+      description: |
+        Error response following RFC 9457 Problem Details for HTTP APIs.
+        May include additional problem-specific fields.
+
+tags:
+  - name: Sessions
+    description: |
+      Session management operations for active wingman sessions.
+      
+      Handles session data retrieval, confirmation workflows, and notes management
+      with participant-only access control.
+
+externalDocs:
+  description: WingmanMatch API Documentation
+  url: https://wingmanmatch.com/docs

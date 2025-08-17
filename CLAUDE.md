@@ -10,6 +10,68 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Review `progress.md` for recent accomplishments
 - Reference other files as needed for complete context
 
+## **DOMAIN-BASED AGENT WORKFLOW** ⚡
+
+**MANDATORY**: Always use specialized agents for development tasks. Never implement features directly.
+
+### Core Principle
+Use **domain-based agent assignment** instead of task-by-task handoffs for maximum efficiency and parallel execution.
+
+### Agent Assignment Strategy
+
+**For ANY development work, you MUST use agents:**
+
+1. **Analysis Phase**: Use `tech-lead-orchestrator` to analyze requirements and assign domains
+2. **Domain Assignment**: Assign complete domains to specialized agents:
+   - **Frontend Domain** → `frontend-developer` or framework specialists (`react-component-architect`, `react-nextjs-expert`)
+   - **Backend Domain** → `backend-developer` or framework specialists (`rails-backend-expert`, `django-backend-expert`)
+   - **Database Domain** → Usually handled by backend specialists
+   - **Infrastructure Domain** → `performance-optimizer` or backend specialists
+
+3. **Parallel Execution**: Frontend and Backend domains execute simultaneously (40-60% faster)
+4. **Integration Validation**: Use `code-reviewer` for cross-domain integration testing
+
+### Domain-Based Benefits
+- **Parallel Development**: Frontend + Backend domains work simultaneously
+- **Complete Context**: Each agent understands their entire domain scope
+- **Consistent Patterns**: Domain ownership ensures architectural consistency
+- **Faster Delivery**: No context switching between agents
+- **Better Quality**: Domain experts optimize across complete functionality
+
+### Implementation Rules
+
+**✅ ALWAYS DO:**
+- Use `tech-lead-orchestrator` first to analyze and assign domains
+- Assign complete domains to agents, not individual tasks
+- Let domain agents manage their own TodoWrite task lists
+- Run Frontend + Backend domains in parallel when possible
+- Use `code-reviewer` for final integration validation
+
+**❌ NEVER DO:**
+- Implement features directly without using agents
+- Assign isolated tasks without domain context
+- Modify existing implementation files when agents specify "create new files only"
+- Skip the domain analysis phase
+
+### Example Workflow
+```
+Feature Request: User Authentication System
+
+1. tech-lead-orchestrator → Analyzes requirements, assigns domains
+2. backend-developer → Complete auth API, JWT handling, validation
+3. frontend-developer → Complete auth UI, forms, state management
+   (Steps 2-3 run in parallel)
+4. code-reviewer → Integration testing and validation
+```
+
+### Agent Delegation Pattern
+Always delegate to agents using this format:
+```
+Task Agent: @agent-name
+Description: Complete [Domain] implementation
+Prompt: [Detailed domain requirements and context]
+```
+
 ## Development Commands
 
 ### Backend Development

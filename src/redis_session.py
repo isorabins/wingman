@@ -168,3 +168,29 @@ async def get_user_session(user_id: str) -> Optional[Dict[str, Any]]:
 async def clear_user_session(user_id: str) -> bool:
     """Clear user session data"""
     return await RedisSession.delete_session(f"user:{user_id}")
+
+# Cache functions for challenges
+async def cache_challenges(cache_key: str, data: dict, ttl: int = 600) -> bool:
+    """Cache challenges data with TTL (default 10 minutes)"""
+    return await RedisSession.set_session(cache_key, data, ttl)
+
+async def get_cached_challenges(cache_key: str) -> Optional[dict]:
+    """Retrieve cached challenges data"""
+    return await RedisSession.get_session(cache_key)
+
+async def invalidate_challenges_cache(tag: str = "challenges") -> bool:
+    """Invalidate challenges cache by tag"""
+    if not RedisSession._healthy or not RedisSession._client:
+        logger.warning("Redis unavailable - cache not invalidated")
+        return False
+    
+    try:
+        # For MVP, we'll use a simple pattern match to find keys
+        keys = await RedisSession._client.keys(f"challenges:*")
+        if keys:
+            await RedisSession._client.delete(*keys)
+            logger.info(f"Invalidated {len(keys)} challenge cache keys")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to invalidate challenges cache: {e}")
+        return False

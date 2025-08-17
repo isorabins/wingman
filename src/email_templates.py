@@ -243,6 +243,75 @@ class EmailService:
         </body>
         </html>
         """
+    
+    async def send_session_scheduled(self, to_email: str, user_name: str, venue_name: str, scheduled_time: str) -> bool:
+        """Send session scheduled confirmation email"""
+        if not self.enabled:
+            logger.warning("Email service disabled - session scheduled notification not sent")
+            return False
+        
+        try:
+            email_data = {
+                "from": "WingmanMatch <sessions@wingmanmatch.com>",
+                "to": [to_email],
+                "subject": f"🎯 Wingman Session Scheduled at {venue_name}",
+                "html": self._get_session_scheduled_template(user_name, venue_name, scheduled_time)
+            }
+            
+            response = resend.Emails.send(email_data)
+            logger.info(f"Session scheduled notification sent to {to_email}: {response}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to send session scheduled notification to {to_email}: {e}")
+            return False
+    
+    def _get_session_scheduled_template(self, user_name: str, venue_name: str, scheduled_time: str) -> str:
+        """HTML template for session scheduled notification"""
+        return f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px; color: white; text-align: center;">
+                <h1 style="margin: 0; font-size: 28px;">🎯 Session Scheduled!</h1>
+                <p style="margin: 10px 0 0 0; font-size: 18px;">Your wingman session is confirmed</p>
+            </div>
+            
+            <div style="padding: 30px 20px;">
+                <p style="font-size: 16px; line-height: 1.6;">
+                    Hi {user_name}! Great news - your wingman session has been scheduled and confirmed.
+                </p>
+                
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #4caf50;">
+                    <h3 style="color: #2e7d32; margin-top: 0;">Session Details:</h3>
+                    <p style="margin: 5px 0;"><strong>Venue:</strong> {venue_name}</p>
+                    <p style="margin: 5px 0;"><strong>Time:</strong> {scheduled_time}</p>
+                    <p style="margin: 5px 0;"><strong>Status:</strong> Confirmed ✅</p>
+                </div>
+                
+                <div style="background: #f0f7ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3 style="color: #1976d2; margin-top: 0;">What to bring:</h3>
+                    <ul style="color: #424242; line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Your chosen challenge and confidence</li>
+                        <li>Positive energy and supportive attitude</li>
+                        <li>Willingness to step out of your comfort zone</li>
+                        <li>Remember: every approach is practice, regardless of outcome!</li>
+                    </ul>
+                </div>
+                
+                <p style="font-size: 16px; line-height: 1.6; text-align: center; color: #666;">
+                    Good luck with your session! You've got this. 💪
+                </p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://wingmanmatch.com/chat" 
+                       style="background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block;">
+                        Chat with your Wingman
+                    </a>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
 
 # Global email service instance
 email_service = EmailService()

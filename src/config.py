@@ -33,8 +33,8 @@ class Config:
 
     # Supabase Configuration
     SUPABASE_URL: str = os.getenv("SUPABASE_URL")
-    SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY")
-    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY")
+    SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON") or os.getenv("SUPABASE_ANON_KEY") 
+    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_ROLE") or os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
     # Redis Configuration for session management
     REDIS_URL: str = os.getenv("REDIS_URL")
@@ -47,8 +47,10 @@ class Config:
     ENABLE_MATCHING: bool = os.getenv("ENABLE_MATCHING", "true").lower() in ("true", "1", "yes")
     ENABLE_AI_COACHING: bool = os.getenv("ENABLE_AI_COACHING", "true").lower() in ("true", "1", "yes")
     ENABLE_CHALLENGE_SHARING: bool = os.getenv("ENABLE_CHALLENGE_SHARING", "true").lower() in ("true", "1", "yes")
+    ENABLE_CHALLENGES_CATALOG: bool = os.getenv("ENABLE_CHALLENGES_CATALOG", "true").lower() in ("true", "1", "yes")
     ENABLE_DETAILED_LOGGING: bool = os.getenv("ENABLE_DETAILED_LOGGING", "false").lower() in ("true", "1", "yes")
     ENABLE_RATE_LIMITING: bool = os.getenv("ENABLE_RATE_LIMITING", "true").lower() in ("true", "1", "yes")
+    ENABLE_TEST_AUTH: bool = os.getenv("ENABLE_TEST_AUTH", "true").lower() in ("true", "1", "yes") and os.getenv("DEVELOPMENT_MODE", "false").lower() in ("true", "1", "yes")
     
     # A/B Testing Flags for Coaching Persona
     ENABLE_NEW_COACH_PROMPTS: bool = os.getenv("ENABLE_NEW_COACH_PROMPTS", "true").lower() in ("true", "1", "yes")
@@ -68,6 +70,15 @@ class Config:
     MAX_WINGMAN_MATCHES: int = int(os.getenv("MAX_WINGMAN_MATCHES", "5"))
     CHALLENGE_DURATION_DAYS: int = int(os.getenv("CHALLENGE_DURATION_DAYS", "30"))
     SESSION_TIMEOUT_HOURS: int = int(os.getenv("SESSION_TIMEOUT_HOURS", "24"))
+    
+    # Performance Monitoring Configuration
+    ENABLE_PERFORMANCE_MONITORING: bool = os.getenv("ENABLE_PERFORMANCE_MONITORING", "true").lower() in ("true", "1", "yes")
+    ENABLE_CONNECTION_POOLING: bool = os.getenv("ENABLE_CONNECTION_POOLING", "true").lower() in ("true", "1", "yes")
+    ENABLE_PERFORMANCE_ALERTS: bool = os.getenv("ENABLE_PERFORMANCE_ALERTS", "true").lower() in ("true", "1", "yes")
+    PERFORMANCE_ALERT_EMAIL: str = os.getenv("PERFORMANCE_ALERT_EMAIL", "admin@wingmanmatch.com")
+    DATABASE_POOL_SIZE: int = int(os.getenv("DATABASE_POOL_SIZE", "20"))
+    METRICS_RETENTION_HOURS: int = int(os.getenv("METRICS_RETENTION_HOURS", "24"))
+    SLACK_WEBHOOK_URL: str = os.getenv("SLACK_WEBHOOK_URL", "")
     
     @classmethod
     def get_required_vars(cls) -> List[str]:
@@ -93,7 +104,15 @@ class Config:
         Validates all required configuration variables are set.
         Raises ConfigurationError if any required variables are missing.
         """
-        missing_vars = [var for var in cls.get_required_vars() 
+        # In development/test mode, some vars are optional
+        test_mode = os.getenv("TEST_ENV") == "test" or cls.DEVELOPMENT_MODE
+        
+        required_vars = cls.get_required_vars()
+        if test_mode:
+            # ANTHROPIC_API_KEY is optional in test mode
+            required_vars = [var for var in required_vars if var != "ANTHROPIC_API_KEY"]
+        
+        missing_vars = [var for var in required_vars 
                        if not getattr(cls, var)]
         
         if missing_vars:
@@ -142,8 +161,10 @@ class Config:
             "matching_enabled": cls.ENABLE_MATCHING,
             "ai_coaching_enabled": cls.ENABLE_AI_COACHING,
             "challenge_sharing_enabled": cls.ENABLE_CHALLENGE_SHARING,
+            "challenges_catalog_enabled": cls.ENABLE_CHALLENGES_CATALOG,
             "detailed_logging_enabled": cls.ENABLE_DETAILED_LOGGING,
             "rate_limiting_enabled": cls.ENABLE_RATE_LIMITING,
+            "test_auth_enabled": cls.ENABLE_TEST_AUTH,
             "experimental_features_enabled": cls.ENABLE_EXPERIMENTAL_FEATURES,
             "new_coach_prompts_enabled": cls.ENABLE_NEW_COACH_PROMPTS,
             "safety_filters_enabled": cls.ENABLE_SAFETY_FILTERS,
@@ -158,7 +179,9 @@ class Config:
         return {
             "max_wingman_matches": cls.MAX_WINGMAN_MATCHES,
             "challenge_duration_days": cls.CHALLENGE_DURATION_DAYS,
-            "session_timeout_hours": cls.SESSION_TIMEOUT_HOURS
+            "session_timeout_hours": cls.SESSION_TIMEOUT_HOURS,
+            "min_pool_size": 5,
+            "max_pool_size": cls.DATABASE_POOL_SIZE
         }
 
     @classmethod
@@ -180,6 +203,19 @@ class Config:
             "context_optimization_enabled": cls.ENABLE_CONTEXT_OPTIMIZATION,
             "prompt_caching_enabled": cls.ENABLE_PROMPT_CACHING,
             "new_coach_prompts_enabled": cls.ENABLE_NEW_COACH_PROMPTS
+        }
+
+    @classmethod
+    def get_performance_monitoring_config(cls) -> dict:
+        """Get performance monitoring configuration"""
+        return {
+            "performance_monitoring_enabled": cls.ENABLE_PERFORMANCE_MONITORING,
+            "connection_pooling_enabled": cls.ENABLE_CONNECTION_POOLING,
+            "performance_alerts_enabled": cls.ENABLE_PERFORMANCE_ALERTS,
+            "alert_email": cls.PERFORMANCE_ALERT_EMAIL,
+            "database_pool_size": cls.DATABASE_POOL_SIZE,
+            "metrics_retention_hours": cls.METRICS_RETENTION_HOURS,
+            "slack_webhook_configured": bool(cls.SLACK_WEBHOOK_URL)
         }
 
 # Validate required configuration on import

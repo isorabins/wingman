@@ -96,6 +96,16 @@ export default function ConfidenceTest() {
       ...testData,
       responses: newResponses
     })
+
+    // Auto-advance to next question after a brief delay for UX
+    setTimeout(() => {
+      if (currentScreen < totalQuestions) {
+        nextScreen()
+      } else {
+        // On the last question, auto-submit after selection
+        handleSubmit()
+      }
+    }, 800)
   }
 
   // Calculate archetype based on responses
@@ -400,7 +410,7 @@ export default function ConfidenceTest() {
           </RadioGroup>
 
           {/* Navigation buttons */}
-          <Flex justify="center" pt={6}>
+          <Flex justify="space-between" pt={6} w="full" maxW="300px" mx="auto">
             <Button
               variant="outline"
               onClick={prevScreen}
@@ -410,9 +420,25 @@ export default function ConfidenceTest() {
               _hover={{ bg: "brand.100" }}
               rounded="full"
               px={6}
+              visibility={currentScreen > 1 ? "visible" : "hidden"}
             >
               <ArrowLeft size={16} style={{ marginRight: '8px' }} />
               Back
+            </Button>
+            
+            <Button
+              variant="solid"
+              onClick={nextScreen}
+              disabled={!isNextEnabled() || currentScreen >= totalQuestions}
+              colorScheme="brand"
+              bg="brand.900"
+              color="brand.50"
+              _hover={{ bg: "gray.600" }}
+              rounded="full"
+              px={6}
+            >
+              Next
+              <ArrowRight size={16} style={{ marginLeft: '8px' }} />
             </Button>
           </Flex>
         </VStack>
@@ -477,34 +503,59 @@ export default function ConfidenceTest() {
             </CardBody>
           </Card>
 
-          <Flex gap={4} pt={8}>
-            <Button 
-              variant="outline"
-              borderColor="brand.400"
-              color="brand.900"
-              _hover={{ bg: "brand.100" }}
-              rounded="full"
-              px={8}
-              py={6}
-              fontSize="base"
-              as={Link}
-              href="/"
-            >
-              Back to Home
-            </Button>
-            <Button 
-              colorScheme="brand"
-              bg="brand.900"
-              color="brand.50"
-              _hover={{ bg: "gray.600" }}
-              rounded="full"
-              px={8}
-              py={6}
-              fontSize="base"
-            >
-              Continue to Matching
-            </Button>
-          </Flex>
+          <VStack spacing={6} pt={8}>
+            <Text fontSize="lg" fontWeight="medium" color="brand.900" textAlign="center">
+              What's your next step?
+            </Text>
+            
+            <Flex gap={4} wrap="wrap" justify="center">
+              <Button 
+                colorScheme="brand"
+                bg="brand.900"
+                color="brand.50"
+                _hover={{ bg: "gray.600" }}
+                rounded="full"
+                px={8}
+                py={6}
+                fontSize="base"
+                as={Link}
+                href="/dating-goals"
+              >
+                Set Dating Goals
+              </Button>
+              <Button 
+                variant="outline"
+                borderColor="brand.400"
+                color="brand.900"
+                _hover={{ bg: "brand.100" }}
+                rounded="full"
+                px={8}
+                py={6}
+                fontSize="base"
+                as={Link}
+                href="/find-buddy"
+              >
+                Skip to Matching
+              </Button>
+            </Flex>
+            
+            <VStack spacing={2}>
+              <Text fontSize="sm" color="gray.600" textAlign="center" maxW="md">
+                <Text as="span" fontWeight="medium">Recommended:</Text> Define your dating goals 
+                with your AI coach to get better wingman matches
+              </Text>
+              <Button 
+                variant="ghost" 
+                color="gray.500" 
+                _hover={{ color: "brand.900", bg: "gray.100" }}
+                size="sm"
+                as={Link}
+                href="/"
+              >
+                Back to Home
+              </Button>
+            </VStack>
+          </VStack>
         </VStack>
       )
     }
@@ -542,40 +593,6 @@ export default function ConfidenceTest() {
         {renderScreen()}
       </Container>
 
-      {/* Submit button for last question */}
-      {currentScreen === totalQuestions && (
-        <Box 
-          position="fixed" 
-          bottom={0} 
-          left={0} 
-          right={0} 
-          bg="white" 
-          borderTop="1px solid" 
-          borderColor="gray.200"
-          p={4}
-        >
-          <Container maxW="6xl">
-            <Flex justify="center">
-              <Button
-                colorScheme="brand"
-                bg="brand.900"
-                color="brand.50"
-                _hover={{ bg: "gray.600" }}
-                rounded="full"
-                px={8}
-                py={6}
-                fontSize="base"
-                onClick={handleSubmit}
-                disabled={!isNextEnabled() || isSubmitting}
-                isLoading={isSubmitting}
-                loadingText="Calculating your type..."
-              >
-                {isSubmitting ? "Calculating your type..." : "Get My Results"}
-              </Button>
-            </Flex>
-          </Container>
-        </Box>
-      )}
     </Box>
   )
 }

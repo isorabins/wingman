@@ -40,3 +40,6 @@ src/.env
 
 # Next.js build output  
 .next/
+
+# YoYo AI version control directory
+.yoyo/

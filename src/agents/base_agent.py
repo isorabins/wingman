@@ -18,10 +18,10 @@ from typing import Dict, List, Any, Optional, Tuple
 from supabase import Client
 
 try:
-    from src.simple_memory import SimpleMemory
+    from src.simple_memory import WingmanMemory
 except ImportError:
     # For testing purposes
-    from simple_memory import SimpleMemory
+    from simple_memory import WingmanMemory
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class BaseAgent(ABC):
         self.supabase = supabase_client
         self.user_id = user_id
         self.agent_type = agent_type
-        self.memory = SimpleMemory(supabase_client, user_id)
+        self.memory = WingmanMemory(supabase_client, user_id)
         
     async def start_session(self, thread_id: str) -> Dict[str, Any]:
         """Start a new agent session"""
@@ -151,25 +151,33 @@ class BaseAgent(ABC):
             logger.error(f"Error updating session context: {e}")
     
     async def call_claude_with_router(self, messages: List[Dict[str, str]], system_prompt: str = "") -> str:
-        """Make a call to Claude via LLM Router with automatic fallback protection"""
+        """Make a call to Claude via direct API call with fallback protection"""
         try:
-            from src.llm_router import get_router
+            import anthropic
+            from src.config import Config
             
-            # Get router instance
-            router = await get_router()
+            # Create Anthropic client
+            client = anthropic.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
             
-            # Call through router for automatic fallback
-            response = await router.send_message(
-                messages=messages,
-                system=system_prompt,
+            # Prepare messages with system prompt
+            formatted_messages = []
+            if messages:
+                formatted_messages = [{"role": msg["role"], "content": msg["content"]} for msg in messages]
+            
+            # Call Claude API directly
+            response = client.messages.create(
                 model="claude-3-5-sonnet-20241022",
                 max_tokens=2000,
                 temperature=0.7,
-                stream=False
+                system=system_prompt if system_prompt else "You are a helpful assistant.",
+                messages=formatted_messages
             )
             
-            logger.info(f"LLM Router call successful, provider: {router.get_last_provider()}")
-            return response
+            # Extract text from response
+            response_text = response.content[0].text if response.content else ""
+            
+            logger.info(f"Claude API call successful")
+            return response_text
             
         except Exception as e:
             logger.error(f"Error calling Claude via LLM Router: {e}")

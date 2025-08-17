@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useAuth } from "../../lib/auth-context"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -51,6 +52,7 @@ import {
   Loader2
 } from "lucide-react"
 import { photoUploadService, type PhotoUploadProgress } from "../../storage/photo_upload"
+import LocationCapture from "../../components/LocationCapture"
 
 // Validation schema
 const profileSetupSchema = z.object({
@@ -71,7 +73,7 @@ const profileSetupSchema = z.object({
     privacy_mode: z.enum(["precise", "city_only"]),
   }).refine((location) => {
     // Either coordinates or city must be provided
-    return (location.lat !== undefined && location.lng !== undefined) || location.city
+    return (location.lat !== undefined && location.lng !== undefined) || (location.city && location.city.trim().length > 0)
   }, "Either precise location or city name is required"),
   
   travel_radius: z.number().min(1).max(50),
@@ -80,13 +82,7 @@ const profileSetupSchema = z.object({
 
 type ProfileSetupForm = z.infer<typeof profileSetupSchema>
 
-interface LocationState {
-  isLoading: boolean
-  error: string | null
-  hasPermission: boolean | null
-  coordinates: { lat: number; lng: number } | null
-  city: string
-}
+// Location state now handled by LocationCapture component
 
 interface PhotoUploadState {
   isUploading: boolean
@@ -97,10 +93,11 @@ interface PhotoUploadState {
   previewUrl: string | null
 }
 
-export default function ProfileSetupPage() {
+// Component that contains all the form logic - only renders when user is authenticated
+function ProfileSetupForm({ user }: { user: any }) {
   const router = useRouter()
   const toast = useToast()
-  
+
   // Form state
   const { 
     control, 
@@ -114,7 +111,8 @@ export default function ProfileSetupPage() {
     defaultValues: {
       bio: "",
       location: {
-        privacy_mode: "precise",
+        privacy_mode: "city_only",
+        city: "",
       },
       travel_radius: 20,
     },
@@ -125,15 +123,7 @@ export default function ProfileSetupPage() {
   const bioValue = watch("bio")
   const privacyMode = watch("location.privacy_mode")
   const travelRadius = watch("travel_radius")
-
-  // Location state
-  const [locationState, setLocationState] = useState<LocationState>({
-    isLoading: false,
-    error: null,
-    hasPermission: null,
-    coordinates: null,
-    city: ""
-  })
+  
 
   // Photo upload state
   const [photoState, setPhotoState] = useState<PhotoUploadState>({
@@ -149,98 +139,25 @@ export default function ProfileSetupPage() {
   const bioCharCount = bioValue?.length || 0
   const bioProgress = (bioCharCount / 400) * 100
 
-  // Request geolocation permission
-  const requestLocation = useCallback(async () => {
-    if (!navigator.geolocation) {
-      setLocationState(prev => ({
-        ...prev,
-        error: "Geolocation is not supported by this browser",
-        hasPermission: false
-      }))
-      return
+  // Handle location updates from LocationCapture component
+  const handleLocationUpdate = useCallback(async (coordinates: { lat?: number; lng?: number; city?: string }) => {
+    if (coordinates.lat && coordinates.lng) {
+      setValue("location.lat", coordinates.lat)
+      setValue("location.lng", coordinates.lng)
     }
-
-    setLocationState(prev => ({ ...prev, isLoading: true, error: null }))
-
-    try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 600000 // 10 minutes
-        })
-      })
-
-      const { latitude, longitude } = position.coords
-      
-      setLocationState(prev => ({
-        ...prev,
-        isLoading: false,
-        hasPermission: true,
-        coordinates: { lat: latitude, lng: longitude }
-      }))
-
-      // Update form with coordinates
-      setValue("location.lat", latitude)
-      setValue("location.lng", longitude)
-
-      // Try to get city name from coordinates (reverse geocoding)
-      try {
-        await reverseGeocode(latitude, longitude)
-      } catch (geocodeError) {
-        console.warn("Reverse geocoding failed:", geocodeError)
-      }
-
-      await trigger("location")
-      
-    } catch (error: any) {
-      let errorMessage = "Unable to get your location"
-      
-      if (error.code) {
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage = "Location access denied. You can still enter your city manually."
-            break
-          case error.POSITION_UNAVAILABLE:
-            errorMessage = "Location information unavailable. Please enter your city manually."
-            break
-          case error.TIMEOUT:
-            errorMessage = "Location request timed out. Please try again or enter your city manually."
-            break
-        }
-      }
-      
-      setLocationState(prev => ({
-        ...prev,
-        isLoading: false,
-        error: errorMessage,
-        hasPermission: false
-      }))
+    
+    if (coordinates.city) {
+      setValue("location.city", coordinates.city)
     }
+    
+    await trigger("location")
   }, [setValue, trigger])
 
-  // Reverse geocoding to get city from coordinates
-  const reverseGeocode = async (lat: number, lng: number) => {
-    try {
-      // Using a simple reverse geocoding service (you might want to use Google Maps API in production)
-      const response = await fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
-      )
-      
-      if (response.ok) {
-        const data = await response.json()
-        const city = data.city || data.locality || data.principalSubdivision || ""
-        
-        if (city) {
-          setLocationState(prev => ({ ...prev, city }))
-          setValue("location.city", city)
-          await trigger("location")
-        }
-      }
-    } catch (error) {
-      console.warn("Reverse geocoding failed:", error)
-    }
-  }
+  // Handle privacy mode changes
+  const handlePrivacyModeChange = useCallback(async (mode: 'precise' | 'city_only') => {
+    setValue("location.privacy_mode", mode)
+    await trigger("location")
+  }, [setValue, trigger])
 
   // Handle photo upload
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -270,11 +187,11 @@ export default function ProfileSetupPage() {
     try {
       // For demo purposes, we'll use a mock user ID
       // In production, this would come from authentication context
-      const mockUserId = "demo-user-id"
+      const userId = user.id
       
       const result = await photoUploadService.uploadPhoto(
         file,
-        mockUserId,
+        userId,
         (progress: PhotoUploadProgress) => {
           setPhotoState(prev => ({
             ...prev,
@@ -353,20 +270,23 @@ export default function ProfileSetupPage() {
   const onSubmit = async (data: ProfileSetupForm) => {
     try {
       // Prepare the request payload
+      const locationData = {
+        lat: data.location.lat || 0, // Default to 0,0 if no coordinates provided
+        lng: data.location.lng || 0,
+        city: data.location.city,
+        privacy_mode: data.location.privacy_mode
+      }
+
       const payload = {
-        user_id: "demo-user-id", // In production, get from auth context
+        user_id: user.id,
         bio: data.bio,
-        location: {
-          lat: data.location.lat,
-          lng: data.location.lng,
-          city: data.location.city || locationState.city,
-          privacy_mode: data.location.privacy_mode
-        },
+        location: locationData,
         travel_radius: data.travel_radius,
         photo_url: photoState.photoUrl
       }
 
-      const response = await fetch('/api/profile/complete', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+      const response = await fetch(`${apiUrl}/api/profile/complete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -599,93 +519,24 @@ export default function ProfileSetupPage() {
                     <Badge colorScheme="red" variant="solid">Required</Badge>
                   </HStack>
 
-                  {/* Privacy Toggle */}
-                  <Controller
-                    name="location.privacy_mode"
-                    control={control}
-                    render={({ field }) => (
-                      <FormControl>
-                        <FormLabel>Location Privacy</FormLabel>
-                        <HStack>
-                          <Switch
-                            isChecked={field.value === "precise"}
-                            onChange={(e) => field.onChange(e.target.checked ? "precise" : "city_only")}
-                            colorScheme="brand"
-                          />
-                          <Text>
-                            {field.value === "precise" ? "Share exact location" : "City only"}
-                          </Text>
-                        </HStack>
-                        <FormHelperText>
-                          {field.value === "precise" 
-                            ? "Your precise coordinates will be used for matching within your travel radius"
-                            : "Only your city will be shared, using city center for distance calculations"
-                          }
-                        </FormHelperText>
-                      </FormControl>
-                    )}
+                  {/* Enhanced Location Capture */}
+                  <LocationCapture
+                    onLocationUpdate={handleLocationUpdate}
+                    onPrivacyModeChange={handlePrivacyModeChange}
+                    privacyMode={privacyMode}
+                    initialCity={watch("location.city") || ""}
+                    isRequired={true}
+                    disabled={isSubmitting}
                   />
 
-                  {/* Location Input */}
-                  {privacyMode === "precise" ? (
-                    <VStack spacing={4} align="stretch">
-                      <Button
-                        onClick={requestLocation}
-                        isLoading={locationState.isLoading}
-                        loadingText="Getting location..."
-                        leftIcon={<Icon as={MapPin} />}
-                        variant="outline"
-                        borderColor="brand.400"
-                        color="brand.900"
-                        _hover={{ bg: "brand.100" }}
-                        disabled={locationState.hasPermission === true}
-                      >
-                        {locationState.hasPermission === true 
-                          ? `Location captured${locationState.city ? ` • ${locationState.city}` : ""}`
-                          : "Use My Current Location"
-                        }
-                      </Button>
-
-                      {locationState.error && (
-                        <Alert status="warning" borderRadius="md">
-                          <AlertIcon />
-                          <AlertDescription fontSize="sm">
-                            {locationState.error}
-                          </AlertDescription>
-                        </Alert>
-                      )}
-
-                      {locationState.hasPermission === true && (
-                        <Alert status="success" borderRadius="md">
-                          <AlertIcon />
-                          <AlertDescription fontSize="sm">
-                            Location captured successfully! 
-                            {locationState.city && ` Detected city: ${locationState.city}`}
-                          </AlertDescription>
-                        </Alert>
-                      )}
-                    </VStack>
-                  ) : (
-                    <Controller
-                      name="location.city"
-                      control={control}
-                      render={({ field }) => (
-                        <FormControl isInvalid={!!errors.location}>
-                          <FormLabel>City</FormLabel>
-                          <Input
-                            {...field}
-                            placeholder="Enter your city (e.g., San Francisco, CA)"
-                            bg="white"
-                          />
-                          <FormErrorMessage>
-                            {errors.location?.message}
-                          </FormErrorMessage>
-                          <FormHelperText>
-                            We'll use your city center for distance calculations
-                          </FormHelperText>
-                        </FormControl>
-                      )}
-                    />
+                  {/* Show validation errors */}
+                  {errors.location && (
+                    <Alert status="error" borderRadius="md">
+                      <AlertIcon />
+                      <AlertDescription fontSize="sm">
+                        {errors.location.message}
+                      </AlertDescription>
+                    </Alert>
                   )}
 
                   {/* Travel Radius */}
@@ -730,7 +581,7 @@ export default function ProfileSetupPage() {
                     _hover={{ bg: "gray.600" }}
                     isLoading={isSubmitting}
                     loadingText="Completing profile..."
-                    disabled={!isValid || photoState.isUploading}
+                    isDisabled={!isValid || photoState.isUploading}
                     w="full"
                     maxW="300px"
                   >
@@ -744,6 +595,15 @@ export default function ProfileSetupPage() {
                     )}
                   </Button>
                   
+                  {/* Debug info - remove after testing */}
+                  <Box p={2} bg="gray.100" borderRadius="md" fontSize="xs">
+                    <Text>Form Valid: {isValid ? "✅" : "❌"}</Text>
+                    <Text>Bio length: {watch("bio")?.length || 0}/10 min</Text>
+                    <Text>City: {watch("location.city") || "empty"}</Text>
+                    <Text>Coordinates: {watch("location.lat") ? "✅" : "❌"}</Text>
+                    <Text>Errors: {Object.keys(errors).join(", ") || "none"}</Text>
+                  </Box>
+                  
                   <Text fontSize="sm" color="gray.600" textAlign="center">
                     By completing your profile, you'll be ready to find and connect with wingman buddies
                   </Text>
@@ -755,4 +615,37 @@ export default function ProfileSetupPage() {
       </Container>
     </Box>
   )
+}
+
+// Main component with authentication guards
+export default function ProfileSetupPage() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  // Authentication guard
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/auth/signin')
+    }
+  }, [user, loading, router])
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <Container maxW="4xl" py={8}>
+        <VStack spacing={4}>
+          <CircularProgress isIndeterminate color="brand.500" />
+          <Text>Loading...</Text>
+        </VStack>
+      </Container>
+    )
+  }
+
+  // Don't render if no user
+  if (!user) {
+    return null
+  }
+
+  // Render the actual form component
+  return <ProfileSetupForm user={user} />
 }

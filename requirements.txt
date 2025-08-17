@@ -36,3 +36,6 @@ pytest-asyncio==0.21.1
 
 # Logging & Monitoring
 structlog==23.2.0
+# Performance Monitoring Dependencies
+asyncpg==0.29.0  # PostgreSQL async connection pool
+aiohttp==3.9.1   # For Slack webhook notifications

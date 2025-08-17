@@ -1,0 +1,372 @@
+# Fridays at Four - Product Requirements Document
+
+## Project Overview
+Fridays at Four is an AI-powered creative project management platform that helps creative professionals like Sarah and Emma turn their dream projects into reality. The platform combines AI coaching (Hai) with human accountability partners through structured onboarding, ongoing support, and memory persistence.
+
+## Target Users
+- **Primary**: Creative professionals aged 25-45 with liberal arts backgrounds
+- **Profile**: Content strategists, writers, designers, entrepreneurs with side projects
+- **Pain Points**: Tool overwhelm, isolation, inconsistent momentum, lack of structured support
+- **Goals**: Complete meaningful creative projects with accountability and guidance
+
+## Core Features
+
+### 1. Creativity Personality Test - Viral Marketing Engine
+- **Dual Purpose**: Viral marketing hook + AI personalization system
+- **Two Versions**: Creative professionals and entrepreneur/business builder variants
+- **Six Universal Archetypes**: Big Picture Visionary, Creative Sprinter, Steady Builder, Collaborative Creator, Independent Maker, Intuitive Artist
+- **AI Integration**: Archetype-specific temperature settings and communication styles
+- **Social Sharing**: Optimized for Instagram stories, TikTok, Twitter engagement
+- **Conversion Tool**: Alternative to traditional signup friction
+
+### 2. AI-Powered Project Onboarding
+- 8-topic guided conversation covering project fundamentals
+- Natural language interaction (no forms or complex UIs)
+- Progress tracking with clear "Topic X of 8" indicators
+- Professional 10-minute setup expectation
+- Automatic project overview creation from conversation
+- **NEW**: Optional personality-driven onboarding flow based on test results
+
+### 3. Persistent AI Memory System
+- Conversation history across all sessions
+- Context-aware responses based on project details
+- Memory of user preferences, challenges, and goals
+- Buffer management with smart summarization
+- Integration with project updates and progress tracking
+- **NEW**: Archetype-aware memory context and response personalization
+
+### 4. Human Partner Matching
+- Weekly 30-minute accountability calls
+- Thoughtful matching based on project types and personalities
+- **NEW**: Enhanced matching using creativity archetypes
+- Shared creative struggles and professional support
+- Flexible scheduling and communication support
+
+### 5. Project Coaching & Support
+- Daily AI interactions for guidance and motivation
+- **NEW**: Personality-adapted communication styles and temperatures
+- Practical action items based on project context
+- Progress celebration and milestone recognition
+- Pattern recognition and personalized insights
+- Gentle accountability without judgment
+
+### 6. Progress Tracking & Analytics
+- Visual momentum indicators
+- Project milestone tracking
+- Personal pattern insights
+- Success metrics aligned with user goals
+- Long-term progress visualization
+- **NEW**: Archetype-specific progress visualization and celebration styles
+
+### 7. Hai Evolution System - Relationship Progression Engine
+- **Four Natural Stages**: Foundation (weeks 1-2) → Rhythm (weeks 3-4) → Skills (months 1-2) → Mastery (month 3+)
+- **Organic Progression**: AI sophistication grows naturally with user tenure and engagement
+- **Mentoring Authenticity**: Matches real coaching relationships that deepen over time
+- **Stage-Appropriate Support**: Foundation users get "tiny steps," Mastery users get advanced techniques
+- **Relationship Investment**: Users develop long-term connection as Hai evolves with them
+
+## Technical Requirements
+
+### Backend Architecture (UPDATED)
+- **Framework**: FastAPI with Python 3.10+
+- **AI Integration**: Direct Anthropic Claude API (migrating from LangChain/LangGraph)
+- **Three-Dimensional Personalization**: Archetype + Insights + Evolution stage integration
+- **Database**: Supabase PostgreSQL with personality test schema and insights system
+- **Authentication**: Supabase Auth with JWT tokens
+- **Memory System**: JSON storage with conversation buffering and multi-dimensional context
+
+### Complete Personalization Database Schema
+```sql
+-- Add to creator_profiles table
+ALTER TABLE creator_profiles 
+ADD COLUMN creativity_type INTEGER, -- 1-6 corresponding to archetypes
+ADD COLUMN signup_date TIMESTAMP DEFAULT NOW(),
+ADD COLUMN engagement_level DECIMAL DEFAULT 0.0;
+
+-- New table for test results
+CREATE TABLE personality_test_results (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES creator_profiles(id),
+  test_version TEXT, -- 'creative' or 'entrepreneur'
+  answers JSONB, -- Array of 15 answers (A,B,C,D)
+  archetype_score JSONB, -- Scores for each of 6 types
+  final_type INTEGER, -- 1-6
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- New table for AI insights (global learning system)
+CREATE TABLE ai_insights (
+  id UUID PRIMARY KEY,
+  insight_category TEXT, -- 'coaching', 'onboarding', 'motivation', 'archetype_specific'
+  insight_text TEXT, -- The actual learning or pattern discovered
+  context_tags JSONB, -- ['creative_block', 'goal_setting', 'accountability']
+  user_archetype INTEGER, -- 1-6, NULL for general insights
+  evolution_stage INTEGER, -- 1-4, NULL for stage-agnostic insights
+  confidence_score DECIMAL, -- How confident the AI is in this insight
+  usage_count INTEGER DEFAULT 0, -- How often this insight has been applied
+  effectiveness_rating DECIMAL, -- Success rate when this insight is used
+  created_at TIMESTAMP DEFAULT NOW(),
+  last_applied TIMESTAMP,
+  created_by_interaction_id UUID -- Link to conversation that generated insight
+);
+```
+
+### Three-Dimensional AI Personalization System
+```python
+# Complete personalization integration
+def get_hai_personality(user_id):
+    archetype = get_user_archetype(user_id)  # Personality dimension
+    insights = get_relevant_insights(archetype)  # Learning dimension  
+    evolution_stage = get_user_stage(user_id)  # Evolution dimension
+    
+    return {
+        'temperature': ARCHETYPE_TEMPERATURES[archetype],
+        'base_prompt': EVOLUTION_PROMPTS[evolution_stage],
+        'archetype_mods': ARCHETYPE_PROMPTS[archetype],
+        'insights': insights,
+        'relationship_context': get_stage_context(evolution_stage)
+    }
+
+# Evolution stage calculation
+def get_user_evolution_stage(signup_date, engagement_level=None):
+    days_since_signup = (datetime.now() - signup_date).days
+    
+    if days_since_signup <= 14:
+        return 1  # Foundation
+    elif days_since_signup <= 28:
+        return 2  # Rhythm  
+    elif days_since_signup <= 60:
+        return 3  # Skills
+    else:
+        return 4  # Mastery
+
+# Stage-specific prompts
+EVOLUTION_PROMPTS = {
+    1: "Focus on tiny steps, celebrate any progress, keep things simple",
+    2: "Help identify patterns, suggest routines, connect daily to weekly goals", 
+    3: "Introduce planning naturally, break down goals, build sustainable practices",
+    4: "Offer advanced techniques, optimize processes, support deep exploration"
+}
+```
+
+### Frontend Architecture
+- **Framework**: Next.js 14 with React and TypeScript
+- **UI Library**: Chakra UI for components
+- **Deployment**: Vercel with auto-deployment from main branch
+- **State Management**: React state with Supabase integration
+- **NEW**: Personality quiz interface with progress tracking and social sharing
+
+### Integration Points
+- **Database**: Auto-dependency creation for foreign key safety
+- **API**: RESTful endpoints with streaming support
+- **CORS**: Configured for production and development domains
+- **Testing**: Comprehensive automated testing with production validation
+- **NEW**: Claude API direct integration with tool calling support
+
+## User Experience Requirements
+
+### Personality-Driven Experience Flow
+1. **Discovery**: Personality test as primary entry point
+2. **Results**: Shareable archetype results with platform introduction
+3. **Onboarding**: Choice between personality-guided or traditional project setup
+4. **Coaching**: AI communication adapted to archetype preferences
+5. **Partnerships**: Enhanced matching using personality compatibility
+
+### Emotional Journey Support
+- **Discovery Phase**: Clear differentiation from productivity tools via personality focus
+- **Initial Engagement**: Natural conversation flow, magic moments preserved
+- **Deepening Engagement**: Partner rapport building, AI memory demonstration
+- **Ongoing Success**: Progress visibility, emotional safety, creative empowerment
+- **NEW**: Archetype-specific milestone celebration and motivation styles
+
+### Design Principles
+- **Keep It Human**: Natural conversation, emotional expression, authentic moments
+- **Show Progress**: Visible momentum, meaningful metrics, milestone celebration
+- **Maintain Flexibility**: Adapt to rhythms, allow goal adjustment, multiple paths
+- **Preserve Magic**: Personal touches, AI naturalness, discovery moments
+- **NEW**: Honor Personality: Respect archetype preferences in all interactions
+
+### Experience Requirements
+- **Daily**: Personal, helpful, unobtrusive, archetype-appropriate
+- **Weekly**: Professional, focused, worthwhile, personality-matched partners
+- **Monthly**: Progressive, insightful, motivating, archetype-specific insights
+- **Overall**: Supported, understood, progressing, authentically personalized
+
+## Success Metrics
+
+### Viral Marketing Metrics (NEW)
+- **Quiz Completion Rate**: Target >80%
+- **Social Sharing Rate**: Target >25% of completions
+- **User Acquisition**: New signups from quiz traffic vs. traditional signup
+- **Viral Coefficient**: Users brought by each quiz-taker
+- **Conversion Rate**: Quiz-takers who become active platform users
+
+### Three-Dimensional Personalization Metrics (NEW)
+- **Evolution Progression Rates**: Foundation → Rhythm → Skills → Mastery advancement
+- **Archetype + Stage Effectiveness**: Which personality-evolution combinations work best
+- **Global Insights Impact**: Improvement in user experience from collective learning
+- **Relationship Depth**: Users reporting stronger connection to Hai over time
+- **Long-term Retention**: Mastery stage users maintaining active engagement
+
+### Engagement Metrics
+- 90%+ onboarding completion rate
+- Regular return visits for ongoing conversations
+- High user satisfaction scores
+- Partner call attendance and satisfaction
+- **NEW**: Engagement improvement post-archetype assignment
+- **NEW**: Stage-appropriate interaction patterns and satisfaction
+
+### Project Success Metrics
+- Users making measurable progress on projects
+- Project completion rates
+- User-reported creative confidence growth
+- Sustained engagement over 3+ months
+- **NEW**: Success rates by personality archetype
+- **NEW**: Progress patterns across evolution stages
+
+### Technical Metrics
+- **Performance**: <1 second API response times (improved from Claude direct API)
+- 99%+ uptime reliability
+- Zero critical bugs in production
+- Comprehensive test coverage
+- **NEW**: Three-dimensional personalization system reliability
+- **NEW**: Insights generation and application success rates
+
+## Implementation Priorities
+
+### Phase 1: Three-Dimensional Foundation (CURRENT)
+- Migrate from LangGraph to direct Claude API with integrated personalization
+- Deploy personality test as primary onboarding experience
+- Implement global insights database and learning infrastructure
+- Foundation stage (Evolution Stage 1) optimization for new users
+- Basic archetype + evolution + insights integration
+
+### Phase 2: Personalization Enhancement (NEXT)
+- Full personality test with social sharing and viral mechanics
+- Active insight generation and cross-user learning
+- Rhythm and Skills stage refinement (Evolution Stages 2-3)
+- Advanced archetype-stage interaction patterns
+- Performance optimization for three-dimensional context assembly
+
+### Phase 3: Viral Marketing Engine (FUTURE)
+- Entrepreneur version of personality test
+- Advanced social sharing with dynamic image generation
+- Mastery stage features and long-term relationship depth
+- A/B testing framework for multi-dimensional optimization
+- Landing pages and conversion funnels for different segments
+
+### Phase 4: Advanced Intelligence (FUTURE)
+- Machine learning optimization for insights effectiveness
+- Predictive evolution stage transitions
+- Partner matching using complete personality profiles
+- Advanced analytics and business intelligence
+- Cross-platform integration and API development
+
+### Phase 5: Scale & Growth (FUTURE)
+- Enterprise features and team collaboration
+- Advanced AI capabilities and research integration
+- International expansion and localization
+- Mobile application with full feature parity
+- Platform API for third-party integrations
+
+## Quality Standards
+
+### Performance Requirements
+- **Improved**: API response times under 1 second (Claude direct API benefit)
+- 99%+ uptime reliability
+- Scalable to 1000+ concurrent users
+- Efficient database operations
+- **NEW**: Personality test loads quickly on mobile
+
+### Security Requirements
+- Secure authentication and authorization
+- Data privacy compliance for personality data
+- API security best practices
+- Regular security audits
+
+### User Experience Standards
+- Intuitive, conversation-based interface
+- Accessibility compliance
+- Cross-browser compatibility
+- Mobile-responsive design
+- **NEW**: Quiz works without JavaScript for accessibility
+
+## Success Definitions
+
+### Short-term Success (3 months)
+- Users complete onboarding successfully
+- AI demonstrates effective memory across sessions
+- Partner matching and calls working smoothly
+- User feedback indicates value and satisfaction
+- **NEW**: Personality test driving user acquisition
+
+### Medium-term Success (6 months)
+- Users report making significant project progress
+- Strong retention and engagement metrics
+- Word-of-mouth growth from satisfied users
+- Platform stability and performance maintained
+- **NEW**: Viral growth from personality test sharing
+
+### Long-term Success (12+ months)
+- Users completing projects with platform support
+- Established reputation for creative project success
+- Sustainable business model and growth
+- Platform becomes go-to solution for creative professionals
+- **NEW**: Recognized as the "personality-driven" creative platform
+
+## Risk Mitigation
+
+### User Experience Risks
+- Partner mismatch → Thoughtful matching + backup plans + personality compatibility
+- Lost momentum → Flexible accountability + progress visibility + archetype-specific motivation
+- Technical frustrations → Robust, simple systems + graceful fallbacks
+- Value questioning → Demonstrable progress + evolving challenges + personality validation
+
+### Technical Risks
+- Performance issues → Comprehensive testing + monitoring + Claude API benefits
+- Security vulnerabilities → Regular audits + best practices
+- Integration failures → Fallback systems + error handling
+- Scalability challenges → Performance optimization + architecture review
+- **NEW**: Migration complexity → Careful testing + gradual rollout
+
+### Business Risks (NEW)
+- **Onboarding Cannibalization**: Ensure quiz doesn't replace effective project setup
+- **Brand Perception**: Avoid personality test feeling gimmicky vs. valuable
+- **Conversion Quality**: Quiz-acquired users must convert to active platform users
+- **Archetype Accuracy**: Ensure personality assignments feel authentic and helpful
+
+## Development Methodology
+
+### Test Driven Development (TDD) - MANDATORY
+**Critical Requirement**: System is production-ready with 49/49 tests passing. All new development MUST use TDD to protect this stability.
+
+**TDD Protocol for Three-Dimensional Personalization**:
+1. Write failing test for new functionality FIRST
+2. Run test suite to confirm test fails  
+3. Write minimal code to make test pass
+4. Run full test suite to ensure no regressions
+5. Refactor safely while keeping all tests green
+
+**No Exceptions**: Every component of the three-dimensional system (personality archetypes, global insights, evolution stages, Claude API migration) must be developed test-first.
+
+**Test Coverage Requirements**:
+- Personality test scoring algorithms
+- Database schema for new tables (personality_test_results, ai_insights)
+- Global insights storage with privacy filtering
+- Evolution stage calculation and transitions
+- Direct Claude API integration patterns
+- Cross-dimensional context assembly
+- Viral sharing mechanics
+- Response time performance with full personalization
+
+**Protection Goals**: 
+- Maintain all existing functionality during expansion
+- Keep 49/49 test pass rate throughout development
+- Ensure production system never breaks during architectural changes
+- Provide test documentation for all new patterns
+
+## Technical Implementation
+
+---
+
+This PRD serves as the foundation for creating detailed implementation tasks and guides all development decisions to ensure Fridays at Four delivers on its mission of helping creative professionals complete meaningful projects through personalized, viral-driven engagement. 

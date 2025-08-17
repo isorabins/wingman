@@ -1,0 +1,149 @@
+# Task ID: 13
+# Title: Implement Direct Claude API Integration
+# Status: done
+# Dependencies: 1, 5, 6, 8, 11, 21
+# Priority: highest
+# Description: Migrate from LangChain/LangGraph to direct Anthropic Claude API integration with tool calling support, targeting a 40-60% performance improvement. This migration is critical for enabling the three-dimensional personalization system and must follow a strict Test-Driven Development (TDD) approach. All tests must be written before implementation to ensure robust, fast, and backward-compatible personalized responses.
+# Details:
+1. Set up Anthropic API credentials and environment variables
+2. Write comprehensive test suite for Claude API integration patterns (TDD-first)
+3. Write tests for direct tool calling functionality
+4. Write tests for response time improvements and performance benchmarks
+5. Write tests for three-dimensional context assembly with Claude
+6. Write tests for archetype temperature mapping logic
+7. Write tests to ensure backward compatibility during migration
+8. Implement Claude API client with error handling and retries
+9. Create wrapper functions for common Claude API calls
+10. Implement tool calling functionality
+11. Migrate existing LangChain/LangGraph logic to direct API calls
+12. Optimize API usage for cost-effectiveness
+13. Implement response streaming for improved user experience
+
+# Test Strategy:
+1. Test API connection and authentication
+2. Verify error handling and retry logic
+3. Test wrapper functions for all required API calls
+4. Verify tool calling functionality
+5. Benchmark and test response time improvements over LangChain (targeting 40-60% faster responses)
+6. Test three-dimensional context assembly and ensure Claude correctly handles multi-dimensional personalization
+7. Test archetype temperature mapping for correct model behavior
+8. Ensure backward compatibility by running regression tests against existing LangChain/LangGraph workflows
+9. Test response streaming implementation
+
+# Subtasks:
+## 1. API Credential Setup and Environment Configuration [done]
+### Dependencies: None
+### Description: Secure and configure Claude API credentials, set up environment variables, and validate connectivity to the Anthropic API endpoint.
+### Details:
+Follow Anthropic's Quickstart and documentation to obtain API keys, store them securely, and verify access with a test API call. Write TDD tests to ensure credentials are loaded and invalid credentials are handled gracefully.
+<info added on 2025-05-30T15:53:00.036Z>
+Successfully implemented Claude API credential setup with TDD approach.
+
+Implementation Details:
+- Created comprehensive test suite with 10 test cases covering all credential scenarios
+- Implemented ClaudeCredentials class with secure API key loading and validation
+- Added proper Anthropic API key format validation (sk-ant-* pattern)
+- Implemented async credential validation with real API test calls
+- Added robust error handling for network issues, timeouts, and invalid credentials
+- Secured credential handling with masked string representations
+- All tests passing (10/10) ✅
+
+Key Features:
+- Environment variable loading with error handling
+- API key format validation 
+- Async credential validation against Anthropic API
+- Comprehensive error handling and custom exceptions
+- Security: API keys masked in logs and string representations
+- Network error handling (timeouts, connection issues)
+
+Files Created:
+- src/claude_client.py (85 lines) - Main credential management class
+- test-suite/api/test_claude_credentials.py (89 lines) - Comprehensive TDD test suite
+</info added on 2025-05-30T15:53:00.036Z>
+
+## 2. API Client Implementation with TDD [done]
+### Dependencies: 13.1
+### Description: Develop a robust Claude API client module with unit tests for all request/response flows, error handling, and retries.
+### Details:
+Implement the client using the Messages API, supporting configurable parameters (model, temperature, max tokens, etc.). Use TDD to cover all endpoints and edge cases, referencing Anthropic's API reference.
+<info added on 2025-05-30T15:55:21.413Z>
+Implementation completed with comprehensive TDD approach. Created a ClaudeAPIClient class with full message sending functionality, supporting system prompts and custom parameters (model, max_tokens, temperature). Implemented robust error handling for all HTTP status codes (401, 429, 500+) and retry logic with exponential backoff for network failures.
+
+Key features include async message sending, comprehensive error handling, configurable retry logic, request validation, proper API versioning, and token usage tracking. Technical implementation uses httpx for async HTTP requests with proper timeout handling, JSON payload validation, response parsing, and exception handling.
+
+Created 16 test cases covering all API client scenarios with 100% pass rate. Enhanced src/claude_client.py (+105 lines) with the ClaudeAPIClient class and test-suite/api/test_claude_api_client.py (194 lines) with comprehensive test coverage.
+</info added on 2025-05-30T15:55:21.413Z>
+
+## 3. Wrapper Functions and Context Assembly [done]
+### Dependencies: 13.2
+### Description: Design and test wrapper functions for prompt formatting, context window management, and system prompt injection.
+### Details:
+Implement context assembly logic to fit within Claude's token limits, including system prompt handling and message batching. Write tests for context truncation, prompt formatting, and system prompt correctness.
+<info added on 2025-05-30T15:58:44.474Z>
+✅ COMPLETED: Successfully implemented Claude Context Management with comprehensive TDD approach.
+
+Implementation Details:
+- Created robust test suite with 13 test cases covering all context management scenarios
+- Implemented ClaudeContextManager class replacing LangChain functionality entirely
+- Added sophisticated prompt formatting and system prompt injection
+- Implemented smart context window management with token estimation and truncation
+- Added message batching for large contexts with automatic splitting
+- Implemented memory injection from database for personalized conversations
+- Added specialized onboarding prompt formatting
+- Built context compression for very long conversations
+- All tests passing (13/13) ✅
+
+Key Features:
+- Direct context management without LangChain dependencies  
+- System prompt templates with dynamic user context injection
+- Smart token estimation and context window management
+- Preservation of system-important messages during truncation
+- Message batching with automatic splitting for oversized content
+- Database memory injection for personalized conversations
+- Specialized onboarding flow prompt formatting
+- Context validation and compression for long conversations
+- Conversation history loading from database
+
+This completely replaces LangChain's context management with native Claude API functionality, enabling direct control over prompt engineering and context assembly.
+
+Technical Achievements:
+- Zero dependencies on LangChain/LangGraph for context management
+- Intelligent context truncation preserving important messages
+- Optimized token usage with smart estimation algorithms
+- Database integration for persistent conversation memory
+- Flexible system prompt engineering for different conversation flows
+</info added on 2025-05-30T15:58:44.474Z>
+
+## 4. Tool Calling Integration and Testing [done]
+### Dependencies: 13.3
+### Description: Add support for Claude's tool calling (function calling) capabilities, including schema validation and response parsing.
+### Details:
+Implement tool calling per Anthropic's documentation, ensuring JSON schema compliance and robust error handling. Write TDD tests for tool invocation, argument validation, and tool response parsing.
+
+## 5. Temperature and Generation Parameter Mapping [done]
+### Dependencies: 13.2
+### Description: Map and test generation parameters (temperature, top_p, max_tokens) from LangChain to Claude's API equivalents.
+### Details:
+Analyze parameter differences, implement mapping logic, and write tests to ensure behavioral parity and correct parameter translation.
+<info added on 2025-05-31T03:00:49.222Z>
+Streaming implementation in progress. Added streaming logic to ClaudeAPIClient.send_message method. The test_send_message_streaming_event_types test in test-suite/api/test_claude_api_client.py is currently failing. Issue appears to be with mocking httpx.Response and its aiter_bytes method. While the client-side call to `await response.aiter_bytes()` looks correct, the test mock for `aiter_bytes` is not being invoked as expected, resulting in an empty event collection. Need to investigate and fix the mock setup to properly simulate the streaming response behavior.
+</info added on 2025-05-31T03:00:49.222Z>
+
+## 6. Streaming Support Implementation [done]
+### Dependencies: 13.2
+### Description: Implement and test streaming response handling for Claude API, ensuring compatibility with downstream consumers.
+### Details:
+Add support for Claude's streaming endpoints, handle partial responses, and write tests for stream lifecycle, error cases, and consumer integration.
+
+## 7. Migration from LangChain: Strategy and Refactoring [done]
+### Dependencies: 13.3, 13.4, 13.5, 13.6
+### Description: Plan and execute migration from LangChain to direct Claude API usage, including code refactoring and compatibility layers.
+### Details:
+Develop a migration checklist, refactor code to remove LangChain dependencies, and ensure feature parity. Write integration tests to validate migrated workflows.
+
+## 8. Performance Benchmarking and Cost Optimization [done]
+### Dependencies: None
+### Description: Benchmark Claude API integration for latency, throughput, and cost; optimize prompt design and batching for efficiency.
+### Details:
+Set up automated benchmarks, analyze performance metrics, and iterate on prompt/context assembly for cost and speed. Write tests to ensure optimizations do not break functionality.
+

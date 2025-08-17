@@ -1,0 +1,23 @@
+# Task ID: 16
+# Title: Implement Personality Quiz Frontend
+# Status: pending
+# Dependencies: 4, 14, 15
+# Priority: high
+# Description: Develop the frontend for the Creativity Personality Test, including progress tracking and social sharing features.
+# Details:
+1. Create quiz interface with progress indicators
+2. Implement quiz logic and state management
+3. Develop results page with archetype information
+4. Implement social sharing functionality for Instagram, TikTok, and Twitter
+5. Create animations and transitions for engaging user experience
+6. Implement quiz variant for entrepreneur/business builder
+7. Ensure mobile responsiveness and accessibility
+
+# Test Strategy:
+1. Test quiz flow and progress tracking
+2. Verify correct result calculation and display
+3. Test social sharing functionality
+4. Verify animations and transitions
+5. Test entrepreneur variant
+6. Conduct cross-browser and mobile testing
+7. Perform accessibility audit

@@ -227,7 +227,8 @@ class WingmanMemory:
                 'assessment_results': None,
                 'recent_attempts': [],
                 'confidence_triggers': [],
-                'coaching_notes': []
+                'coaching_notes': [],
+                'dating_goals': None
             }
             
             # Get conversation history
@@ -291,6 +292,17 @@ class WingmanMemory:
             
             context['coaching_notes'] = notes_result.data or []
             
+            # Get dating goals (memory hook)
+            goals_result = self.supabase.table('dating_goals')\
+                .select('*')\
+                .eq('user_id', self.user_id)\
+                .order('created_at', desc=True)\
+                .limit(1)\
+                .execute()
+            
+            if goals_result.data:
+                context['dating_goals'] = goals_result.data[0]
+            
             return context
             
         except Exception as e:
@@ -301,7 +313,8 @@ class WingmanMemory:
                 'assessment_results': None,
                 'recent_attempts': [],
                 'confidence_triggers': [],
-                'coaching_notes': []
+                'coaching_notes': [],
+                'dating_goals': None
             }
 
     # Memory hook methods for dating confidence coaching

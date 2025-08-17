@@ -1,0 +1,98 @@
+[
+    {
+      "table_name": "agent_sessions",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    agent_type TEXT NOT NULL,\n    thread_id TEXT NOT NULL,\n    session_context JSONB DEFAULT '{}'::jsonb,\n    is_active BOOLEAN DEFAULT true,\n    expires_at TIMESTAMPTZ DEFAULT (now() + '24:00:00'::interval),\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "applications",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    email TEXT NOT NULL,\n    first_name TEXT NOT NULL,\n    last_name TEXT NOT NULL,\n    project_type TEXT NOT NULL,\n    status TEXT DEFAULT 'pending'::text,\n    responses JSONB DEFAULT '{}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    approved_at TIMESTAMPTZ,\n    creator_profile_id UUID"
+    },
+    {
+      "table_name": "beta_feedback",
+      "columns": "id UUID NOT NULL DEFAULT gen_random_uuid(),\n    user_id UUID,\n    message TEXT NOT NULL,\n    page VARCHAR(255) NOT NULL,\n    user_context JSONB DEFAULT '{}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "claude_api_calls",
+      "columns": "id BIGINT NOT NULL DEFAULT nextval('claude_api_calls_id_seq'::regclass),\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    user_id TEXT NOT NULL,\n    user_name TEXT NOT NULL,\n    user_email TEXT,\n    endpoint TEXT NOT NULL,\n    model TEXT DEFAULT 'claude-3-sonnet-20240229'::text,\n    input_tokens INTEGER DEFAULT 0,\n    output_tokens INTEGER DEFAULT 0,\n    total_tokens INTEGER,\n    input_cost NUMERIC DEFAULT 0,\n    output_cost NUMERIC DEFAULT 0,\n    total_cost NUMERIC,\n    response_time_ms INTEGER,\n    success BOOLEAN DEFAULT true,\n    error_message TEXT,\n    cache_hit BOOLEAN DEFAULT false,\n    cached_tokens INTEGER DEFAULT 0"
+    },
+    {
+      "table_name": "conversations",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    message_text TEXT,\n    role TEXT,\n    context JSONB DEFAULT '{}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    metadata JSONB DEFAULT '{}'::jsonb"
+    },
+    {
+      "table_name": "creativity_test_progress",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    flow_step INTEGER NOT NULL DEFAULT 1,\n    current_responses JSONB DEFAULT '{}'::jsonb,\n    flow_state JSONB DEFAULT '{}'::jsonb,\n    last_question_asked TEXT,\n    completion_percentage NUMERIC DEFAULT 0.0,\n    is_completed BOOLEAN DEFAULT false,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "creativity_test_results",
+      "columns": "id UUID NOT NULL DEFAULT gen_random_uuid(),\n    email VARCHAR(255) NOT NULL,\n    name VARCHAR(200) NOT NULL,\n    archetype VARCHAR(50) NOT NULL,\n    date_taken TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "creator_creativity_profiles",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID NOT NULL,\n    archetype TEXT NOT NULL,\n    test_responses JSONB DEFAULT '{}'::jsonb,\n    archetype_score INTEGER,\n    secondary_archetype TEXT,\n    secondary_score INTEGER,\n    date_taken TIMESTAMPTZ NOT NULL DEFAULT now(),\n    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()"
+    },
+    {
+      "table_name": "creator_profiles",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    slack_id TEXT,\n    slack_email TEXT,\n    zoom_email TEXT,\n    first_name TEXT,\n    preferences JSONB DEFAULT '{}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    last_interaction_date TIMESTAMPTZ,\n    interaction_count INTEGER DEFAULT 0,\n    last_name TEXT"
+    },
+    {
+      "table_name": "interaction_metrics",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    meeting_id TEXT,\n    interaction_type TEXT,\n    metrics JSONB DEFAULT '{\"completion_rate\": 0.0, \"response_time_ms\": 0, \"context_relevance\": 0.0}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "longterm_memory",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    summary_date DATE,\n    content TEXT,\n    metadata JSONB DEFAULT '{}'::jsonb,\n    relevance_score DOUBLE PRECISION,\n    created_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "meeting_recordings",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    meeting_id TEXT,\n    user_id UUID,\n    team_id BIGINT,\n    video_url TEXT,\n    duration_seconds INTEGER,\n    file_size_bytes BIGINT,\n    metadata JSONB DEFAULT '{\"format\": \"mp4\", \"status\": \"available\", \"recording_type\": \"full\"}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "meetings",
+      "columns": "zoom_meeting_id BIGINT NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),\n    team_id BIGINT,\n    id UUID NOT NULL DEFAULT gen_random_uuid()"
+    },
+    {
+      "table_name": "memory",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    memory_type TEXT,\n    content TEXT,\n    relevance_score DOUBLE PRECISION,\n    summary_date DATE DEFAULT CURRENT_DATE,\n    metadata JSONB DEFAULT '{}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "project_overview",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    project_name TEXT,\n    project_type TEXT,\n    description TEXT,\n    current_phase TEXT,\n    goals ARRAY DEFAULT '{}'::jsonb[],\n    challenges ARRAY DEFAULT '{}'::jsonb[],\n    success_metrics JSONB DEFAULT '{}'::jsonb,\n    creation_date TIMESTAMPTZ DEFAULT now(),\n    last_updated TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "project_overview_progress",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    flow_step INTEGER NOT NULL DEFAULT 1,\n    current_data JSONB DEFAULT '{}'::jsonb,\n    flow_state JSONB DEFAULT '{}'::jsonb,\n    topic_progress JSONB DEFAULT '{}'::jsonb,\n    completion_percentage NUMERIC DEFAULT 0.0,\n    is_completed BOOLEAN DEFAULT false,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "project_updates",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    project_id UUID,\n    user_id UUID,\n    update_date DATE DEFAULT CURRENT_DATE,\n    progress_summary TEXT,\n    milestones_hit ARRAY,\n    blockers ARRAY,\n    next_steps ARRAY,\n    mood_rating INTEGER,\n    created_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "slack_installations",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    slack_workspace_id TEXT NOT NULL,\n    slack_workspace_name TEXT NOT NULL,\n    bot_user_id TEXT NOT NULL,\n    bot_token TEXT NOT NULL,\n    installing_slack_user_id TEXT NOT NULL,\n    installing_user_email TEXT,\n    user_id UUID,\n    installed_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    token_expiration TIMESTAMPTZ,\n    token_refreshed_at TIMESTAMPTZ,\n    refresh_token TEXT"
+    },
+    {
+      "table_name": "teams",
+      "columns": "id BIGINT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    team_name TEXT"
+    },
+    {
+      "table_name": "teams_creators",
+      "columns": "team_id BIGINT NOT NULL,\n    creator_profile_id UUID NOT NULL"
+    },
+    {
+      "table_name": "transcript_raw",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    meeting_date TIMESTAMPTZ,\n    content TEXT NOT NULL,\n    metadata JSONB DEFAULT '{}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    team_id BIGINT"
+    },
+    {
+      "table_name": "transcripts",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    meeting_id TEXT,\n    metadata JSONB DEFAULT '{}'::jsonb,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    summary TEXT,\n    team_id BIGINT"
+    },
+    {
+      "table_name": "user_feedback",
+      "columns": "id UUID NOT NULL DEFAULT uuid_generate_v4(),\n    user_id UUID,\n    meeting_id TEXT,\n    rating INTEGER,\n    feedback_text TEXT,\n    feedback_type TEXT,\n    created_at TIMESTAMPTZ DEFAULT now()"
+    },
+    {
+      "table_name": "waitlist",
+      "columns": "id INTEGER NOT NULL DEFAULT nextval('waitlist_id_seq'::regclass),\n    email TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now()"
+    }
+  ]

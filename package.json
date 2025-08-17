@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
@@ -18,7 +19,11 @@
     "test:profile-integration": "python tests/run_profile_setup_tests.py",
     "test:profile-quick": "python tests/run_profile_setup_tests.py --quick",
     "test:profile-security": "python tests/run_profile_setup_tests.py --security-only",
-    "test:all": "npm run test:run && npm run test:e2e && npm run test:profile-integration"
+    "test:all": "npm run test:run && npm run test:e2e && npm run test:profile-integration",
+    "perf:baseline": "lighthouse http://localhost:3000 --output=json --output-path=./performance/baseline.json",
+    "perf:test": "npm run test:e2e -- tests/performance/",
+    "perf:bundle": "npm run build:analyze && node -e \"require('./tools/bundle-analyzer.ts').generateBundleReport()\"",
+    "perf:report": "node -e \"console.log(require('./lib/performance/monitor.ts').PerformanceMonitor.generateReport())\""
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
@@ -50,8 +55,11 @@
     "eslint": "^8.56.0",
     "eslint-config-next": "14.0.4",
     "jsdom": "^23.0.1",
+    "lighthouse": "^12.8.1",
     "msw": "^2.0.11",
     "typescript": "^5.3.3",
-    "vitest": "^1.0.4"
+    "vitest": "^1.0.4",
+    "web-vitals": "^5.1.0",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

@@ -300,7 +300,7 @@ class ConfidenceTestAgent(BaseAgent):
     async def _generate_welcome_message(self) -> str:
         """Generate welcome message for confidence assessment"""
         prompt = """
-        You are Hai, a warm and supportive AI partner for dating confidence. You're about to guide someone through a dating confidence assessment.
+        You are Connell, a warm and supportive AI partner for dating confidence. You're about to guide someone through a dating confidence assessment.
 
         Create a welcoming message that:
         1. Explains this is a dating confidence assessment to understand their dating style
@@ -328,7 +328,7 @@ class ConfidenceTestAgent(BaseAgent):
         options_text = "\n".join([f"{key}. {value}" for key, value in question_data["options"].items()])
         
         prompt = f"""
-        You are Hai, guiding someone through a dating confidence assessment. Present question {question_num} of {total_questions}.
+        You are Connell, guiding someone through a dating confidence assessment. Present question {question_num} of {total_questions}.
 
         Question: {question_data['question']}
 
@@ -436,7 +436,7 @@ class ConfidenceTestAgent(BaseAgent):
             archetype_info = {"description": "A balanced dating approach", "traits": ["authentic", "genuine"]}
         
         prompt = f"""
-        You are Hai, delivering dating confidence assessment results to someone who just completed the test.
+        You are Connell, delivering dating confidence assessment results to someone who just completed the test.
 
         Their primary dating confidence archetype is: {archetype}
         Description: {archetype_info['description']}

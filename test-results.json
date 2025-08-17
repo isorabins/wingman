@@ -1,0 +1,866 @@
+{
+  "config": {
+    "configFile": "/Applications/wingman/playwright.config.ts",
+    "rootDir": "/Applications/wingman/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "/Applications/wingman/tests/e2e/global-setup.ts",
+    "globalTeardown": "/Applications/wingman/tests/e2e/global-teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Applications/wingman/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Applications/wingman/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Applications/wingman/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Applications/wingman/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Applications/wingman/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/Applications/wingman/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Applications/wingman/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/Applications/wingman/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Applications/wingman/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/Applications/wingman/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.2",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "test-auth.spec.ts",
+      "file": "test-auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Test Authentication System",
+          "file": "test-auth.spec.ts",
+          "line": 11,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should verify test auth endpoint is available",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 731,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:15:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@9'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@9'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192787355\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:15:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:164:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@14'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@14'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192787708\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:164:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:06.697Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-3c2603d380d1eed5ab0f",
+              "file": "test-auth.spec.ts",
+              "line": 18,
+              "column": 7
+            },
+            {
+              "title": "should authenticate test user successfully",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 7168,
+                      "error": {
+                        "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:27:18",
+                        "location": {
+                          "file": "eval at evaluate (:291:30), <anonymous>",
+                          "column": 27,
+                          "line": 3
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "eval at evaluate (:291:30), <anonymous>",
+                            "column": 27,
+                            "line": 3
+                          },
+                          "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:27:18"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authenticating test user test-1755192787467@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: API authentication successful for test-1755192787467@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication cleanup complete\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:15:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@9'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@9'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192787436\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:15:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Browser: Error setting up browser auth: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:27:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192791533\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:27:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication failed for test-1755192787467@example.com: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:27:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192791533\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:27:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:06.690Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-64a10-cate-test-user-successfully-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-64a10-cate-test-user-successfully-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-64a10-cate-test-user-successfully-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "eval at evaluate (:291:30), <anonymous>",
+                        "column": 27,
+                        "line": 3
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-e67aa5c74bc178eb9a16",
+              "file": "test-auth.spec.ts",
+              "line": 23,
+              "column": 7
+            },
+            {
+              "title": "should access protected routes after authentication",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 5635,
+                      "error": {
+                        "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:48:18",
+                        "location": {
+                          "file": "eval at evaluate (:291:30), <anonymous>",
+                          "column": 27,
+                          "line": 3
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "eval at evaluate (:291:30), <anonymous>",
+                            "column": 27,
+                            "line": 3
+                          },
+                          "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:48:18"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authenticating test user protected-test-1755192787367@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: API authentication successful for protected-test-1755192787367@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication cleanup complete\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:15:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@9'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@9'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192787363\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:15:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Browser: Error setting up browser auth: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:48:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192790536\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:48:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication failed for protected-test-1755192787367@example.com: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:48:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192790536\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:48:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:06.728Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-76873-routes-after-authentication-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-76873-routes-after-authentication-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-76873-routes-after-authentication-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "eval at evaluate (:291:30), <anonymous>",
+                        "column": 27,
+                        "line": 3
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-f7a712959102f0ed1be3",
+              "file": "test-auth.spec.ts",
+              "line": 38,
+              "column": 7
+            },
+            {
+              "title": "should make authenticated API requests",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 4601,
+                      "error": {
+                        "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:70:18",
+                        "location": {
+                          "file": "eval at evaluate (:291:30), <anonymous>",
+                          "column": 27,
+                          "line": 3
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "eval at evaluate (:291:30), <anonymous>",
+                            "column": 27,
+                            "line": 3
+                          },
+                          "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:70:18"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authenticating test user api-test-1755192787422@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: API authentication successful for api-test-1755192787422@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication cleanup complete\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:15:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@9'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@9'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192787419\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:15:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Browser: Error setting up browser auth: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:70:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192789275\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:70:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication failed for api-test-1755192787422@example.com: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:70:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192789275\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:70:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:06.685Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-83314--authenticated-API-requests-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-83314--authenticated-API-requests-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-83314--authenticated-API-requests-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "eval at evaluate (:291:30), <anonymous>",
+                        "column": 27,
+                        "line": 3
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-930626f18f3dba7c3b4d",
+              "file": "test-auth.spec.ts",
+              "line": 66,
+              "column": 7
+            },
+            {
+              "title": "should handle multiple test users",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4460,
+                      "error": {
+                        "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:94:19",
+                        "location": {
+                          "file": "eval at evaluate (:291:30), <anonymous>",
+                          "column": 27,
+                          "line": 3
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "eval at evaluate (:291:30), <anonymous>",
+                            "column": 27,
+                            "line": 3
+                          },
+                          "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:94:19"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authenticating test user multi-user-1-1755192787923@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: API authentication successful for multi-user-1-1755192787923@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication cleanup complete\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:15:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@7'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@7'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192787917\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:15:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Browser: Error setting up browser auth: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:94:19 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@11'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@11'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192789988\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:94:19'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication failed for multi-user-1-1755192787923@example.com: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:94:19 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@11'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@11'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192789988\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:94:19'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:07.814Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-79604--handle-multiple-test-users-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-79604--handle-multiple-test-users-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-79604--handle-multiple-test-users-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "eval at evaluate (:291:30), <anonymous>",
+                        "column": 27,
+                        "line": 3
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-2cc2f3d1ee7ff7b1436b",
+              "file": "test-auth.spec.ts",
+              "line": 89,
+              "column": 7
+            },
+            {
+              "title": "should persist authentication across page reloads",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 4047,
+                      "error": {
+                        "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:112:18",
+                        "location": {
+                          "file": "eval at evaluate (:291:30), <anonymous>",
+                          "column": 27,
+                          "line": 3
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "eval at evaluate (:291:30), <anonymous>",
+                            "column": 27,
+                            "line": 3
+                          },
+                          "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:112:18"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authenticating test user persistence-test-1755192796897@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: API authentication successful for persistence-test-1755192796897@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication cleanup complete\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:15:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@9'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@9'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192796891\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:15:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Browser: Error setting up browser auth: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:112:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192799272\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:112:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication failed for persistence-test-1755192796897@example.com: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:112:18 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192799272\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:112:18'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:16.497Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-229ef-ication-across-page-reloads-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-229ef-ication-across-page-reloads-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-229ef-ication-across-page-reloads-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "eval at evaluate (:291:30), <anonymous>",
+                        "column": 27,
+                        "line": 3
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-18c5f63f21be7f783ddb",
+              "file": "test-auth.spec.ts",
+              "line": 108,
+              "column": 7
+            },
+            {
+              "title": "should clean up auth state properly",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4605,
+                      "error": {
+                        "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:142:5",
+                        "location": {
+                          "file": "eval at evaluate (:291:30), <anonymous>",
+                          "column": 27,
+                          "line": 3
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "eval at evaluate (:291:30), <anonymous>",
+                            "column": 27,
+                            "line": 3
+                          },
+                          "message": "Error: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\n    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\n    at /Applications/wingman/tests/e2e/test-auth.spec.ts:142:5"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authenticating test user cleanup-test-1755192797122@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: API authentication successful for cleanup-test-1755192797122@example.com\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Clearing authentication state\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication cleanup complete\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "🧪 Playwright: Error clearing auth state: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearAuthState \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:228:16\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:15:25 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@9'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m228\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'clearAuthState'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'() => {\\n'\u001b[39m +\n        \u001b[32m'      // Clear all localStorage\\n'\u001b[39m +\n        \u001b[32m'      localStorage.clear();\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Clear test auth globals\\n'\u001b[39m +\n        \u001b[32m'      delete window.__WINGMAN_TEST_AUTH;\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Authentication state cleared');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@9'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192797118\u001b[39m,\n    error: {\n      message: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m\"Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\\n\"\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at clearAuthState (/Applications/wingman/tests/e2e/auth-helper.ts:228:16)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:15:25'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Browser: Error setting up browser auth: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:142:5 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192800558\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:142:5'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        },
+                        {
+                          "text": "🧪 Playwright: Authentication failed for cleanup-test-1755192797122@example.com: page.evaluate: ReferenceError: process is not defined\n    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at setupBrowserAuth \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:106:16\u001b[90m)\u001b[39m\n    at authenticateTestUser \u001b[90m(/Applications/wingman/\u001b[39mtests/e2e/auth-helper.ts:68:5\u001b[90m)\u001b[39m\n    at \u001b[90m/Applications/wingman/\u001b[39mtests/e2e/test-auth.spec.ts:142:5 {\n  [\u001b[32mSymbol(step)\u001b[39m]: {\n    stepId: \u001b[32m'pw:api@13'\u001b[39m,\n    location: {\n      file: \u001b[32m'/Applications/wingman/tests/e2e/auth-helper.ts'\u001b[39m,\n      line: \u001b[33m106\u001b[39m,\n      column: \u001b[33m16\u001b[39m,\n      function: \u001b[32m'setupBrowserAuth'\u001b[39m\n    },\n    category: \u001b[32m'pw:api'\u001b[39m,\n    title: \u001b[32m'Evaluate'\u001b[39m,\n    apiName: \u001b[32m'page.evaluate'\u001b[39m,\n    params: {\n      expression: \u001b[32m'authInfo => {\\n'\u001b[39m +\n        \u001b[32m'      // Set localStorage session data\\n'\u001b[39m +\n        \u001b[32m\"      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';\\n\"\u001b[39m +\n        \u001b[32m\"      const projectId = supabaseUrl.split('//')[1].split('.')[0];\\n\"\u001b[39m +\n        \u001b[32m'      const sessionKey = `sb-${projectId}-auth-token`;\\n'\u001b[39m +\n        \u001b[32m'      const sessionData = {\\n'\u001b[39m +\n        \u001b[32m'        access_token: authInfo.access_token,\\n'\u001b[39m +\n        \u001b[32m'        refresh_token: authInfo.refresh_token,\\n'\u001b[39m +\n        \u001b[32m'        expires_at: Math.floor(new Date(authInfo.session_expires_at).getTime() / 1000),\\n'\u001b[39m +\n        \u001b[32m'        expires_in: 24 * 60 * 60,\\n'\u001b[39m +\n        \u001b[32m\"        token_type: 'bearer',\\n\"\u001b[39m +\n        \u001b[32m'        user: {\\n'\u001b[39m +\n        \u001b[32m'          id: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'          email: authInfo.email || `test-${authInfo.user_id.slice(-8)}@example.com`,\\n'\u001b[39m +\n        \u001b[32m\"          aud: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m\"          role: 'authenticated',\\n\"\u001b[39m +\n        \u001b[32m'          email_confirmed_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m\"          phone: '',\\n\"\u001b[39m +\n        \u001b[32m'          last_sign_in_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          app_metadata: {\\n'\u001b[39m +\n        \u001b[32m\"            provider: 'test',\\n\"\u001b[39m +\n        \u001b[32m\"            providers: ['test']\\n\"\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          user_metadata: {\\n'\u001b[39m +\n        \u001b[32m'            test_user: true\\n'\u001b[39m +\n        \u001b[32m'          },\\n'\u001b[39m +\n        \u001b[32m'          identities: [],\\n'\u001b[39m +\n        \u001b[32m'          created_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          updated_at: new Date().toISOString(),\\n'\u001b[39m +\n        \u001b[32m'          is_anonymous: false\\n'\u001b[39m +\n        \u001b[32m'        }\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m'      localStorage.setItem(sessionKey, JSON.stringify(sessionData))\\n'\u001b[39m +\n        \u001b[32m'\\n'\u001b[39m +\n        \u001b[32m'      // Set a global flag that auth context can detect\\n'\u001b[39m +\n        \u001b[32m'      (window).__WINGMAN_TEST_AUTH = {\\n'\u001b[39m +\n        \u001b[32m'        authenticated: true,\\n'\u001b[39m +\n        \u001b[32m'        userId: authInfo.user_id,\\n'\u001b[39m +\n        \u001b[32m'        email: authInfo.email,\\n'\u001b[39m +\n        \u001b[32m'        timestamp: Date.now()\\n'\u001b[39m +\n        \u001b[32m'      };\\n'\u001b[39m +\n        \u001b[32m\"      console.log('🧪 Browser: Test session injected into localStorage');\\n\"\u001b[39m +\n        \u001b[32m'    }'\u001b[39m,\n      isFunction: \u001b[33mtrue\u001b[39m,\n      arg: \u001b[36m[Object]\u001b[39m\n    },\n    boxedStack: \u001b[90mundefined\u001b[39m,\n    steps: [],\n    attachmentIndices: [],\n    info: TestStepInfoImpl {\n      annotations: [],\n      _testInfo: \u001b[36m[TestInfoImpl]\u001b[39m,\n      _stepId: \u001b[32m'pw:api@13'\u001b[39m,\n      skip: \u001b[36m[Function (anonymous)]\u001b[39m\n    },\n    complete: \u001b[36m[Function: complete]\u001b[39m,\n    endWallTime: \u001b[33m1755192800558\u001b[39m,\n    error: {\n      message: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)'\u001b[39m,\n      stack: \u001b[32m'Error: page.evaluate: ReferenceError: process is not defined\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at eval (eval at evaluate (:291:30), <anonymous>:3:27)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.evaluate (<anonymous>:293:16)\\n'\u001b[39m +\n        \u001b[32m'    at UtilityScript.<anonymous> (<anonymous>:1:44)\\n'\u001b[39m +\n        \u001b[32m'    at setupBrowserAuth (/Applications/wingman/tests/e2e/auth-helper.ts:106:16)\\n'\u001b[39m +\n        \u001b[32m'    at authenticateTestUser (/Applications/wingman/tests/e2e/auth-helper.ts:68:5)\\n'\u001b[39m +\n        \u001b[32m'    at /Applications/wingman/tests/e2e/test-auth.spec.ts:142:5'\u001b[39m,\n      cause: \u001b[90mundefined\u001b[39m\n    }\n  }\n}\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:16.747Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-a2062-lean-up-auth-state-properly-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-a2062-lean-up-auth-state-properly-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Applications/wingman/test-results/test-auth-Test-Authenticat-a2062-lean-up-auth-state-properly-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "eval at evaluate (:291:30), <anonymous>",
+                        "column": 27,
+                        "line": 3
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-3ce7fd60aad83ddd97e9",
+              "file": "test-auth.spec.ts",
+              "line": 138,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Production Safety",
+          "file": "test-auth.spec.ts",
+          "line": 169,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should not allow test auth in production environment",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Skipping production safety test in development",
+                      "location": {
+                        "file": "/Applications/wingman/tests/e2e/test-auth.spec.ts",
+                        "line": 176,
+                        "column": 12
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "skipped",
+                      "duration": 174,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-14T17:33:17.154Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "Skipping production safety test in development",
+                          "location": {
+                            "file": "/Applications/wingman/tests/e2e/test-auth.spec.ts",
+                            "line": 176,
+                            "column": 12
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "54836504b310edcb3bbe-a53b7fa17b73aa219c21",
+              "file": "test-auth.spec.ts",
+              "line": 170,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-08-14T17:33:03.216Z",
+    "duration": 18442.974,
+    "expected": 1,
+    "skipped": 1,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}
